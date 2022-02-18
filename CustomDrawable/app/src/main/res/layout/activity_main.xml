@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/layout"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+
+
+    <com.unite.customdrawable.MarqueeTextView
+        android:id="@+id/tvText"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:textSize="15sp"
+        android:textColor="#ffffff"
+        android:maxLines="1"
+        android:gravity="center"
+        android:background="#123456"
+        android:text="我是字体滚动滚动滚动滚动"/>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="40dp"
+        android:id="@+id/button"
+        android:text="按钮"/>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/start11"
+        android:text="开始动画"/>
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/scrollLayout"
+        android:text="滚动画布"/>
+
+
+
+</LinearLayout>
