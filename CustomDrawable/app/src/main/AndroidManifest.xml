@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CustomDrawable">
         <activity
+            android:name=".MainActivity2"
+            android:launchMode="singleInstance"
+
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

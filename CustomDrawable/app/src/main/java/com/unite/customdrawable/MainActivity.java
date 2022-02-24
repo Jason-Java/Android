@@ -6,6 +6,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.LinearInterpolator;
@@ -59,13 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         findViewById(R.id.button).setOnClickListener(v -> {
-//            tvText.scrollBy(tvText.getScrollX() + 10, tvText.getScrollY());
-//
-//
-//            tvText.invalidate();
-//
-//            Log.i("TAG", "onCreate: " + tvText.getScrollX() + "  " + tvText.getScrollY());
-            tvText.statMarquee();
+
+            Intent intent = new Intent(this,MainActivity2.class);
+            startActivity(intent);
         });
 //
 //

@@ -25,5 +25,10 @@
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:id="@+id/but" />
+    <Button
+
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:id="@+id/but2" />
 
 </LinearLayout>
