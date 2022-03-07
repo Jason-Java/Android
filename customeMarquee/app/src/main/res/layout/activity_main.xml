@@ -7,28 +7,8 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <com.unite.customemarquee.MarqueeTextView
-        android:id="@+id/tv"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="我爱你 爱你 爱你 啊爱你 爱你"
-        android:gravity="center"
-        android:background="#789060"
-        android:maxLines="1"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:id="@+id/but" />
-    <Button
-
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:id="@+id/but2" />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ParentRecyler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

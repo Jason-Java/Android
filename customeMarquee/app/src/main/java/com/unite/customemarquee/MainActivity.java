@@ -1,12 +1,17 @@
 package com.unite.customemarquee;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -28,43 +33,34 @@ import util.LogUtil;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MarqueeTextView tv;
+    private ArrayList<HashMap<String, ArrayList<String>>> arrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tv = findViewById(R.id.tv);
+        HashMap<String, ArrayList<String>> map1 = new HashMap<>();
+        ArrayList<String> mapArray1 = new ArrayList<>();
+        mapArray1.add("1");
+        mapArray1.add("2");
+        mapArray1.add("3");
+        map1.put("组", mapArray1);
+        HashMap<String, ArrayList<String>> map2 = new HashMap<>();
+        ArrayList<String> mapArray2 = new ArrayList<>();
+        mapArray1.add("a");
+        mapArray1.add("b");
+        mapArray1.add("c");
+        map1.put("组", mapArray2);
+        arrayList.add(map1);
+        arrayList.add(map2);
 
 
-        findViewById(R.id.but).setOnClickListener(v -> {
-//            //tv.statMarquee();
-//            ComponentName componentName = new ComponentName("com.unite.customdrawable", "com.unite.customdrawable.MainActivity2");
-//            Intent intent = new Intent();
-//            intent.setComponent(componentName);
-//            startActivity(intent);
+        RecyclerView parent = findViewById(R.id.ParentRecyler);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,1);
+        parent.setLayoutManager(gridLayoutManager);
+        ParentAdapter parentAdapter = new ParentAdapter(this,R.layout.adapter_layout);
+        parentAdapter.setItem(arrayList);
+        parent.setAdapter(parentAdapter);
 
-
-        });
-        findViewById(R.id.but2).setOnClickListener(v -> {
-
-        });
-       Observable.create(new ObservableOnSubscribe<Integer>() {
-           @Override
-           public void subscribe(ObservableEmitter<Integer> e) throws Exception {
-               e.onNext(1);
-               //e.onError(null);
-           }
-       }).retryWhen(new Function<Observable<Throwable>, ObservableSource<?>>() {
-           @Override
-           public ObservableSource<?> apply(Observable<Throwable> throwableObservable) throws Exception {
-               return throwableObservable;
-           }
-       }).subscribe(new Consumer<Integer>() {
-           @Override
-           public void accept(Integer integer) throws Exception {
-               LogUtil.i("我是接受数据 " + integer);
-           }
-       });
     }
 }

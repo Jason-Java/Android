@@ -6,20 +6,38 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
+import net.ApiFactory;
+import net.INetworkResponse;
+import net.domain.DomainGetInfoByToken;
+
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.internal.functions.Functions;
+import io.reactivex.internal.operators.observable.ObservableJust;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.ReplaySubject;
+import io.reactivex.subjects.Subject;
 import util.LogUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,37 +58,96 @@ public class MainActivity extends AppCompatActivity {
          * concat           接受多个Observable对象然后有序的发射数据
          * filter           满足条件是发送到subscribe否则不发送
          */
-        Observable.just(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
-                .filter(new Predicate<Integer>() {
-                    @Override
-                    public boolean test(@NonNull Integer integer) throws Exception {
-                        if(integer % 2 == 0)
-                        {
-                            return true;
-                        }
-                        return integer % 2 == 0;
-                    }
-                }).subscribe(new Observer<Integer>() {
+
+
+
+        Observable.<String>create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<String> emitter) throws Exception {
+                emitter.onNext("A");
+            }
+        }).map(new Function<String, String>() {
+            @Override
+            public String apply(@NonNull String s) throws Exception {
+                return null;
+            }
+        })
+                .subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
-                LogUtil.i("我是开始");
+
             }
 
             @Override
-            public void onNext(@NonNull Integer integer) {
-                LogUtil.i("我是接受" + integer);
+            public void onNext(@NonNull String s) {
+
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
-                LogUtil.i("我是错误" + e.getMessage());
 
             }
 
             @Override
             public void onComplete() {
-                LogUtil.i("我是结束");
 
+            }
+        })
+
+//        ArrayList<String> a1 = new ArrayList();
+//
+//        Observable.fromIterable(a1).subscribe(new Observer<String>() {
+//            @Override
+//            public void onSubscribe(@NonNull Disposable d) {
+//
+//            }
+//
+//            @Override
+//            public void onNext(@NonNull String s) {
+//
+//            }
+//
+//            @Override
+//            public void onError(@NonNull Throwable e) {
+//
+//            }
+//
+//            @Override
+//            public void onComplete() {
+//
+//            }
+//        });
+
+
+        ApiFactory.getLoginJWTTTokenInstance().loginAndUserInfo("zhongj", "123456", new INetworkResponse<DomainGetInfoByToken>() {
+            @Override
+            public void success(DomainGetInfoByToken value) {
+                LogUtil.i("我是登录信息 " + value.getUser().getUserName());
+            }
+
+            @Override
+            public boolean error(int e, String msg) {
+                return false;
+            }
+        });
+
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+//                ApiFactory.getReagentBrandInstance().getAll(new INetworkResponse<List<String>>() {
+//                    @Override
+//                    public void success(List<String> value) {
+//
+//                    }
+//
+//                    @Override
+//                    public boolean error(int e, String msg) {
+//                        return false;
+//                    }
+//                });
             }
         });
     }
