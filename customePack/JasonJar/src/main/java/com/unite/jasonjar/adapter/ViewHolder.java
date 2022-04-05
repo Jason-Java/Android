@@ -1,4 +1,4 @@
-package adapter;
+package com.unite.jasonjar.adapter;
 
 import android.content.Context;
 import android.util.SparseArray;
@@ -71,44 +71,40 @@ public class ViewHolder
         return mConvertView;
     }
 
-    /**
-     * 设置TextView文本
-     * @param viewId 控件id
-     * @param text
-     * @return
-     */
-    public ViewHolder setText(int viewId,String text)
-    {
-        TextView view =getView(viewId);
+    public void setText(int viewId, String text) {
+        TextView view = getView(viewId);
         view.setText(text);
-        return this;
     }
 
-    /**
-     * 设置字体颜色
-     * @param viewId
-     * @param colorId
-     * @return
-     */
-    public ViewHolder setTextColor(int viewId,@ColorInt int colorId)
-    {
-        TextView view =getView(viewId);
+    public String getText(int viewId) {
+        TextView view = getView(viewId);
+        return view.getText().toString();
+    }
+
+    public void setTextColor(int viewId, @ColorInt int colorId) {
+        TextView view = getView(viewId);
         view.setTextColor(colorId);
-        return this;
     }
 
-    public ViewHolder setOnclickListener(int viewId,View.OnClickListener listener)
-    {
-        Button view=getView(viewId);
+    //设置是否可见
+    public void setVisibility(int viewId, int visibility) {
+        View view = getView(viewId);
+        view.setVisibility(visibility);
+    }
+
+    public void setViewOnClickListener(int viewId, View.OnClickListener listener) {
+        View view = getView(viewId);
         view.setOnClickListener(listener);
-        return this;
     }
 
-    public ViewHolder setImagerDrawable(int viewId,@DrawableRes int drawableId)
-    {
-        ImageView view=getView(viewId);
+    public void setImage(int viewId, @DrawableRes int drawableId) {
+        ImageView view = getView(viewId);
         view.setImageResource(drawableId);
-        return this;
+    }
+
+    public void setFocusChangeListener(int viewId, View.OnFocusChangeListener listener) {
+        View view = getView(viewId);
+        view.setOnFocusChangeListener(listener);
     }
 
 }

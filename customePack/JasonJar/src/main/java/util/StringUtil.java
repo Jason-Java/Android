@@ -1,11 +1,5 @@
-/**
- * 作者:冯家振
- * 创建时间:2022-2-21
- * 功能:自定义的字符串处理类
- */
-
-
 package util;
+
 
 import androidx.annotation.NonNull;
 
@@ -106,16 +100,21 @@ public class StringUtil {
      * @param str
      * @return
      */
-    public static boolean isEmpty(String str) {
-        int length;
-        if (str == null || (length = str.length()) == 0) {
-            return true;
-        }
-        for (int i = 0; i < length; i++) {
-            if (!Character.isWhitespace(str.charAt(i))) {
-                return false;
+    public static <T> boolean isEmpty(T str) {
+        if (str == null) return true;
+
+        if (str instanceof String) {
+            int length;
+            String value = (String) str;
+            if ((length = value.length()) == 0) return true;
+
+            for (int i = 0; i < length; i++) {
+                if (!Character.isWhitespace(value.charAt(i))) {
+                    return false;
+                }
             }
         }
+
         return true;
     }
 
@@ -199,15 +198,7 @@ public class StringUtil {
             }
         }
         CRC = ((CRC & 0x0000FF00) >> 8) | ((CRC & 0x000000FF) << 8);
-
-        String result = Integer.toHexString(CRC);
-        if (result.length() <= 3) {
-
-            for (int r = 0; r < 4 - result.length(); r++) {
-                result = "0" + result;
-            }
-        }
-        return result;
+        return Integer.toHexString(CRC);
     }
 
     /**

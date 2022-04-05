@@ -23,4 +23,17 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.unite.customepack", appContext.getPackageName());
     }
+
+
+    @Test
+    public void testFinishing()
+    {
+        try{
+            System.out.println("我是你好");
+            return;
+        }
+        finally {
+            System.out.println("我只醒了");
+        }
+    }
 }

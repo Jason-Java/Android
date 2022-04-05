@@ -1,4 +1,4 @@
-package adapter;
+package com.unite.jasonjar.adapter;
 
 import android.app.Activity;
 import android.view.View;
@@ -9,13 +9,13 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
-public abstract class BaseCommonAdapter<T> extends BaseAdapter
+public abstract class BaseListViewAdapter<T> extends BaseAdapter
 {
     protected ArrayList<T> item=new ArrayList<>();
     protected Activity activity;
     protected int layoutId;
 
-    public BaseCommonAdapter(Activity activity,int layoutId)
+    public BaseListViewAdapter(Activity activity, int layoutId)
     {
         this.activity=activity;
         this.layoutId=layoutId;
@@ -58,30 +58,27 @@ public abstract class BaseCommonAdapter<T> extends BaseAdapter
         {
             this.item.clear();
             this.item.addAll(item);
+            notifyDataSetChanged();
         }
     }
-    public void AddItem(@NonNull T data)
+
+    public void addItem(@NonNull T data)
     {
         item.add(0,data);
+        notifyDataSetChanged();
     }
 
     //删除所有的数据列表
     public void clearItem()
     {
         item.clear();
+        notifyDataSetChanged();
     }
 
     //获取所有的数据列表
     public ArrayList<T> getAllItem()
     {
         return item;
-    }
-
-    //更新ListView数据列表
-    @Override
-    public void notifyDataSetChanged()
-    {
-        super.notifyDataSetChanged();
     }
 
 }

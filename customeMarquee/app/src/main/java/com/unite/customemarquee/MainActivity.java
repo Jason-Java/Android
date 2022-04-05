@@ -47,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
         map1.put("组", mapArray1);
         HashMap<String, ArrayList<String>> map2 = new HashMap<>();
         ArrayList<String> mapArray2 = new ArrayList<>();
-        mapArray1.add("a");
-        mapArray1.add("b");
-        mapArray1.add("c");
-        map1.put("组", mapArray2);
+        mapArray2.add("a");
+        mapArray2.add("b");
+        mapArray2.add("c");
+        map2.put("组", mapArray2);
         arrayList.add(map1);
         arrayList.add(map2);
 

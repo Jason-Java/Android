@@ -101,15 +101,16 @@ public final class ReagentBrand extends UniteRequest {
                 .filter(new Predicate<DetailList<String>>() {
                     @Override
                     public boolean test(DetailList<String> stringDetailList) throws Exception {
-                        LogUtil.i("线程状态 "+Thread.currentThread().getName());
+                        LogUtil.i("线程状态 " + Thread.currentThread().getName());
                         return objectNonNull(stringDetailList);
                     }
                 })
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(Schedulers.io())
                 .map(new Function<DetailList<String>, List<String>>() {
                     @Override
                     public List<String> apply(DetailList<String> stringDetailList) throws Exception {
-                        LogUtil.i("线程状态 "+Thread.currentThread().getName());
+                        LogUtil.i("线程状态 " + Thread.currentThread().getName());
                         return stringDetailList.getResponse();
                     }
                 })
@@ -119,7 +120,7 @@ public final class ReagentBrand extends UniteRequest {
                         return Observable.fromIterable(strings).filter(new Predicate<String>() {
                             @Override
                             public boolean test(@NonNull String s) throws Exception {
-                                LogUtil.i("线程状态 "+Thread.currentThread().getName());
+                                LogUtil.i("线程状态 " + Thread.currentThread().getName());
                                 return !StringUtil.isEmpty(s);
                             }
                         }).distinct();
