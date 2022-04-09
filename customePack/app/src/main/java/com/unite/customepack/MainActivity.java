@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        }).start();
-
         OkHttpClient client = new OkHttpClient.Builder().build();
         Request request = new Request.Builder()
                 .url("https://www.baidu.com")
@@ -69,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         findViewById(R.id.btn2).setOnClickListener(v -> {
 

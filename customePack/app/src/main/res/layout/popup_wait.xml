@@ -8,5 +8,5 @@
         android:background="#ffffff"
         android:id="@+id/waitingView"
         android:layout_width="200dp"
-        android:layout_height="200dp"/>
+        android:layout_height="300dp"/>
 </LinearLayout>

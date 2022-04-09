@@ -74,6 +74,9 @@ public abstract class BasePopupWindow extends PopupWindow {
         onDestroy();
     }
 
+
+
+
     public void onDestroy() {
         activity = null;
     }

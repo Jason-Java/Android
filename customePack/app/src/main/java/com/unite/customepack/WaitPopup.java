@@ -33,6 +33,7 @@ public class WaitPopup extends BasePopupWindow {
     @Override
     public void initData() {
 
+
     }
 
     @Override

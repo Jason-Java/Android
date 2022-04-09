@@ -221,7 +221,7 @@ public class ErrorView extends View {
     /**
      * 开始完成动画
      */
-    private void start() {
+    public void start() {
         status = 0;
         post(new Runnable() {
             @Override

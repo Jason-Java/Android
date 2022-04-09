@@ -161,7 +161,7 @@ public class WaitingView extends View {
         int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
-        setMeasuredDimension(widthSpecSize + 10 * strokeWidth, widthSpecSize + 10 * strokeWidth);
+        setMeasuredDimension(widthSpecSize + 10 * strokeWidth, heightSpecSize + 10 * strokeWidth);
     }
 
     @Override
@@ -434,8 +434,6 @@ public class WaitingView extends View {
             }
         }.start();
     }
-
-
     public void stop()
     {
         this.flag = false;
