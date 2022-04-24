@@ -30,13 +30,13 @@ public class WaitPopup extends BasePopupWindow {
         mBinding.waitingView.start();
     }
 
-    @Override
+
     public void initData() {
 
 
     }
 
-    @Override
+
     public void initEvent() {
 
     }

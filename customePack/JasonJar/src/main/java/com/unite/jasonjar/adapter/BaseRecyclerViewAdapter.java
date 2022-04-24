@@ -51,7 +51,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
         if (i != null && i.size() > 0) {
             item.clear();
             item.addAll(i);
-            notifyItemChanged(0,getItemCount()-1);
+            notifyDataSetChanged();
         }
     }
 

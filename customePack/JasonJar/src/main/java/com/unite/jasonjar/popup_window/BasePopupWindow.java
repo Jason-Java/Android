@@ -36,36 +36,26 @@ public abstract class BasePopupWindow extends PopupWindow {
         setFocusable(true);
         //设置可以点击
         setTouchable(true);
-
-        initData();
-        initEvent();
     }
 
     public abstract View getView(LayoutInflater inflater);
 
-    public abstract void initData();
-
-    public abstract void initEvent();
-
 
     /**
-     * 显示窗口
+     * 显示窗口 显示在屏幕的中间
      */
     public void showPopWindow() {
-        //寻找Activity的根布局
-        ViewGroup viewGroup = activity.findViewById(android.R.id.content);
-        this.showAtLocation(viewGroup.getChildAt(0), Gravity.CENTER, 0, 0);
+        this.showAtLocation(getParentView(), Gravity.CENTER, 0, 0);
     }
 
     /**
      * 显示窗口
+     *
      * @param offsetX X方向相对屏幕的偏移量
      * @param offsetY Y方向相对屏幕的偏移量
      */
-    public void showPopWindow(int offsetX,int offsetY) {
-        //寻找Activity的根布局
-        ViewGroup viewGroup = activity.findViewById(android.R.id.content);
-        this.showAtLocation(viewGroup.getChildAt(0), Gravity.CENTER, offsetX, offsetY);
+    public void showPopWindow(int offsetX, int offsetY) {
+        this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY);
     }
 
     @Override
@@ -74,7 +64,12 @@ public abstract class BasePopupWindow extends PopupWindow {
         onDestroy();
     }
 
-
+    //寻找Activity的根布局
+    public View getParentView() {
+        //寻找Activity的根布局
+        ViewGroup viewGroup = activity.findViewById(android.R.id.content);
+        return viewGroup.getChildAt(0);
+    }
 
 
     public void onDestroy() {

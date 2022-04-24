@@ -8,22 +8,10 @@
 
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="失败load" />
-
-        <Button
-            android:id="@+id/btn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="成功load" />
-    </LinearLayout>
+    <com.unite.jasonjar.view.MultipleSpinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:background="#123456"
+        android:layout_height="30dp"/>
 
 </RelativeLayout>

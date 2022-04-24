@@ -1,0 +1,8 @@
+利用反射、注解、动态代理实现OnClick与OnLongClick事件的自动注入
+
+@Click({R.id.bottom,R.id.end})
+public void abc(View view){
+        
+}
+
+

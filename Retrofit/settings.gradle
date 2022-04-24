@@ -1,0 +1,6 @@
+include ':proxy'
+include ':compiler'
+include ':app'
+rootProject.name = "Retrofit"
+include ':reflect'
+include ':annotation'
