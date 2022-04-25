@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         MyAdapter adapter = new MyAdapter(this, R.layout.my_adapter_layout);
         LinkedList<KeyValue> list = new LinkedList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 14; i++) {
             KeyValue keyValue = new KeyValue();
             keyValue.setKey(i + "");
             keyValue.setValue(i + " 我是value");

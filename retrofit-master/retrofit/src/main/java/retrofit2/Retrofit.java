@@ -146,9 +146,7 @@ public final class Retrofit {
   public <T> T create(final Class<T> service) {
     validateServiceInterface(service);
     return (T)
-        Proxy.newProxyInstance(
-            service.getClassLoader(),
-            new Class<?>[] {service},
+        Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[] {service},
             new InvocationHandler() {
               private final Object[] emptyArgs = new Object[0];
 
@@ -174,10 +172,13 @@ public final class Retrofit {
       throw new IllegalArgumentException("API declarations must be interfaces.");
     }
 
+
+    // todo 进行接口的检查
     Deque<Class<?>> check = new ArrayDeque<>(1);
     check.add(service);
     while (!check.isEmpty()) {
       Class<?> candidate = check.removeFirst();
+
       if (candidate.getTypeParameters().length != 0) {
         StringBuilder message =
             new StringBuilder("Type parameters are unsupported on ").append(candidate.getName());
@@ -189,6 +190,8 @@ public final class Retrofit {
       Collections.addAll(check, candidate.getInterfaces());
     }
 
+
+    // todo 缓存这个service的所有方法
     if (validateEagerly) {
       Platform platform = Platform.get();
       for (Method method : service.getDeclaredMethods()) {
