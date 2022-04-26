@@ -1,7 +1,6 @@
 package com.unite.jasonjar.view;
 
 import android.app.Activity;
-import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
+public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewHolder>
+{
 
     protected ArrayList<KeyValue> item = new ArrayList<>();
     private LinkedList<Boolean> choice = new LinkedList<>();
@@ -25,35 +25,39 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewH
     private int layoutId;
     private View view;
     private OnSelectItemListener onSelectItemListener;
-    private ColorStateList[] defaultColor;
 
-    public void setOnSelectItemListener(OnSelectItemListener onSelectItemListener) {
+    public void setOnSelectItemListener(OnSelectItemListener onSelectItemListener)
+    {
         this.onSelectItemListener = onSelectItemListener;
     }
 
-    public MultipleAdapter(Activity activity, int layoutId) {
+    public MultipleAdapter(Activity activity, int layoutId)
+    {
         this.activity = activity;
         this.layoutId = layoutId;
     }
 
     @NonNull
     @Override
-    public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         view = LayoutInflater.from(activity).inflate(layoutId, parent, false);
         RecyclerViewHolder viewHolder = new RecyclerViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return item.size();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position)
+    {
         setView(holder, item.get(position), position);
         Event(holder, item.get(position), position);
-        changeSelectStyle(holder, item.get(position), position);
+        itemStyle(holder, item.get(position), position);
         selectEvent(holder, item.get(position), position);
     }
 
@@ -68,21 +72,45 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewH
      * @param item
      * @param position
      */
-    private final void changeSelectStyle(RecyclerViewHolder holder, KeyValue item, int position) {
+    private final void itemStyle(RecyclerViewHolder holder, KeyValue item, int position)
+    {
 
-        ViewGroup ParentView = (ViewGroup) holder.itemView;
-        int size = ParentView.getChildCount();
-        for (int i = 0; i < size; i++) {
-            View childView = ParentView.getChildAt(i);
-            if (childView instanceof TextView) {
-                if (choice.get(position)) {
-                    holder.setTextColor(childView.getId(), 0XFF009fff);
-                } else {
-                    holder.setTextColor(childView.getId(), 0XFF000000);
-                }
-            }
+        if (choice.get(position))
+        {
+            selectedStyle(holder, item, position);
+        }
+        else
+        {
+            noSelectedStyle(holder, item, position);
         }
     }
+
+    //选中的样式
+    public void  selectedStyle(RecyclerViewHolder holder, KeyValue item, int position){
+        ViewGroup ParentView = (ViewGroup) holder.itemView;
+        int size = ParentView.getChildCount();
+        for (int i = 0; i < size; i++)
+        {
+            View childView = ParentView.getChildAt(i);
+            if (childView instanceof TextView)
+                holder.setTextColor(childView.getId(), 0XFF009fff);
+        }
+    }
+
+    //未选中的样式
+    public  void noSelectedStyle(RecyclerViewHolder holder, KeyValue item, int position)
+    {
+        ViewGroup ParentView = (ViewGroup) holder.itemView;
+        int size = ParentView.getChildCount();
+        for (int i = 0; i < size; i++)
+        {
+            View childView = ParentView.getChildAt(i);
+            if (childView instanceof TextView)
+                holder.setTextColor(childView.getId(), 0XFF000000);
+        }
+
+    }
+
 
 
     /**
@@ -90,16 +118,20 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewH
      *
      * @param position
      */
-    private void selectEvent(RecyclerViewHolder holder, KeyValue item, int position) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+    private void selectEvent(RecyclerViewHolder holder, KeyValue item, int position)
+    {
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 boolean flag = choice.get(position);
                 choice.remove(position);
                 if (flag) choice.add(position, false);
                 else choice.add(position, true);
                 MultipleAdapter.this.notifyItemChanged(position);
-                if (onSelectItemListener != null) {
+                if (onSelectItemListener != null)
+                {
                     onSelectItemListener.select(getChoiceItem());
                 }
             }
@@ -112,10 +144,13 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewH
      *
      * @return
      */
-    public ArrayList<KeyValue> getChoiceItem() {
+    public ArrayList<KeyValue> getChoiceItem()
+    {
         ArrayList<KeyValue> list = new ArrayList<>();
-        for (int i = 0; i < choice.size(); i++) {
-            if (choice.get(i)) {
+        for (int i = 0; i < choice.size(); i++)
+        {
+            if (choice.get(i))
+            {
                 list.add(item.get(i));
             }
         }
@@ -124,27 +159,33 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewH
 
 
     //设置数据
-    public void setItem(ArrayList<KeyValue> i) {
-        if (i != null && i.size() > 0) {
+    public void setItem(ArrayList<KeyValue> i)
+    {
+        if (i != null && i.size() > 0)
+        {
             item.clear();
             item.addAll(i);
             notifyDataSetChanged();
         }
-        for (int j = 0; j < i.size(); j++) {
+        for (int j = 0; j < i.size(); j++)
+        {
             choice.add(false);
         }
     }
 
     //添加数据
-    public void addItem(ArrayList<KeyValue> i) {
-        for (int j = 0; j < i.size(); j++) {
+    public void addItem(ArrayList<KeyValue> i)
+    {
+        for (int j = 0; j < i.size(); j++)
+        {
             item.add(i.get(j));
             notifyItemChanged(getItemCount() - 1);
         }
     }
 
     //清空所有的元素
-    public void clearItem() {
+    public void clearItem()
+    {
         int count = getItemCount();
         item.clear();
         notifyItemRangeRemoved(0, count - 1);
@@ -155,7 +196,8 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewH
      *
      * @param position
      */
-    public void removeItem(int position) {
+    public void removeItem(int position)
+    {
         item.remove(position);
         notifyItemRemoved(position);
     }
@@ -165,11 +207,13 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewH
      *
      * @return
      */
-    public List<KeyValue> getAllItem() {
+    public List<KeyValue> getAllItem()
+    {
         return item;
     }
 
-    public interface OnSelectItemListener {
+    public interface OnSelectItemListener
+    {
         void select(ArrayList<KeyValue> value);
     }
 }

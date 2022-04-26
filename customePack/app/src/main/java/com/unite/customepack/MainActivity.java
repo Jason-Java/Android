@@ -30,19 +30,20 @@ import okhttp3.Response;
 import util.LogUtil;
 import util.StringUtil;
 
-
-public class MainActivity extends AppCompatActivity {
-    SuperLoadingProgress mSuperLoadingProgress;
+public class MainActivity extends AppCompatActivity
+{
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         MyAdapter adapter = new MyAdapter(this, R.layout.my_adapter_layout);
         ArrayList<KeyValue> list = new ArrayList<>();
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 400; i++)
+        {
             KeyValue keyValue = new KeyValue();
             keyValue.setKey(i + "");
             keyValue.setValue(i + " 我是value");

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,11 +32,14 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
     private MultipleChoicePop pop;
     private ArrayList<KeyValue> selectItem;
     private MultipleAdapter.OnSelectItemListener onSelectItemListener;
+    private RecyclerView recyclerView;
 
 
-    public void setOnSelectItemListener(MultipleAdapter.OnSelectItemListener onSelectItemListener) {
+    public void setOnSelectItemListener(MultipleAdapter.OnSelectItemListener onSelectItemListener)
+    {
         this.onSelectItemListener = onSelectItemListener;
     }
+
     public MultipleSpinner(@NonNull Context context)
     {
         super(context);
@@ -84,15 +88,9 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
                 @Override
                 public void select(ArrayList<KeyValue> value)
                 {
-                    if (onSelectItemListener != null) {
-                        onSelectItemListener.select(value);
-                    }
+                    if (onSelectItemListener != null) onSelectItemListener.select(value);
 
-                    if (selectItem == null)
-                    {
-                        selectItem = new ArrayList<>();
-                    }
-                    selectItem.clear();
+                    selectItem = new ArrayList<>();
                     selectItem.addAll(value);
                     String text = "";
                     for (int i = 0; i < value.size(); i++)
@@ -130,9 +128,6 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
 
     class MultipleChoicePop extends PopupWindow
     {
-        private int height;
-        private int width;
-        private View view;
         private Activity activity;
 
         public MultipleChoicePop(Activity activity)
@@ -149,44 +144,13 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
             setFocusable(true);
             //设置可以点击
             setTouchable(true);
-            initData();
-            initEvent();
         }
 
         public void setAdapter(MultipleAdapter adapter)
         {
-            ViewGroup viewParent = (ViewGroup) view;
-            int size = viewParent.getChildCount();
-            boolean flag = false;
-            for (int i = 0; i < size; i++)
-            {
-                View childView = viewParent.getChildAt(i);
-                if (childView instanceof RecyclerView)
-                {
-                    flag = true;
-                    RecyclerView recycler = ((RecyclerView) childView);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
-                    recycler.setLayoutManager(layoutManager);
-                    recycler.setAdapter(adapter);
-                    break;
-                }
-            }
-            if (!flag)
-            {
-                throw new RuntimeException("Multiple PopupWindow 布局不包含 RecyclerView,无法加载Adapter");
-            }
-        }
-
-        //设置PopupWindow的宽
-        public void setWidth(int width)
-        {
-            this.width = width;
-        }
-
-        //设置PopupWindow的高
-        public void setHeight(int height)
-        {
-            this.height = height;
+            LinearLayoutManager layoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
         }
 
         public View getView()
@@ -195,58 +159,32 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(MultipleSpinner.this.getWidth(), LinearLayout.LayoutParams.WRAP_CONTENT);
             linearLayout.setLayoutParams(param);
             linearLayout.setElevation(DensityUtil.dp2px(context, 10));
-            RecyclerView recyclerView = new RecyclerView(activity);
+            recyclerView = new RecyclerView(activity);
             recyclerView.setBackgroundColor(0XFFEBEBEB);
             recyclerView.setLayoutParams(param);
             linearLayout.addView(recyclerView);
-            view = linearLayout;
             return linearLayout;
         }
 
-        private void initData()
-        {
-
-        }
-
-        private void initEvent()
-        {
-
-        }
-
-
         public void showPopWindow(int offsetX, int offsetY)
         {
-
-
-
-
-
-            int ParentViewHeight = MultipleSpinner.this.getHeight();
-
-
-            this.getContentView().measure(0, 0);
-
-            int popHeight = this.getContentView().getMeasuredHeight();
-
+            int multipleSpinnerHeight = MultipleSpinner.this.getHeight();
             int windowHeight = getParentView().getHeight();
-
-            if (popHeight > windowHeight * 0.5) {
-                setHeight((int) (windowHeight * 0.5));
-                this.getContentView().measure(0, (int) (windowHeight * 0.5));
-                popHeight = this.getContentView().getHeight();
-            }
-
-            if((popHeight + offsetY + ParentViewHeight) < windowHeight)
+            recyclerView.measure(0, 0);
+            int recyclerHeight = recyclerView.getMeasuredHeight();
+            if (recyclerHeight > windowHeight * 0.6)
             {
-                this.getContentView(). measure(0, 0);
-                popHeight = this.getContentView().getHeight();
-                this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY + ParentViewHeight);
+                setHeight((int) (windowHeight * 0.4));
+            }
+            int popHeight = this.getHeight();
+            if ((popHeight + offsetY + multipleSpinnerHeight) < windowHeight)
+            {
+                this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY + multipleSpinnerHeight);
             }
             else
             {
                 this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY - popHeight);
             }
-
         }
 
         //寻找Activity的根布局
@@ -256,7 +194,5 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
             ViewGroup viewGroup = activity.findViewById(android.R.id.content);
             return viewGroup.getChildAt(0);
         }
-
     }
-
 }
