@@ -126,11 +126,12 @@ public class LoopView extends View {
 
     /**
      * set outer text color
+     *
      * @param centerTextColor
      */
     public void setCenterTextColor(int centerTextColor) {
         this.centerTextColor = centerTextColor;
-        if(paintCenterText != null){
+        if (paintCenterText != null) {
             paintCenterText.setColor(centerTextColor);
         }
 
@@ -138,28 +139,31 @@ public class LoopView extends View {
 
     /**
      * set center text color
+     *
      * @param outerTextColor
      */
     public void setOuterTextColor(int outerTextColor) {
         this.outerTextColor = outerTextColor;
-        if(paintOuterText != null){
+        if (paintOuterText != null) {
             paintOuterText.setColor(outerTextColor);
         }
     }
 
     /**
      * set divider color
+     *
      * @param dividerColor
      */
     public void setDividerColor(int dividerColor) {
         this.dividerColor = dividerColor;
-        if(paintIndicator != null){
+        if (paintIndicator != null) {
             paintIndicator.setColor(dividerColor);
         }
     }
 
     /**
      * set text typeface
+     *
      * @param typeface
      */
     public void setTypeface(Typeface typeface) {
@@ -183,7 +187,7 @@ public class LoopView extends View {
 
     private void initLoopView(Context context, AttributeSet attributeset) {
         this.context = context;
-        handler = new  MessageHandler(this);
+        handler = new MessageHandler(this);
         flingGestureDetector = new GestureDetector(context, new LoopViewGestureListener(this));
         flingGestureDetector.setIsLongpressEnabled(false);
 
@@ -225,7 +229,7 @@ public class LoopView extends View {
         }
         if (visibleNumber != itemsVisibleCount) {
             itemsVisibleCount = visibleNumber;
-            drawingStrings=new HashMap<>();
+            drawingStrings = new HashMap<>();
         }
     }
 
@@ -310,7 +314,7 @@ public class LoopView extends View {
             }
         }
         mFuture =
-            mExecutor.scheduleWithFixedDelay(new  SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
+                mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
         changeScrollState(SCROLL_STATE_SCROLLING);
     }
 
@@ -319,7 +323,7 @@ public class LoopView extends View {
         // change this number, can change fling speed
         int velocityFling = 10;
         mFuture = mExecutor.scheduleWithFixedDelay(new InertiaTimerTask(this, velocityY), 0, velocityFling,
-            TimeUnit.MILLISECONDS);
+                TimeUnit.MILLISECONDS);
         changeScrollState(SCROLL_STATE_DRAGGING);
     }
 
@@ -333,25 +337,26 @@ public class LoopView extends View {
 
     /**
      * 打印方法调用堆栈链信息 用于调试
+     *
      * @param methodName
      */
-    private void printMethodStackTrace(String methodName){
+    private void printMethodStackTrace(String methodName) {
         StackTraceElement[] invokers = Thread.currentThread().getStackTrace();
         StringBuilder sb = new StringBuilder("printMethodStackTrace ");
         sb.append(methodName);
         sb.append(" ");
-        for(int i= invokers.length -1;i >= 4;i--){
+        for (int i = invokers.length - 1; i >= 4; i--) {
             StackTraceElement invoker = invokers[i];
-            sb.append(String.format("%s(%d).%s",invoker.getFileName(),invoker.getLineNumber(),invoker.getMethodName()));
-            if(i > 4){
+            sb.append(String.format("%s(%d).%s", invoker.getFileName(), invoker.getLineNumber(), invoker.getMethodName()));
+            if (i > 4) {
                 sb.append("-->");
             }
         }
-        Log.i("printMethodStackTrace",sb.toString());
+        Log.i("printMethodStackTrace", sb.toString());
     }
 
-    private void changeScrollState(int scrollState){
-        if(scrollState != currentScrollState && !handler.hasMessages( MessageHandler.WHAT_SMOOTH_SCROLL_INERTIA)){
+    private void changeScrollState(int scrollState) {
+        if (scrollState != currentScrollState && !handler.hasMessages(MessageHandler.WHAT_SMOOTH_SCROLL_INERTIA)) {
             lastScrollState = currentScrollState;
             currentScrollState = scrollState;
 //            if(scrollState == SCROLL_STATE_SCROLLING || scrollState == SCROLL_STATE_IDLE){
@@ -369,15 +374,16 @@ public class LoopView extends View {
 
     /**
      * set text size in dp
+     *
      * @param size
      */
     public final void setTextSize(float size) {
         if (size > 0.0F) {
             textSize = (int) (context.getResources().getDisplayMetrics().density * size);
-            if(paintOuterText != null){
+            if (paintOuterText != null) {
                 paintOuterText.setTextSize(textSize);
             }
-            if(paintCenterText != null){
+            if (paintCenterText != null) {
                 paintCenterText.setTextSize(textSize);
             }
 
@@ -398,10 +404,9 @@ public class LoopView extends View {
         onItemSelectedListener = OnItemSelectedListener;
     }
 
-    public final void setOnItemScrollListener(OnItemScrollListener mOnItemScrollListener){
+    public final void setOnItemScrollListener(OnItemScrollListener mOnItemScrollListener) {
         this.mOnItemScrollListener = mOnItemScrollListener;
     }
-
 
 
     public final void setItems(List<String> items) {
@@ -411,10 +416,10 @@ public class LoopView extends View {
         invalidate();
     }
 
-    public List<IndexString> convertData(List<String> items){
-        List<IndexString> data=new ArrayList<>();
+    public List<IndexString> convertData(List<String> items) {
+        List<IndexString> data = new ArrayList<>();
         for (int i = 0; i < items.size(); i++) {
-            data.add(new IndexString(i,items.get(i)));
+            data.add(new IndexString(i, items.get(i)));
         }
         return data;
     }
@@ -446,6 +451,7 @@ public class LoopView extends View {
 
     /**
      * set current item position
+     *
      * @param position
      */
     public void setCurrentPosition(int position) {
@@ -453,13 +459,13 @@ public class LoopView extends View {
             return;
         }
         int size = items.size();
-        if (position >= 0 && position < size && position != getSelectedItem()) {
+        if (position >= 0 && position < size) {
             initPosition = position;
             totalScrollY = 0;
             mOffset = 0;
             changeScrollState(SCROLL_STATE_SETTING);
             remeasure();
-            handler.sendEmptyMessage( MessageHandler.WHAT_ITEM_SELECTED);
+            handler.sendEmptyMessage(MessageHandler.WHAT_ITEM_SELECTED);
             invalidate();
         }
     }
@@ -506,13 +512,13 @@ public class LoopView extends View {
                 drawingStrings.put(k1, items.get(l1));
             } else if (l1 < 0) {
 //                drawingStrings[k1] = "";
-                drawingStrings.put(k1,new IndexString());
+                drawingStrings.put(k1, new IndexString());
             } else if (l1 > items.size() - 1) {
 //                drawingStrings[k1] = "";
-                drawingStrings.put(k1,new IndexString());
+                drawingStrings.put(k1, new IndexString());
             } else {
-               // drawingStrings[k1] = items.get(l1);
-                drawingStrings.put(k1,items.get(l1));
+                // drawingStrings[k1] = items.get(l1);
+                drawingStrings.put(k1, items.get(l1));
             }
             k1++;
         }
@@ -572,16 +578,16 @@ public class LoopView extends View {
             i++;
         }
 
-        if(currentScrollState != lastScrollState){
+        if (currentScrollState != lastScrollState) {
             int oldScrollState = lastScrollState;
             lastScrollState = currentScrollState;
-            if(mOnItemScrollListener != null){
-                mOnItemScrollListener.onItemScrollStateChanged(this,getSelectedItem(),oldScrollState,currentScrollState,totalScrollY);
+            if (mOnItemScrollListener != null) {
+                mOnItemScrollListener.onItemScrollStateChanged(this, getSelectedItem(), oldScrollState, currentScrollState, totalScrollY);
             }
         }
-        if(currentScrollState == SCROLL_STATE_DRAGGING || currentScrollState == SCROLL_STATE_SCROLLING){
-            if(mOnItemScrollListener != null){
-                mOnItemScrollListener.onItemScrolling(this,getSelectedItem(),currentScrollState,totalScrollY);
+        if (currentScrollState == SCROLL_STATE_DRAGGING || currentScrollState == SCROLL_STATE_SCROLLING) {
+            if (mOnItemScrollListener != null) {
+                mOnItemScrollListener.onItemScrolling(this, getSelectedItem(), currentScrollState, totalScrollY);
             }
         }
     }
@@ -683,16 +689,18 @@ public class LoopView extends View {
         return true;
     }
 
-    class  IndexString {
+    class IndexString {
 
-        public  IndexString(){
-            this.string="";
+        public IndexString() {
+            this.string = "";
         }
 
-        public IndexString(int index,String str){
-            this.index=index;this.string=str;
+        public IndexString(int index, String str) {
+            this.index = index;
+            this.string = str;
         }
-        private String  string;
+
+        private String string;
         private int index;
     }
 }

@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/customePack/JasonJar/src/main/res/drawable/shape_pop_window.xml" value="0.246875" />
+        <entry key="..\:/Android/customePack/JasonJar/src/main/res/layout/jason_address_view.xml" value="0.23854166666666668" />
         <entry key="..\:/Android/customePack/JasonJar/src/main/res/layout/key_value_layout.xml" value="0.37864583333333335" />
+        <entry key="..\:/Android/customePack/JasonJar/src/main/res/layout/layout.xml" value="0.23072916666666668" />
+        <entry key="..\:/Android/customePack/JasonJar/src/main/res/layout/popup_calendar_view.xml" value="0.23072916666666668" />
         <entry key="..\:/Android/customePack/JasonJar/src/main/res/layout/value_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/Android/customePack/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
         <entry key="..\:/Android/customePack/app/src/main/res/layout/dialog_wait.xml" value="0.36614583333333334" />
@@ -13,7 +17,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -19,7 +19,7 @@ import java.util.List;
 
 public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
-    protected LinkedList<KeyValue> item = new LinkedList<>();
+    protected ArrayList<KeyValue> item = new ArrayList<>();
     private LinkedList<Boolean> choice = new LinkedList<>();
     protected Activity activity;
     private int layoutId;
@@ -124,7 +124,7 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewH
 
 
     //设置数据
-    public void setItem(LinkedList<KeyValue> i) {
+    public void setItem(ArrayList<KeyValue> i) {
         if (i != null && i.size() > 0) {
             item.clear();
             item.addAll(i);

@@ -2,9 +2,11 @@ package com.unite.jasonjar.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.service.controls.Control;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +30,12 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
     private MultipleAdapter multipleAdapter;
     private MultipleChoicePop pop;
     private ArrayList<KeyValue> selectItem;
+    private MultipleAdapter.OnSelectItemListener onSelectItemListener;
 
 
+    public void setOnSelectItemListener(MultipleAdapter.OnSelectItemListener onSelectItemListener) {
+        this.onSelectItemListener = onSelectItemListener;
+    }
     public MultipleSpinner(@NonNull Context context)
     {
         super(context);
@@ -78,6 +84,10 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
                 @Override
                 public void select(ArrayList<KeyValue> value)
                 {
+                    if (onSelectItemListener != null) {
+                        onSelectItemListener.select(value);
+                    }
+
                     if (selectItem == null)
                     {
                         selectItem = new ArrayList<>();
@@ -206,48 +216,37 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
 
         public void showPopWindow(int offsetX, int offsetY)
         {
-            //this.view.measure();
+
+
+
+
+
             int ParentViewHeight = MultipleSpinner.this.getHeight();
-            int ParentViewWidth = MultipleSpinner.this.getWidth();
 
 
             this.getContentView().measure(0, 0);
-            int popWeight = this.getContentView().getMeasuredWidth();
+
             int popHeight = this.getContentView().getMeasuredHeight();
 
             int windowHeight = getParentView().getHeight();
 
-            if (offsetX > windowHeight * 0.8)
-            {
-                if ((popHeight + offsetY + ParentViewHeight) < windowHeight - 40)
-                {
-                    this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY + ParentViewHeight);
-                    return;
-                }
-
-                if (popHeight >= offsetY)
-                {
-                    setHeight(offsetX);
-                }
-                this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY - popHeight);
-
-                // todo 显示到文本框的上面
-
-                return;
+            if (popHeight > windowHeight * 0.5) {
+                setHeight((int) (windowHeight * 0.5));
+                this.getContentView().measure(0, (int) (windowHeight * 0.5));
+                popHeight = this.getContentView().getHeight();
             }
 
-            if (offsetY <= windowHeight * 0.8)
+            if((popHeight + offsetY + ParentViewHeight) < windowHeight)
             {
-                if ((popHeight + offsetY + ParentViewHeight) > windowHeight - 40)
-                {
-                    setHeight(windowHeight - offsetY - ParentViewHeight);
-                }
+                this.getContentView(). measure(0, 0);
+                popHeight = this.getContentView().getHeight();
                 this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY + ParentViewHeight);
-                return;
+            }
+            else
+            {
+                this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY - popHeight);
             }
 
-
-            this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY + ParentViewHeight);
         }
 
         //寻找Activity的根布局
