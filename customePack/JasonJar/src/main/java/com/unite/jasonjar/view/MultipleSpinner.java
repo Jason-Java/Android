@@ -25,8 +25,7 @@ import java.util.ArrayList;
 
 import util.DensityUtil;
 
-public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
-{
+public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView {
     private Context context;
     private MultipleAdapter multipleAdapter;
     private MultipleChoicePop pop;
@@ -35,70 +34,56 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
     private RecyclerView recyclerView;
 
 
-    public void setOnSelectItemListener(MultipleAdapter.OnSelectItemListener onSelectItemListener)
-    {
+    public void setOnSelectItemListener(MultipleAdapter.OnSelectItemListener onSelectItemListener) {
         this.onSelectItemListener = onSelectItemListener;
     }
 
-    public MultipleSpinner(@NonNull Context context)
-    {
+    public MultipleSpinner(@NonNull Context context) {
         super(context);
         this.context = context;
         initEvent();
     }
 
-    public MultipleSpinner(@NonNull Context context, @Nullable AttributeSet attrs)
-    {
+    public MultipleSpinner(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         initEvent();
     }
 
-    public MultipleSpinner(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr)
-    {
+    public MultipleSpinner(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setAdapter(MultipleAdapter adapter)
-    {
+    public void setAdapter(MultipleAdapter adapter) {
         multipleAdapter = adapter;
     }
 
-    private void initEvent()
-    {
-        this.setOnClickListener(new OnClickListener()
-        {
+    private void initEvent() {
+        this.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 showPopWindow();
             }
         });
     }
 
 
-    private void showPopWindow()
-    {
-        if (pop == null)
-        {
+    private void showPopWindow() {
+        if (pop == null) {
             pop = new MultipleChoicePop((Activity) context);
             pop.setAdapter(multipleAdapter);
-            multipleAdapter.setOnSelectItemListener(new MultipleAdapter.OnSelectItemListener()
-            {
+            multipleAdapter.setOnSelectItemListener(new MultipleAdapter.OnSelectItemListener() {
                 @Override
-                public void select(ArrayList<KeyValue> value)
-                {
+                public void select(ArrayList<KeyValue> value) {
                     if (onSelectItemListener != null) onSelectItemListener.select(value);
 
                     selectItem = new ArrayList<>();
                     selectItem.addAll(value);
                     String text = "";
-                    for (int i = 0; i < value.size(); i++)
-                    {
+                    for (int i = 0; i < value.size(); i++) {
                         text += value.get(i).getValue() + ";";
                     }
-                    if (text.length() <= 0)
-                    {
+                    if (text.length() <= 0) {
                         MultipleSpinner.this.setText("");
                         return;
                     }
@@ -113,25 +98,21 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
     /**
      * 获取选中的列表
      */
-    public ArrayList<KeyValue> getSelectItem()
-    {
+    public ArrayList<KeyValue> getSelectItem() {
         return selectItem;
     }
 
-    private int[] getViewLocationInWindow()
-    {
+    private int[] getViewLocationInWindow() {
         int[] location = new int[2];
         this.getLocationInWindow(location);
         return location;
     }
 
 
-    class MultipleChoicePop extends PopupWindow
-    {
+    class MultipleChoicePop extends PopupWindow {
         private Activity activity;
 
-        public MultipleChoicePop(Activity activity)
-        {
+        public MultipleChoicePop(Activity activity) {
             super(activity);
             this.activity = activity;
             setContentView(getView());
@@ -146,15 +127,13 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
             setTouchable(true);
         }
 
-        public void setAdapter(MultipleAdapter adapter)
-        {
+        public void setAdapter(MultipleAdapter adapter) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
         }
 
-        public View getView()
-        {
+        public View getView() {
             LinearLayout linearLayout = new LinearLayout(activity);
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(MultipleSpinner.this.getWidth(), LinearLayout.LayoutParams.WRAP_CONTENT);
             linearLayout.setLayoutParams(param);
@@ -166,30 +145,27 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
             return linearLayout;
         }
 
-        public void showPopWindow(int offsetX, int offsetY)
-        {
+        public void showPopWindow(int offsetX, int offsetY) {
             int multipleSpinnerHeight = MultipleSpinner.this.getHeight();
             int windowHeight = getParentView().getHeight();
             recyclerView.measure(0, 0);
             int recyclerHeight = recyclerView.getMeasuredHeight();
-            if (recyclerHeight > windowHeight * 0.6)
-            {
+            if (recyclerHeight > windowHeight * 0.4) {
                 setHeight((int) (windowHeight * 0.4));
+            } else {
+                setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
             }
-            int popHeight = this.getHeight();
-            if ((popHeight + offsetY + multipleSpinnerHeight) < windowHeight)
-            {
+            this.getContentView().measure(this.getContentView().getMeasuredWidth(),this.getContentView().getHeight());
+            int popHeight =  this.getContentView().getMeasuredHeight();
+            if ((popHeight + offsetY + multipleSpinnerHeight) < windowHeight) {
                 this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY + multipleSpinnerHeight);
-            }
-            else
-            {
+            } else {
                 this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY - popHeight);
             }
         }
 
         //寻找Activity的根布局
-        public View getParentView()
-        {
+        public View getParentView() {
             //寻找Activity的根布局
             ViewGroup viewGroup = activity.findViewById(android.R.id.content);
             return viewGroup.getChildAt(0);

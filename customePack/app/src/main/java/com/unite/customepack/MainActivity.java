@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
 
         MyAdapter adapter = new MyAdapter(this, R.layout.my_adapter_layout);
         ArrayList<KeyValue> list = new ArrayList<>();
-        for (int i = 0; i < 400; i++)
+        for (int i = 0; i < 2; i++)
         {
             KeyValue keyValue = new KeyValue();
             keyValue.setKey(i + "");
@@ -52,5 +52,20 @@ public class MainActivity extends AppCompatActivity
         adapter.setItem(list);
         MultipleSpinner spinner = findViewById(R.id.spinner);
         spinner.setAdapter(adapter);
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                JasonAddressView jasonAddressView = new JasonAddressView(MainActivity.this);
+                jasonAddressView.setOnSelectDateListener(new JasonAddressView.OnSelectDateListener() {
+                    @Override
+                    public void onDate(String province, String provinceCode, String city, String cityCode, String area, String areaCode) {
+                        spinner.setText(province + ", " + provinceCode+" "+city+" "+cityCode);
+                    }
+                });
+
+                jasonAddressView.showPopWindow();
+            }
+        }, 1000);
     }
 }

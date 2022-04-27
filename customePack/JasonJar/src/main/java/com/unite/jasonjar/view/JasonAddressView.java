@@ -21,9 +21,9 @@ import java.util.ArrayList;
 public class JasonAddressView extends BasePopupWindow {
     private View view;
 
-    private ArrayList<String> provinceList=new ArrayList<>();
-    private ArrayList<String> cityList=new ArrayList<>();
-    private ArrayList<String> areaList=new ArrayList<>();
+    private ArrayList<String> provinceList = new ArrayList<>();
+    private ArrayList<String> cityList = new ArrayList<>();
+    private ArrayList<String> areaList = new ArrayList<>();
     private OnSelectDateListener onSelectDateListener;
     private LoopView provinceView;
     private LoopView cityView;
@@ -93,7 +93,7 @@ public class JasonAddressView extends BasePopupWindow {
     //初始化省份
     private void initProvince() {
         provinceJsonArray = new JSONArray();
-        provinceJsonArray = JSON.parseArray(parseJson("jasonaddres.json"));
+        provinceJsonArray = JSON.parseArray(parseJson("jasonaddress.json"));
         provinceList = new ArrayList<>();
         for (int i = 0; i < provinceJsonArray.size(); i++) {
             JSONObject jsonObject = provinceJsonArray.getJSONObject(i);
@@ -108,9 +108,9 @@ public class JasonAddressView extends BasePopupWindow {
         cityJsonArray = provinceJsonArray.getJSONObject(parentIndex).getJSONArray("city");
         if (cityJsonArray.size() <= 1) {
             cityList = new ArrayList<>();
-            JSONArray areaJsonArray = cityJsonArray.getJSONObject(0).getJSONArray("area");
+            areaJsonArray = cityJsonArray.getJSONObject(0).getJSONArray("area");
             for (int i = 0; i < areaJsonArray.size(); i++) {
-                cityList.add(areaJsonArray.getString(i));
+                cityList.add(areaJsonArray.getJSONObject(i).getString("name"));
             }
             cityView.setItems(cityList);
             cityView.setCurrentPosition(0);
@@ -126,14 +126,13 @@ public class JasonAddressView extends BasePopupWindow {
 
     //初始化地区
     private void initArea(int parentIndex) {
-        if(cityJsonArray.size()<=1) return;
+        if (cityJsonArray.size() <= 1) return;
         areaJsonArray = cityJsonArray.getJSONObject(parentIndex).getJSONArray("area");
         areaList = new ArrayList<>();
         for (int i = 0; i < areaJsonArray.size(); i++) {
-            areaList.add(areaJsonArray.getString(i));
+            areaList.add(areaJsonArray.getJSONObject(i).getString("name"));
         }
-        if(areaList.size()<=1)
-        {
+        if (areaList.size() <= 1) {
             areaView.setItems(new ArrayList<>());
             areaView.invalidate();
             return;
@@ -148,21 +147,25 @@ public class JasonAddressView extends BasePopupWindow {
         int selectItemMonth = cityView.getSelectedItem();
         int selectItemDay = areaView.getSelectedItem();
         String province = provinceList.get(selectItemYear);
-        String city = cityList.get(selectItemMonth);
+        String proviceCode = provinceJsonArray.getJSONObject(selectItemYear).getString("code");
+        String city = "";
+        String cityCode = "";
+        if (cityList.size() > 1) {
+            city = cityList.get(selectItemMonth);
+            cityCode = areaJsonArray.getJSONObject(selectItemMonth).getString("code");
+        }
+
         String area = "";
-        if(areaList.size()>1)
-        {
+        String areaCode = "";
+        if (areaList.size() > 1) {
             area = areaList.get(selectItemDay);
+            areaCode = areaJsonArray.getJSONObject(selectItemDay).getString("code");
         }
         if (onSelectDateListener != null) {
-            onSelectDateListener.onDate(province, city, area);
+            onSelectDateListener.onDate(province, proviceCode, city, cityCode, area, areaCode);
         }
     }
 
-
-    public interface OnSelectDateListener {
-        void onDate(String province, String city, String area);
-    }
 
     public String parseJson(String fileName) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -180,7 +183,9 @@ public class JasonAddressView extends BasePopupWindow {
             e.printStackTrace();
         }
         return stringBuilder.toString();
+    }
 
-
+    public interface OnSelectDateListener {
+        void onDate(String province, String provinceCode, String city, String cityCode, String area, String areaCode);
     }
 }
