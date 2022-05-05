@@ -3,8 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/customePack/JasonJar/src/main/res/drawable/jason_popup_calendar.xml" value="0.38229166666666664" />
+        <entry key="..\:/Android/customePack/JasonJar/src/main/res/drawable/jason_radio_button.xml" value="0.38229166666666664" />
+        <entry key="..\:/Android/customePack/JasonJar/src/main/res/drawable/jason_select_radiobutton.xml" value="0.29074074074074074" />
+        <entry key="..\:/Android/customePack/JasonJar/src/main/res/drawable/jason_selector_text_color.xml" value="0.13055555555555556" />
+        <entry key="..\:/Android/customePack/JasonJar/src/main/res/drawable/jason_shape_line.xml" value="0.2630208333333333" />
         <entry key="..\:/Android/customePack/JasonJar/src/main/res/drawable/shape_pop_window.xml" value="0.246875" />
         <entry key="..\:/Android/customePack/JasonJar/src/main/res/layout/jason_address_view.xml" value="0.23854166666666668" />
+        <entry key="..\:/Android/customePack/JasonJar/src/main/res/layout/jason_calendar_view.xml" value="0.6044499381953028" />
         <entry key="..\:/Android/customePack/JasonJar/src/main/res/layout/key_value_layout.xml" value="0.37864583333333335" />
         <entry key="..\:/Android/customePack/JasonJar/src/main/res/layout/layout.xml" value="0.23072916666666668" />
         <entry key="..\:/Android/customePack/JasonJar/src/main/res/layout/popup_calendar_view.xml" value="0.23072916666666668" />

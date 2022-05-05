@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EasySwipeMenuLayout-master.iml" filepath="$PROJECT_DIR$/.idea/modules/EasySwipeMenuLayout-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/EasySwipeMenuLayout-master.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/EasySwipeMenuLayout-master.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/easyswipemenulibrary/EasySwipeMenuLayout-master.easyswipemenulibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/easyswipemenulibrary/EasySwipeMenuLayout-master.easyswipemenulibrary.iml" />
+    </modules>
+  </component>
+</project>
