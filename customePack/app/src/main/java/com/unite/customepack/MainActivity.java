@@ -1,11 +1,13 @@
 package com.unite.customepack;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -32,8 +34,6 @@ import util.StringUtil;
 
 public class MainActivity extends AppCompatActivity
 {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -67,5 +67,11 @@ public class MainActivity extends AppCompatActivity
                 jasonAddressView.showPopWindow();
             }
         }, 1000);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        return super.onTouchEvent(event);
     }
 }

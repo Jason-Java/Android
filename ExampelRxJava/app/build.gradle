@@ -43,7 +43,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.0'
     implementation 'com.alibaba:fastjson:1.2.75'
 
-    implementation files('libs\\JasonJar.aar')
+    implementation files('libs/jasonjar1.0.5.aar')
 
 
     testImplementation 'junit:junit:4.+'

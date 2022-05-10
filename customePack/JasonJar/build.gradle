@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 30
-        versionCode 105
-        versionName "1.0.5"
+        versionCode 106
+        versionName "1.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -29,7 +29,7 @@ android {
 
     task makeJar(type: Copy) {
         //删除存在的
-        delete 'build/libs/jasonjar.jar'
+        delete 'build/libs/jasonjar*.jar'
         //设置拷贝的文件
         from('build/intermediates/aar_main_jar/release/')
         //打进jar包后的文件目录

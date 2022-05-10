@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 public abstract class BaseFragment extends Fragment {
+
+    private CountDownTimer timer ;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         return getLayoutView(inflater, container, savedInstanceState);
@@ -42,29 +44,29 @@ public abstract class BaseFragment extends Fragment {
         return getActivity();
     }
 
-    private CountDownTimer timer = new CountDownTimer(1000 * 60, 1000) {
-        long downTimer;
-
-        @Override
-        public void onTick(long millisUntilFinished) {
-            downTimer = (millisUntilFinished / 1000);
-            downTimer(downTimer);
-        }
-
-        @Override
-        public void onFinish() {
-            finishTimer();
-        }
-    };
-
     //开始倒计时
-    public void startTimer() {
+    public void startTimer(long time) {
+        timer = new CountDownTimer(1000 * time, 1000) {
+            long downTimer;
+            @Override
+            public void onTick(long millisUntilFinished) {
+                downTimer = (millisUntilFinished / 1000);
+                downTimer(downTimer);
+            }
+
+            @Override
+            public void onFinish() {
+                finishTimer();
+            }
+        };
         timer.start();
     }
 
     //取消倒计时
     public void cancelTimer() {
-        timer.cancel();
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
     //结束倒计时

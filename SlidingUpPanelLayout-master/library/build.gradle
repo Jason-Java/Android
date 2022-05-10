@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+
+def VERSION_NAME = "1.1.1"
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 27
+        versionCode 3
+        versionName VERSION_NAME
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly 'com.android.support:appcompat-v7:27.1.1'
+}

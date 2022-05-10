@@ -61,9 +61,7 @@ public class WheelCalendarView extends BasePopupWindow {
         calendar = Calendar.getInstance();
         initYear();
         initMonth();
-        initHours();
-        initMinute();
-        initSecond();
+
     }
 
     //初始化年份
@@ -116,7 +114,7 @@ public class WheelCalendarView extends BasePopupWindow {
             hoursList.add(i + "");
         }
         hoursView.setItems(hoursList);
-        hoursView.setInitPosition(calendar.get(Calendar.HOUR_OF_DAY) );
+        hoursView.setInitPosition(calendar.get(Calendar.HOUR_OF_DAY));
     }
 
     //初始化分钟
@@ -126,7 +124,7 @@ public class WheelCalendarView extends BasePopupWindow {
             minuteList.add(i + "");
         }
         minuteView.setItems(minuteList);
-        minuteView.setInitPosition(calendar.get(Calendar.MINUTE) );
+        minuteView.setInitPosition(calendar.get(Calendar.MINUTE));
     }
 
     //初始化秒
@@ -136,7 +134,7 @@ public class WheelCalendarView extends BasePopupWindow {
             secondList.add(i + "");
         }
         secondView.setItems(secondList);
-        secondView.setInitPosition(calendar.get(Calendar.SECOND) );
+        secondView.setCurrentPosition(calendar.get(Calendar.SECOND));
     }
 
     private void iniEvent() {
@@ -177,7 +175,6 @@ public class WheelCalendarView extends BasePopupWindow {
         minuteView.setListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(int index) {
-
                 getSelectDate();
             }
         });
@@ -188,6 +185,8 @@ public class WheelCalendarView extends BasePopupWindow {
                 getSelectDate();
             }
         });
+
+
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -207,6 +206,9 @@ public class WheelCalendarView extends BasePopupWindow {
                     hoursView.setVisibility(View.VISIBLE);
                     minuteView.setVisibility(View.VISIBLE);
                     secondView.setVisibility(View.VISIBLE);
+                    initHours();
+                    initMinute();
+                    initSecond();
                 }
             }
         });
@@ -223,25 +225,35 @@ public class WheelCalendarView extends BasePopupWindow {
         int selectItemMonth = monthView.getSelectedItem();
         int selectItemDay = dayView.getSelectedItem();
 
-        int selectItemHours = hoursView.getSelectedItem();
-        int selectItemMinute = minuteView.getSelectedItem();
-        int selectItemSecond = secondView.getSelectedItem();
-
         String year = yearList.get(selectItemYear);
         String month = monthList.get(selectItemMonth);
         String day = dayList.get(selectItemDay);
 
-        String hours = hoursList.get(selectItemHours);
-        String minute = minuteList.get(selectItemMinute);
-        String second = secondList.get(selectItemSecond);
+
+        String hours = "0";
+        String minute = "0";
+        String second = "0";
+
+        if (hoursList != null) {
+            int selectItemHours = hoursView.getSelectedItem();
+            int selectItemMinute = minuteView.getSelectedItem();
+            int selectItemSecond = secondView.getSelectedItem();
+
+            hours = hoursList.get(selectItemHours);
+            minute = minuteList.get(selectItemMinute);
+            second = secondList.get(selectItemSecond);
+        }
 
         if (onSelectDateListener != null) {
             onSelectDateListener.onDate(year, month, day, hours, minute, second);
         }
     }
 
-    public interface   OnSelectDateListener {
-        void  onDate(String year, String month, String day, String hours, String minute, String second);
+
+
+
+    public interface OnSelectDateListener {
+        void onDate(String year, String month, String day, String hours, String minute, String second);
     }
 
 

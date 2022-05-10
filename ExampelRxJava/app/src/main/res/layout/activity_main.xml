@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.jason.exampelrxjava.MyRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
 
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="100dp"
-        android:layout_height="40dp" />
-
-
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="300dp"
+        android:layout_height="300dp"/>
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="点击" />
+        android:text="跳转"/>
 
-</LinearLayout>
+</com.jason.exampelrxjava.MyRelativeLayout>
