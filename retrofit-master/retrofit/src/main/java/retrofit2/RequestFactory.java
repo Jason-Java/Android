@@ -171,8 +171,11 @@ final class RequestFactory {
     Builder(Retrofit retrofit, Method method) {
       this.retrofit = retrofit;
       this.method = method;
+      // todo 获取方法的注解
       this.methodAnnotations = method.getAnnotations();
+      // todo 获取参数类型
       this.parameterTypes = method.getGenericParameterTypes();
+      // todo 获取参数的注解
       this.parameterAnnotationsArray = method.getParameterAnnotations();
     }
 
@@ -275,6 +278,7 @@ final class RequestFactory {
       }
 
       // Get the relative URL path and existing query string, if present.
+      // todo 判断相对URL中是否存在?查询字符
       int question = value.indexOf('?');
       if (question != -1 && question < value.length() - 1) {
         // Ensure the query string does not have any named parameters.
@@ -290,6 +294,7 @@ final class RequestFactory {
       }
 
       this.relativeUrl = value;
+      // todo 获取URl路径中的占位符  例如 "/xxx/{id}/xxx" 这里获取到的就是id
       this.relativeUrlParamNames = parsePathParameters(value);
     }
 
