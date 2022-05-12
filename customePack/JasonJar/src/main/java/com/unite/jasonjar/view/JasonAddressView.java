@@ -31,6 +31,7 @@ public class JasonAddressView extends BasePopupWindow {
     private JSONArray provinceJsonArray;
     private JSONArray cityJsonArray;
     private JSONArray areaJsonArray;
+    private int level;
 
 
     public void setOnSelectDateListener(OnSelectDateListener onSelectDateListener) {
@@ -47,6 +48,7 @@ public class JasonAddressView extends BasePopupWindow {
         initData();
     }
 
+
     @Override
     public View getView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.jason_address_view, null, false);
@@ -55,12 +57,26 @@ public class JasonAddressView extends BasePopupWindow {
 
     private void initData() {
 
-
         initProvince();
         initCity(0);
         initArea(0);
+    }
 
-
+    public void setLevel(int level) {
+        if (level < 1) {
+            level = 1;
+        }
+        if (level > 3) {
+            level = 3;
+        }
+        this.level = level;
+        if (level == 1) {
+            cityView.setVisibility(View.GONE);
+            areaView.setVisibility(View.GONE);
+        }
+        if (level == 2) {
+            areaView.setVisibility(View.GONE);
+        }
     }
 
     private void iniEvent() {
@@ -106,16 +122,16 @@ public class JasonAddressView extends BasePopupWindow {
     //初始化城市
     private void initCity(int parentIndex) {
         cityJsonArray = provinceJsonArray.getJSONObject(parentIndex).getJSONArray("city");
-        if (cityJsonArray.size() <= 1) {
-            cityList = new ArrayList<>();
-            areaJsonArray = cityJsonArray.getJSONObject(0).getJSONArray("area");
-            for (int i = 0; i < areaJsonArray.size(); i++) {
-                cityList.add(areaJsonArray.getJSONObject(i).getString("name"));
-            }
-            cityView.setItems(cityList);
-            cityView.setCurrentPosition(0);
-            return;
-        }
+//        if (cityJsonArray.size() <= 1) {
+//            cityList = new ArrayList<>();
+//            areaJsonArray = cityJsonArray.getJSONObject(0).getJSONArray("area");
+//            for (int i = 0; i < areaJsonArray.size(); i++) {
+//                cityList.add(areaJsonArray.getJSONObject(i).getString("name"));
+//            }
+//            cityView.setItems(cityList);
+//            cityView.setCurrentPosition(0);
+//            return;
+//        }
         cityList = new ArrayList<>();
         for (int i = 0; i < cityJsonArray.size(); i++) {
             cityList.add(cityJsonArray.getJSONObject(i).getString("name"));
@@ -126,17 +142,17 @@ public class JasonAddressView extends BasePopupWindow {
 
     //初始化地区
     private void initArea(int parentIndex) {
-        if (cityJsonArray.size() <= 1) return;
+        // if (cityJsonArray.size() <= 1) return;
         areaJsonArray = cityJsonArray.getJSONObject(parentIndex).getJSONArray("area");
         areaList = new ArrayList<>();
         for (int i = 0; i < areaJsonArray.size(); i++) {
             areaList.add(areaJsonArray.getJSONObject(i).getString("name"));
         }
-        if (areaList.size() <= 1) {
-            areaView.setItems(new ArrayList<>());
-            areaView.invalidate();
-            return;
-        }
+//        if (areaList.size() <= 1) {
+//            areaView.setItems(new ArrayList<>());
+//            areaView.invalidate();
+//            return;
+//        }
         areaView.setItems(areaList);
         areaView.setCurrentPosition(0);
     }
@@ -148,21 +164,22 @@ public class JasonAddressView extends BasePopupWindow {
         int selectItemDay = areaView.getSelectedItem();
         String province = provinceList.get(selectItemYear);
         String proviceCode = provinceJsonArray.getJSONObject(selectItemYear).getString("code");
-        String city = "";
-        String cityCode = "";
-        if (cityList.size() > 1) {
-            city = cityList.get(selectItemMonth);
-            cityCode = areaJsonArray.getJSONObject(selectItemMonth).getString("code");
-        }
+        String city = cityList.get(selectItemMonth);
+        String cityCode = cityJsonArray.getJSONObject(selectItemMonth).getString("code");
 
-        String area = "";
-        String areaCode = "";
-        if (areaList.size() > 1) {
-            area = areaList.get(selectItemDay);
-            areaCode = areaJsonArray.getJSONObject(selectItemDay).getString("code");
-        }
+        String area = areaList.get(selectItemDay);
+        String areaCode = areaJsonArray.getJSONObject(selectItemDay).getString("code");
+
         if (onSelectDateListener != null) {
-            onSelectDateListener.onDate(province, proviceCode, city, cityCode, area, areaCode);
+            if (level == 1) {
+                onSelectDateListener.onDate(province, proviceCode, "", "", "", "");
+            }
+            if (level == 2) {
+                onSelectDateListener.onDate(province, proviceCode, city, cityCode, "", "");
+            }
+            if (level == 3) {
+                onSelectDateListener.onDate(province, proviceCode, city, cityCode, area, areaCode);
+            }
         }
     }
 

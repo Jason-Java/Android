@@ -12,10 +12,12 @@
         android:id="@+id/fragment"
         android:layout_width="300dp"
         android:layout_height="300dp"/>
+
     <Button
         android:id="@+id/btn"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="跳转"/>
+        android:lines="1"
+        android:text="跳转ad发口令收到回复卡洛斯东方航空拉三等奖浩丰科技as" />
 
 </com.jason.exampelrxjava.MyRelativeLayout>

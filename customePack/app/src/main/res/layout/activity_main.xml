@@ -1,20 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@android:color/white"
-    android:gravity="center_horizontal"
-    android:orientation="horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <com.unite.jasonjar.view.JasonCalendarView
-        android:layout_width="200dp"
-        android:layout_height="30dp"
+    <com.unite.customepack.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        android:background="#AA123456"/>
-    <com.unite.jasonjar.view.MultipleSpinner
-        android:id="@+id/spinner"
-        android:layout_width="200dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="640dp"
-        android:background="#AA123456" />
+        <com.unite.jasonjar.view.JasonCalendarView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="#123456" />
+
+        <com.unite.jasonjar.view.JasonCalendarView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="#AA123476" />
+
+        <com.unite.jasonjar.view.JasonCalendarView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+
+            android:background="#AA123806" />
+
+        <com.unite.jasonjar.view.JasonCalendarView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="#AA1536" />
+
+        <com.unite.jasonjar.view.JasonCalendarView
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:background="#AA123456" />
+
+        <com.unite.jasonjar.view.JasonCalendarView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:background="#AA723456" />
+        <com.unite.jasonjar.view.JasonCalendarView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:background="#AA193456" />
+        <com.unite.jasonjar.view.JasonCalendarView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:background="#AF323453" />
+        <com.unite.jasonjar.view.JasonCalendarView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:background="#123457" />
+
+
+<!--        <com.unite.customepack.CustomTextView-->
+<!--            android:id="@+id/text"-->
+<!--            android:layout_width="100dp"-->
+
+<!--            android:layout_height="50dp" />-->
+    </com.unite.customepack.FlowLayout>
+
+
 </LinearLayout>

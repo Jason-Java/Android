@@ -350,5 +350,16 @@ public class StringUtil {
         }
         return integerPart + "." + decimalPart;
     }
+    /**
+     * 转换特殊时间格式
+     * 如 2022-05-11T15:23:13.8474074+08:00
+     */
+    public static String timeFormat(String value) {
+        if(StringUtil.isEmpty(value))
+            return null;
+        if(!value.contains("T"))
+            return value;
+        return value.substring(0, 19).replace('T', ' ');
+    }
 
 }

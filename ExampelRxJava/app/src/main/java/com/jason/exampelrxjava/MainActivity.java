@@ -1,13 +1,18 @@
 package com.jason.exampelrxjava;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,9 +24,17 @@ import net.ApiFactory;
 import net.INetworkResponse;
 import net.domain.DomainGetInfoByToken;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.locks.Lock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -33,75 +46,35 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import util.LogUtil;
 
-public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
+public class MainActivity extends AppCompatActivity {
 
     float oldX = 0, oldY = 0, newX = 0, newY = 0;
     Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        MyFragment fragment = new MyFragment();
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment, fragment, "Fragment");
-        ft.commit();
-         button = findViewById(R.id.btn);
-        button.setOnClickListener(V -> {
-            Intent intent = new Intent(this, MainActivity2.class);
-            startActivity(intent);
-        });
-
-        MyRelativeLayout parent = findViewById(R.id.parent);
-        parent.setOnMoverViewListener(new MyRelativeLayout.OnMoverViewListener() {
-            @Override
-            public void onMoverView(float oldX, float oldY, float newX, float newY) {
-                button.offsetTopAndBottom((int) (newY - oldY));
-            }
-        });
-        //button.setOnTouchListener(this);
+        LogUtil.e(dealDateFormat(" 2022-05-11T15:23:13.8474074+08:00"));
     }
 
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int action = event.getAction();
-
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                oldX = event.getX();
-                oldY = event.getY();
-                LogUtil.i("我是按下事件 旧X " + oldX + " 旧Y " + oldY + " 新X " + newX + " 新Y " + newY);
-
-                break;
-            case MotionEvent.ACTION_MOVE:
-                newX = event.getX();
-                newY= event.getY();
-                button.offsetTopAndBottom((int) (newY - oldY));
-                //button.layout(button.getPaddingLeft(), button.getPaddingTop(), button.getPaddingRight(), button.getBottom());
-                //button.setTranslationX(newX );
-
-//
-////               ObjectAnimator animator2=ObjectAnimator.ofFloat(button,"translationX",oldX,newX);
-////               animator2.setDuration(50);
-//                //延y轴移动,起始位置和结束位置
-//                ObjectAnimator animator3=ObjectAnimator.ofFloat(button,"translationY",oldY,newY);
-//
-//
-//                AnimatorSet set =new  AnimatorSet();
-//               // set.play(animator2);
-//                set.play(animator3);
-//                set.start();
-//                oldX=newX;
-//                oldY=newY;
-
-                LogUtil.i("我是移动事件 旧X " + oldX + " 旧Y " + oldY + " 新X " + newX + " 新Y " + newY);
-
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
+    /**
+     * 将 2018-08-21T03:12:58.000+0000 格式化为日期
+     */
+    public static String dealDateFormat(String oldDate) {
+        Date date1 = null;
+        DateFormat df2 = null;
+        try {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sssssssXXX");
+            Date date = df.parse(oldDate);
+            SimpleDateFormat df1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.UK);
+            date1 = df1.parse(date.toString());
+            df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        return false;
-
+        return df2.format(date1);
     }
+
+
 }
