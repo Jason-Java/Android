@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,7 +18,9 @@ import android.widget.Spinner;
 import com.unite.jasonjar.domain.KeyValue;
 import com.unite.jasonjar.view.ErrorView;
 import com.unite.jasonjar.view.JasonAddressView;
+import com.unite.jasonjar.view.JasonCalendarView;
 import com.unite.jasonjar.view.MultipleSpinner;
+import com.unite.jasonjar.view.StrokeDrawable;
 import com.unite.jasonjar.view.WaitingView;
 
 
@@ -41,6 +46,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         LogUtil.i(StringUtil.timeFormat("2022-05-11T15:23:13.8474074+08:00"));
         LogUtil.i(StringUtil.timeFormat("2022-05-11 15:23:13"));
+        JasonCalendarView jasonCalendarView = findViewById(R.id.jasonView);
+        StrokeDrawable drawable = new StrokeDrawable();
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.back_icn);
+        drawable.setBitmap(bitmap);
+        jasonCalendarView.setBackground(drawable);
+
      //   CustomTextView textView=findViewById(R.id.text);
        // textView.setText("阿萨德房间爱收到回复垃圾筐工卡家乐福卡萨京东方卡萨丁开发商打卡似懂非懂");
 
