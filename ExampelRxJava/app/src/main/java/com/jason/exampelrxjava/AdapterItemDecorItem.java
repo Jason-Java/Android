@@ -76,7 +76,6 @@ public class AdapterItemDecorItem extends RecyclerView.ItemDecoration {
             int position = ((LinearLayoutManager) parent.getLayoutManager()).findFirstVisibleItemPosition();
             View currentView = parent.findViewHolderForAdapterPosition(position).itemView;
 
-
             int currentPosition = parent.getChildAdapterPosition(currentView);
             int nextPosition = currentPosition + 1;
             if (adapterStar.isHeadItem(nextPosition)) {

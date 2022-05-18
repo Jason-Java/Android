@@ -13,7 +13,6 @@ import android.widget.PopupWindow;
 public abstract class BasePopupWindow extends PopupWindow {
 
     protected Activity activity = null;
-
     public BasePopupWindow(Activity activity) {
         super(activity);
         this.activity = activity;
@@ -36,6 +35,7 @@ public abstract class BasePopupWindow extends PopupWindow {
         setFocusable(true);
         //设置可以点击
         setTouchable(true);
+        setOnDismissListener();
     }
 
     public abstract View getView(LayoutInflater inflater);
@@ -58,10 +58,15 @@ public abstract class BasePopupWindow extends PopupWindow {
         this.showAtLocation(getParentView(), Gravity.NO_GRAVITY, offsetX, offsetY);
     }
 
-    @Override
-    public void setOnDismissListener(OnDismissListener onDismissListener) {
-        super.setOnDismissListener(onDismissListener);
-        onDestroy();
+
+    private void setOnDismissListener() {
+
+      this.setOnDismissListener(new OnDismissListener() {
+          @Override
+          public void onDismiss() {
+              onDestroy();
+          }
+      });
     }
 
     //寻找Activity的根布局

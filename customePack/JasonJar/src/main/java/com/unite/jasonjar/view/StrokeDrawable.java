@@ -36,7 +36,6 @@ public class StrokeDrawable extends Drawable {
     @Override
     public void draw(@NonNull Canvas canvas) {
         Rect rect = getBounds();
-        paint.setStyle(Paint.Style.FILL);
         canvas.drawRect(rect, paint);
 
         canvas.drawBitmap(bitmap, rect.right - 20 - bitmap.getWidth(), rect.height() / 2 + bitmap.getHeight() / 2, paint);
