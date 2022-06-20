@@ -1,5 +1,6 @@
 package com.unite.jasonjar.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +48,11 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         view.setTextColor(colorId);
     }
 
+    public void setBackGround(int viewId, Drawable drawable) {
+        View view = getView(viewId);
+        view.setBackground(drawable);
+    }
+
     //设置是否可见
     public void setVisibility(int viewId, int visibility) {
         View view = getView(viewId);
@@ -67,6 +73,5 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         View view = getView(viewId);
         view.setOnFocusChangeListener(listener);
     }
-
 
 }

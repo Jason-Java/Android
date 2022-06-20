@@ -37,14 +37,14 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-        setView(holder, item.get(position), position);
-        Event(holder, item.get(position), position);
+    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int index) {
+        setView(holder, item.get(index), index);
+        Event(holder, item.get(index), index);
     }
 
-    protected abstract void setView(@NonNull RecyclerViewHolder holder, T item, int position);
+    protected abstract void setView(@NonNull RecyclerViewHolder holder, T item, int index);
 
-    protected abstract void Event(@NonNull RecyclerViewHolder holder, T item, int position);
+    protected abstract void Event(@NonNull RecyclerViewHolder holder, T item, int index);
 
     //设置数据
     public void setItem(ArrayList<T> i) {
@@ -56,27 +56,43 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
     }
 
 
-    //添加数据
+    /**
+     * 添加数据集合
+     * @param i
+     */
     public void addItem(ArrayList<T> i) {
-        item.add((T) i);
+        int star = item.size();
+        item.addAll(i);
+        int count = item.size() - star;
+        notifyItemRangeChanged(star - 1, count);
         notifyItemChanged(getItemCount() - 1);
     }
 
-    //清空所有的元素
-    public void clearItem() {
-        int count = getItemCount();
-        item.clear();
-        notifyItemRangeRemoved(0, count - 1);
+    /**
+     * 添加一条数据
+     * @param i
+     */
+    public void addItem(T i) {
+        item.add(i);
+        notifyItemChanged(getItemCount() - 1);
     }
 
     /**
-     * 删除末项元素
+     * 移除项元素
      *
-     * @param position
+     * @param index
      */
-    public void removeItem(int position) {
-        item.remove(position);
-        notifyItemRemoved(position);
+    public void removeItem(int index) {
+        item.remove(index);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 清空所有的元素
+     */
+    public void clearItem() {
+        item.clear();
+        notifyDataSetChanged();
     }
 
     /**
@@ -88,7 +104,15 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
         return item;
     }
 
-
+    /**
+     * 获取指定位置的item
+     *
+     * @param index
+     * @return
+     */
+    public T getItem(int index) {
+        return item.get(index);
+    }
 }
 
 

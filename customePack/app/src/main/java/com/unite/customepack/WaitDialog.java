@@ -52,8 +52,8 @@ public class WaitDialog extends BaseDialog {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mBinding.waitingView.stop();
-        mBinding = null;
+        super.onDestroy();
+        mBinding.getRoot().removeAllViews();
     }
 }
