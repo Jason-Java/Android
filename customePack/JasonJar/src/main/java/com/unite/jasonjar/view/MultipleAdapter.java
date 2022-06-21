@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 多选框adapter
+ */
 public abstract class MultipleAdapter extends RecyclerView.Adapter<RecyclerViewHolder>
 {
 

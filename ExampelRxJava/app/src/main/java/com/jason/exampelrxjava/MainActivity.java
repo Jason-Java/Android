@@ -48,32 +48,35 @@ import util.LogUtil;
 
 public class MainActivity extends AppCompatActivity {
 
-    float oldX = 0, oldY = 0, newX = 0, newY = 0;
-    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogUtil.e(dealDateFormat(" 2022-05-11T15:23:13.8474074+08:00"));
+        setContentView(R.layout.activity_main);
+        MyButton btn = findViewById(R.id.testButton);
+         btn.setClickable(true);
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtil.i("我是点击");
+            }
+        });
+        btn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                LogUtil.i("我是长按");
+                return true;
+            }
+        });
     }
 
 
-    /**
-     * 将 2018-08-21T03:12:58.000+0000 格式化为日期
-     */
-    public static String dealDateFormat(String oldDate) {
-        Date date1 = null;
-        DateFormat df2 = null;
-        try {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sssssssXXX");
-            Date date = df.parse(oldDate);
-            SimpleDateFormat df1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.UK);
-            date1 = df1.parse(date.toString());
-            df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return df2.format(date1);
+    //事件分发
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
     }
 
 

@@ -19,6 +19,11 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
+import util.LogUtil;
+
+/**
+ * 等待对话框
+ */
 public class WaitingView extends View {
     private volatile boolean flag = false;
 
@@ -413,9 +418,11 @@ public class WaitingView extends View {
         myPost();
     }
 
+    Thread thread;
+
     public void start() {
         flag = true;
-        new Thread() {
+        thread = new Thread() {
             @Override
             public void run() {
                 try {
@@ -426,17 +433,20 @@ public class WaitingView extends View {
                             setProgress(getProgress() + 1);
                         }
                         finishSuccess();
-                        Thread.sleep(2500);
+                        Thread.sleep(1500);
                     }
                 } catch (Exception e) {
+                    LogUtil.e("睡眠中断");
                     e.printStackTrace();
                 }
             }
-        }.start();
+        };
+        thread.start();
     }
-    public void stop()
-    {
+
+    public void stop() {
         this.flag = false;
+        thread.interrupt();
     }
 
 }

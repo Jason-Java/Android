@@ -21,6 +21,9 @@ import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Nullable;
 
+/**
+ * 错误提示框
+ */
 public class ErrorView extends View {
 
     /**

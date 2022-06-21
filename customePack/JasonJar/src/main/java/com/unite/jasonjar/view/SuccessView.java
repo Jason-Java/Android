@@ -12,6 +12,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
+/**
+ * 成功对话框
+ */
 public class SuccessView extends View {
 
     /**
