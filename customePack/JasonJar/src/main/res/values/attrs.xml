@@ -12,4 +12,32 @@
         <attr name="awv_initialPosition" format="integer" />
         <attr name="awv_scaleX" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="JasonButton">
+        <!--文字相关    -->
+        <attr name="ja_textSize" format="dimension" />
+        <attr name="ja_textColorPress" format="color" />
+        <attr name="ja_textColorDefault" format="color" />
+        <attr name="ja_textColor" format="color" />
+        <attr name="ja_text" format="string" />
+        <!--    背景相关-->
+        <attr name="ja_bgColorPress" format="color" />
+        <attr name="ja_bgColorDefault" format="color" />
+        <attr name="ja_bgColor" format="color" />
+        <!--    圆角相关-->
+        <attr name="ja_radius" format="dimension" />
+        <attr name="ja_leftTopRadius" format="dimension" />
+        <attr name="ja_RightTopRadius" format="dimension" />
+        <attr name="ja_leftBottomRadius" format="dimension" />
+        <attr name="ja_RightBottomRadius" format="dimension" />
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" format="dimension" />
+        <attr name="ja_strokeColorDefault" format="color" />
+        <attr name="ja_strokeColorPress" format="color" />
+        <attr name="ja_strokeColor" format="color" />
+        <!--        是否可用-->
+        <attr name="ja_enable" format="boolean" />
+
+
+    </declare-styleable>
 </resources>

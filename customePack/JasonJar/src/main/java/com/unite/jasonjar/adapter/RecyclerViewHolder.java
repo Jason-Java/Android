@@ -38,37 +38,71 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         view.setText(text);
     }
 
+    /**
+     * 获取文字
+     * @param viewId
+     * @return
+     */
     public String getText(int viewId) {
         TextView view = getView(viewId);
         return view.getText().toString();
     }
 
+    /**
+     * 设置文字颜色
+     * @param viewId
+     * @param colorId
+     */
     public void setTextColor(int viewId, @ColorInt int colorId) {
         TextView view = getView(viewId);
         view.setTextColor(colorId);
     }
 
+    /**
+     * 设置背景颜色
+     * @param viewId
+     * @param drawable
+     */
     public void setBackGround(int viewId, Drawable drawable) {
         View view = getView(viewId);
         view.setBackground(drawable);
     }
 
-    //设置是否可见
+    /**
+     * 设置是否可见
+     * @param viewId
+     * @param visibility
+     */
     public void setVisibility(int viewId, int visibility) {
         View view = getView(viewId);
         view.setVisibility(visibility);
     }
 
+    /**
+     * 设置点击事件
+     * @param viewId
+     * @param listener
+     */
     public void setViewOnClickListener(int viewId, View.OnClickListener listener) {
         View view = getView(viewId);
         view.setOnClickListener(listener);
     }
 
+    /**
+     * 设置图片
+     * @param viewId
+     * @param drawableId
+     */
     public void setImage(int viewId, @DrawableRes int drawableId) {
         ImageView view = getView(viewId);
         view.setImageResource(drawableId);
     }
 
+    /**
+     * 设置焦点改变事件
+     * @param viewId
+     * @param listener
+     */
     public void setFocusChangeListener(int viewId, View.OnFocusChangeListener listener) {
         View view = getView(viewId);
         view.setOnFocusChangeListener(listener);

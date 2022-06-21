@@ -25,6 +25,9 @@ import java.util.ArrayList;
 
 import util.DensityUtil;
 
+/**
+ * 多选框下拉列表
+ */
 public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView {
     private Context context;
     private MultipleAdapter multipleAdapter;
@@ -137,7 +140,7 @@ public class MultipleSpinner extends androidx.appcompat.widget.AppCompatTextView
             LinearLayout linearLayout = new LinearLayout(activity);
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(MultipleSpinner.this.getWidth(), LinearLayout.LayoutParams.WRAP_CONTENT);
             linearLayout.setLayoutParams(param);
-            linearLayout.setElevation(DensityUtil.dp2px(context, 10));
+            linearLayout.setElevation(DensityUtil.dp2px( 10));
             recyclerView = new RecyclerView(activity);
             recyclerView.setBackgroundColor(0XFFEBEBEB);
             recyclerView.setLayoutParams(param);

@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * 省市县地址控件
+ */
 public class JasonAddressView extends BasePopupWindow {
     private View view;
 

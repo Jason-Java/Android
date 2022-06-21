@@ -38,13 +38,12 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = ViewHolder.get(activity, position, convertView, parent, layoutId);
 
-
         convert(viewHolder, getItem(position), position);
 
         return viewHolder.getConvertView();
     }
 
-    protected abstract void convert(ViewHolder holder, T item, int position);
+    protected abstract void convert(ViewHolder holder, T item, int index);
 
     public void setItem(ArrayList<T> item) {
         if (item != null && item.size() > 0) {
@@ -54,23 +53,37 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
         }
     }
 
+    /**
+     * 添加一项数据
+     * @param data
+     */
     public void addItem(@NonNull T data) {
         item.add(0, data);
         notifyDataSetChanged();
     }
 
+    /**
+     * 添加数据集合
+     * @param i
+     */
     public void addItem(@NonNull ArrayList<T> i) {
         item.addAll(0, i);
         notifyDataSetChanged();
     }
 
-    //删除所有的数据列表
+
+    /**
+     * 删除所有的数据列表
+     */
     public void clearItem() {
         item.clear();
         notifyDataSetChanged();
     }
 
-    //获取所有的数据列表
+    /**
+     * 获取所有的数据列表
+     * @return
+     */
     public ArrayList<T> getAllItem() {
         return item;
     }

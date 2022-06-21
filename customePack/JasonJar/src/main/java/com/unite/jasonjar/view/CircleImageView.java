@@ -14,6 +14,9 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/**
+ * 圆形ImageView
+ */
 public class CircleImageView extends androidx.appcompat.widget.AppCompatImageView{
 
     private Paint paint;

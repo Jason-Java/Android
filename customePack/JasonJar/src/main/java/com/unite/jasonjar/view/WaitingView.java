@@ -21,6 +21,9 @@ import android.view.animation.LinearInterpolator;
 
 import util.LogUtil;
 
+/**
+ * 等待对话框
+ */
 public class WaitingView extends View {
     private volatile boolean flag = false;
 

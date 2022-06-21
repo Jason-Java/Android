@@ -1,12 +1,13 @@
 package com.unite.customepack;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+
+import com.unite.jasonjar.view.JasonButton;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -28,12 +29,9 @@ public class MainActivity extends AppCompatActivity {
             }, 3000);
         });
 
+
         JasonButton jasonButton = findViewById(R.id.jason);
-        jasonButton.setBgColorDefault(Color.RED);
-        jasonButton.setBgColorPress(Color.GREEN);
-        jasonButton.setStrokeWidth(1);
-        jasonButton.setLeftTopRadius(25);
-        jasonButton.setTextSize(30);
+
 
     }
 
