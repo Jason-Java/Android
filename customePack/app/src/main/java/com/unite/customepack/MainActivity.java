@@ -52,42 +52,18 @@ public class MainActivity extends AppCompatActivity
         drawable.setBitmap(bitmap);
         jasonCalendarView.setBackground(drawable);
 
-     //   CustomTextView textView=findViewById(R.id.text);
-       // textView.setText("阿萨德房间爱收到回复垃圾筐工卡家乐福卡萨京东方卡萨丁开发商打卡似懂非懂");
 
-//        MyAdapter adapter = new MyAdapter(this, R.layout.my_adapter_layout);
-//        ArrayList<KeyValue> list = new ArrayList<>();
-//        for (int i = 0; i < 2; i++)
-//        {
-//            KeyValue keyValue = new KeyValue();
-//            keyValue.setKey(i + "");
-//            keyValue.setValue(i + " 我是value");
-//            list.add(keyValue);
-//        }
-//        adapter.setItem(list);
-//        MultipleSpinner spinner = findViewById(R.id.spinner);
-//        spinner.setAdapter(adapter);
-
-//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                JasonAddressView jasonAddressView = new JasonAddressView(MainActivity.this);
-//                jasonAddressView.setLevel(2);
-//                jasonAddressView.setOnSelectDateListener(new JasonAddressView.OnSelectDateListener() {
-//                    @Override
-//                    public void onDate(String province, String provinceCode, String city, String cityCode, String area, String areaCode) {
-//                        spinner.setText(province + ", " + provinceCode+" "+city+" "+cityCode);
-//                    }
-//                });
-//
-//                jasonAddressView.showPopWindow();
-//            }
-//        }, 1000);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev)
+    {
+        return super.dispatchTouchEvent(ev);
     }
 }
