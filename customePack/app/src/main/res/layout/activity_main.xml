@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -9,29 +10,22 @@
 
     <TextView
         android:id="@+id/start"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:shadowColor="#000000"
+        android:layout_width="40dp"
+        android:layout_height="17dp"
         android:background="#123456"
-        android:shadowDx="10"
-        android:shadowDy="10"
-        android:shadowRadius="100"
-
-        android:text="开始" />
+        android:gravity="center"
+        android:text="开始sdsds" />
 
 
     <com.unite.jasonjar.view.JasonButton
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
         android:id="@+id/jason"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="3dp"
         app:ja_bgColorDefault="#956789"
         app:ja_bgColorPress="#456789"
-        app:ja_gravity="center"
-        app:ja_radius="20dp"
-        app:ja_text="123" />
-
+        app:ja_text="12345678" />
 
 </LinearLayout>

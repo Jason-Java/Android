@@ -1,7 +1,6 @@
 package com.unite.jasonjar.view;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -17,11 +16,10 @@ import androidx.annotation.Nullable;
 
 import com.unite.jasonjar.R;
 
-import util.DensityUtil;
-import util.LogUtil;
+import com.unite.jasonjar.util.DensityUtil;
+import com.unite.jasonjar.util.LogUtil;
 
-public class JasonButton extends View
-{
+public class JasonButton extends View {
 
     //背景相关
     private int bgColorDefault = 0X80000000;
@@ -49,8 +47,11 @@ public class JasonButton extends View
     private Paint paint;
 
     //是否可用
-    boolean enabled = true;
-    int gravity;
+    private boolean enabled = true;
+    private int gravity;
+    private final static int center = 1;
+    private final static int center_vertical = 2;
+    private final static int center_horizontal=3;
 
     //内边距相关
     private float padding;
@@ -60,27 +61,23 @@ public class JasonButton extends View
     private float paddingBottom;
 
 
-    public JasonButton(@NonNull Context context)
-    {
+    public JasonButton(@NonNull Context context) {
         super(context);
         init();
 
     }
 
-    public JasonButton(@NonNull Context context, @Nullable AttributeSet attrs)
-    {
+    public JasonButton(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
         initAttributes(attrs);
     }
 
-    public JasonButton(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr)
-    {
+    public JasonButton(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    private void init()
-    {
+    private void init() {
         paint = new Paint();
         paint.setColor(bgColorDefault);
         paint.setStyle(Paint.Style.FILL);
@@ -89,30 +86,24 @@ public class JasonButton extends View
         this.setClickable(true);
     }
 
-    private void initAttributes(AttributeSet attrs)
-    {
+    private void initAttributes(AttributeSet attrs) {
         TypedArray attr = getContext().obtainStyledAttributes(attrs, R.styleable.JasonButton);
-        if (attr == null)
-        {
+        if (attr == null) {
             return;
         }
         //背景相关
-        try
-        {
+        try {
             bgColorDefault = attr.getColor(R.styleable.JasonButton_ja_bgColorDefault, 0);
             bgColorPress = attr.getColor(R.styleable.JasonButton_ja_bgColorPress, 0);
             bgColor = attr.getColor(R.styleable.JasonButton_ja_bgColor, 0X80000000);
-            if (bgColorDefault != 0)
-            {
+            if (bgColorDefault != 0) {
                 bgColor = bgColorDefault;
             }
 
-            if (bgColorPress == 0)
-            {
+            if (bgColorPress == 0) {
                 bgColorPress = bgColor;
             }
-            if (bgColorDefault == 0)
-            {
+            if (bgColorDefault == 0) {
                 bgColorDefault = bgColor;
             }
 
@@ -122,8 +113,7 @@ public class JasonButton extends View
             rightTopRadius = attr.getDimension(R.styleable.JasonButton_ja_RightTopRadius, 0);
             rightBottomRadius = attr.getDimension(R.styleable.JasonButton_ja_RightBottomRadius, 0);
             radius = attr.getDimension(R.styleable.JasonButton_ja_radius, 0);
-            if (radius != 0)
-            {
+            if (radius != 0) {
                 leftTopRadius = radius;
                 leftBottomRadius = radius;
                 rightTopRadius = radius;
@@ -131,19 +121,16 @@ public class JasonButton extends View
             }
             //边框
             strokeWidth = attr.getDimension(R.styleable.JasonButton_ja_strokeWidth, DensityUtil.px2dp(0));
-            if (strokeWidth > DensityUtil.px2dp(7))
-            {
+            if (strokeWidth > DensityUtil.px2dp(7)) {
                 strokeWidth = DensityUtil.px2dp(7);
             }
             strokeColorPress = attr.getColor(R.styleable.JasonButton_ja_strokeColorPress, 0);
             strokeColorDefault = attr.getColor(R.styleable.JasonButton_ja_strokeColorDefault, 0);
             strokeColor = attr.getColor(R.styleable.JasonButton_ja_strokeColor, 0);
-            if (strokeColorPress == 0)
-            {
+            if (strokeColorPress == 0) {
                 strokeColorPress = strokeColor;
             }
-            if (strokeColorDefault == 0)
-            {
+            if (strokeColorDefault == 0) {
                 strokeColorDefault = strokeColor;
             }
             //文字相关
@@ -152,62 +139,52 @@ public class JasonButton extends View
             textColorDefault = attr.getColor(R.styleable.JasonButton_ja_textColorDefault, 0);
             textColorPress = attr.getColor(R.styleable.JasonButton_ja_textColorPress, 0);
             texColor = attr.getColor(R.styleable.JasonButton_ja_textColor, 0XFF000000);
-            if (textColorDefault == 0)
-            {
+            if (textColorDefault == 0) {
                 textColorDefault = texColor;
             }
-            if (textColorPress == 0)
-            {
+            if (textColorPress == 0) {
                 textColorPress = texColor;
             }
 
             //默认可用状态
             enabled = attr.getBoolean(R.styleable.JasonButton_ja_enable, true);
-            if (!enabled)
-            {
+            if (!enabled) {
                 this.setClickable(false);
             }
-            //位置状态
+            //位置状态  默认居中
             gravity = attr.getInt(R.styleable.JasonButton_ja_gravity, 01);
 
 
             //内边距相关
-            padding = attr.getDimension(R.styleable.JasonButton_ja_padding, 2);
+            padding = attr.getDimension(R.styleable.JasonButton_ja_padding, 0);
             paddingLeft = attr.getDimension(R.styleable.JasonButton_ja_paddingLeft, 0);
             paddingRight = attr.getDimension(R.styleable.JasonButton_ja_paddingRight, 0);
             paddingTop = attr.getDimension(R.styleable.JasonButton_ja_paddingTop, 0);
             paddingBottom = attr.getDimension(R.styleable.JasonButton_ja_paddingBottom, 0);
-            if (paddingLeft == 0)
-            {
+            if (paddingLeft == 0) {
                 paddingLeft = padding;
             }
-            if (paddingRight == 0)
-            {
+            if (paddingRight == 0) {
                 paddingRight = padding;
             }
-            if (paddingTop == 0)
-            {
+            if (paddingTop == 0) {
                 paddingTop = padding;
             }
-            if (paddingBottom == 0)
-            {
+            if (paddingBottom == 0) {
                 paddingBottom = padding;
             }
 
-        } finally
-        {
+        } finally {
             attr.recycle();
         }
     }
 
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
+    public boolean onTouchEvent(MotionEvent event) {
         boolean flag = super.onTouchEvent(event);
 
-        switch (event.getAction())
-        {
+        switch (event.getAction()) {
             //按下效果
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
@@ -229,21 +206,31 @@ public class JasonButton extends View
 
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        float widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        float heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        paint.setTextSize(textSize);
+        float textWidth = paint.measureText(text);
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        if (widthMode != MeasureSpec.EXACTLY) {
+            widthSize=paddingLeft+paddingRight+textWidth;
+        }
+        if (heightMode != MeasureSpec.EXACTLY) {
+            heightSize =paddingTop+paddingBottom+(fontMetrics.bottom - fontMetrics.top);
+        }
+        setMeasuredDimension((int)widthSize,(int)heightSize);
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom)
-    {
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
     }
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
+    protected void onDraw(Canvas canvas) {
 
         //绘制背景
         drawBackground(canvas);
@@ -257,12 +244,10 @@ public class JasonButton extends View
      *
      * @param canvas
      */
-    private void drawBackground(Canvas canvas)
-    {
-
+    private void drawBackground(Canvas canvas) {
         //自定义路径
         Path path = new Path();
-        RectF rectF = new RectF(0, 0, super.getMeasuredWidth(), super.getMeasuredHeight());
+        RectF rectF = new RectF(0, 0, this.getMeasuredWidth(), this.getMeasuredHeight());
         float[] outRadio = {leftTopRadius, leftTopRadius, rightTopRadius, rightTopRadius, rightBottomRadius, rightBottomRadius, leftBottomRadius, leftBottomRadius};
         path.addRoundRect(rectF, outRadio, Path.Direction.CW);
         //设置画笔颜色
@@ -271,8 +256,7 @@ public class JasonButton extends View
         canvas.drawPath(path, paint);
 
         //绘制边框
-        if (strokeWidth > 0)
-        {
+        if (strokeWidth > 0) {
             paint.setColor(strokeColor);
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(strokeWidth);
@@ -286,31 +270,28 @@ public class JasonButton extends View
      *
      * @param canvas
      */
-    private void drawText(Canvas canvas)
-    {
-        float width = super.getMeasuredWidth();
-        float height = super.getMeasuredHeight();
+    private void drawText(Canvas canvas) {
+        float width = this.getMeasuredWidth();
+        float height = this.getMeasuredHeight();
         paint.setTextSize(textSize);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(texColor);
         float textWidth = paint.measureText(text);
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
         LogUtil.e(height + "  " + fontMetrics.ascent);
-        switch (gravity)
-        {
+        switch (gravity) {
             //center
             case 0X01:
-                canvas.drawText(text, (width - -textWidth) / 2.0f, paddingTop + (height - fontMetrics.descent - fontMetrics.ascent) / 2.0f, paint);
+                canvas.drawText(text, paddingLeft + ((width - textWidth) / 2.0f) - paddingRight, paddingTop + (height - fontMetrics.bottom - fontMetrics.top) / 2.0f - paddingBottom, paint);
                 break;
             //center_vertical
             case 0X02:
-                canvas.drawText(text, paddingLeft, (height - fontMetrics.descent - fontMetrics.ascent) / 2.0f, paint);
+                canvas.drawText(text, paddingLeft - paddingRight, paddingTop + (height - fontMetrics.descent - fontMetrics.ascent) / 2.0f - paddingBottom, paint);
                 break;
             //center_horizontal
             case 0X03:
-                canvas.drawText(text, (width - textWidth) / 2.0f, -fontMetrics.ascent, paint);
+                canvas.drawText(text, paddingLeft + (width - textWidth) / 2.0f - paddingRight, paddingTop - fontMetrics.ascent - paddingBottom, paint);
                 break;
-                //center
         }
 
 
@@ -321,8 +302,7 @@ public class JasonButton extends View
      *
      * @param radius
      */
-    public void setRadius(float radius)
-    {
+    public void setRadius(float radius) {
         radius = DensityUtil.dp2px(radius);
         this.leftTopRadius = radius;
         this.leftBottomRadius = radius;
@@ -332,8 +312,7 @@ public class JasonButton extends View
     }
 
     //设置左上角圆角
-    public void setLeftTopRadius(float radius)
-    {
+    public void setLeftTopRadius(float radius) {
         radius = DensityUtil.dp2px(radius);
         this.leftTopRadius = radius;
         invalidate();
@@ -344,8 +323,7 @@ public class JasonButton extends View
      *
      * @param radius
      */
-    public void setLeftBottomRadius(float radius)
-    {
+    public void setLeftBottomRadius(float radius) {
         radius = DensityUtil.dp2px(radius);
         this.leftBottomRadius = radius;
         invalidate();
@@ -356,8 +334,7 @@ public class JasonButton extends View
      *
      * @param radius
      */
-    public void setRightTopRadius(float radius)
-    {
+    public void setRightTopRadius(float radius) {
         radius = DensityUtil.dp2px(radius);
         this.rightTopRadius = radius;
         invalidate();
@@ -368,8 +345,7 @@ public class JasonButton extends View
      *
      * @param radius
      */
-    public void setRightBottomRadius(float radius)
-    {
+    public void setRightBottomRadius(float radius) {
         radius = DensityUtil.dp2px(radius);
         this.rightBottomRadius = radius;
         invalidate();
@@ -381,8 +357,7 @@ public class JasonButton extends View
      *
      * @param color
      */
-    public void setBgColorPress(int color)
-    {
+    public void setBgColorPress(int color) {
         this.bgColorPress = color;
         invalidate();
     }
@@ -392,8 +367,7 @@ public class JasonButton extends View
      *
      * @param color
      */
-    public void setBgColorDefault(int color)
-    {
+    public void setBgColorDefault(int color) {
         this.bgColorDefault = color;
         this.bgColor = color;
         invalidate();
@@ -404,8 +378,7 @@ public class JasonButton extends View
      *
      * @param Color
      */
-    public void setBackground(int Color)
-    {
+    public void setBackground(int Color) {
         this.bgColor = bgColor;
         invalidate();
     }
@@ -416,13 +389,11 @@ public class JasonButton extends View
      *
      * @param textColorDefault
      */
-    public void setTextColorDefault(int textColorDefault)
-    {
+    public void setTextColorDefault(int textColorDefault) {
         this.textColorDefault = textColorDefault;
     }
 
-    public void setTextColorPress(int color)
-    {
+    public void setTextColorPress(int color) {
         this.textColorPress = color;
     }
 
@@ -431,8 +402,7 @@ public class JasonButton extends View
      *
      * @param size
      */
-    public void setTextSize(float size)
-    {
+    public void setTextSize(float size) {
         size = DensityUtil.sp2px(size);
         this.textSize = size;
         invalidate();
@@ -443,8 +413,7 @@ public class JasonButton extends View
      *
      * @param strokeWidth
      */
-    public void setStrokeWidth(float strokeWidth)
-    {
+    public void setStrokeWidth(float strokeWidth) {
         strokeWidth = DensityUtil.dp2px(strokeWidth);
         this.strokeWidth = strokeWidth;
         invalidate();
@@ -455,8 +424,7 @@ public class JasonButton extends View
      *
      * @param strokeColor
      */
-    public void setStrokeColorPress(int strokeColor)
-    {
+    public void setStrokeColorPress(int strokeColor) {
         this.strokeColorPress = strokeColor;
         invalidate();
     }
@@ -466,10 +434,28 @@ public class JasonButton extends View
      *
      * @param strokeColor
      */
-    public void setStrokeColorDefault(int strokeColor)
-    {
+    public void setStrokeColorDefault(int strokeColor) {
         this.strokeColorDefault = strokeColor;
         this.strokeColor = strokeColorDefault;
+        invalidate();
+    }
+
+    /**
+     * 是否可用
+     *
+     * @param enabled
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        invalidate();
+    }
+
+    /**
+     * 设置gravity
+     * @param gravity
+     */
+    public void setGravity(int gravity) {
+        this.gravity=gravity;
         invalidate();
     }
 

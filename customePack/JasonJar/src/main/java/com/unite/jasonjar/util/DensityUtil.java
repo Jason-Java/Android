@@ -1,4 +1,4 @@
-package util;
+package com.unite.jasonjar.util;
 
 import android.app.Activity;
 import android.content.Context;

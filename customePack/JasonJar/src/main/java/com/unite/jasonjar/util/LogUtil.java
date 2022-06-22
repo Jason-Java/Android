@@ -5,7 +5,7 @@
  */
 
 
-package util;
+package com.unite.jasonjar.util;
 
 import android.util.Log;
 

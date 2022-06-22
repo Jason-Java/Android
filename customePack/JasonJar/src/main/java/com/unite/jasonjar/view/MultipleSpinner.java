@@ -2,17 +2,13 @@ package com.unite.jasonjar.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
-import android.service.controls.Control;
 import android.util.AttributeSet;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +19,7 @@ import com.unite.jasonjar.domain.KeyValue;
 
 import java.util.ArrayList;
 
-import util.DensityUtil;
+import com.unite.jasonjar.util.DensityUtil;
 
 /**
  * 多选框下拉列表

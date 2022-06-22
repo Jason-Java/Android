@@ -19,7 +19,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
-import util.LogUtil;
+import com.unite.jasonjar.util.LogUtil;
 
 /**
  * 等待对话框

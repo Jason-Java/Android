@@ -10,7 +10,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.animation.LinearInterpolator;
 import androidx.annotation.Nullable;
-import util.LogUtil;
+import com.unite.jasonjar.util.LogUtil;
 
 public class CustomTextView extends androidx.appcompat.widget.AppCompatTextView {
 
