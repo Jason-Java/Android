@@ -4,28 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:orientation="vertical">
 
 
     <TextView
         android:id="@+id/start"
-        android:layout_width="40dp"
-        android:layout_height="17dp"
-        android:background="#123456"
-        android:gravity="center"
-        android:text="开始sdsds" />
-
-
-    <com.unite.jasonjar.view.JasonButton
-
-        android:id="@+id/jason"
         android:layout_width="wrap_content"
-        android:layout_height="12dp"
+        android:layout_height="wrap_content"
+        android:background="#123456"
+        android:gravity="center_vertical" />
+
+
+    <com.unite.jasonjar.view.JasonTextView
+        android:id="@+id/jason"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="3dp"
-        app:ja_bgColorDefault="#956789"
-        app:ja_bgColorPress="#456789"
-        app:ja_text="12345678" />
-
+        app:ja_bgColor="#123456"
+        app:ja_radius="12dp"
+        app:ja_gravity="center_vertical"
+       />
 </LinearLayout>

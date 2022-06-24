@@ -350,16 +350,75 @@ public class StringUtil {
         }
         return integerPart + "." + decimalPart;
     }
+
     /**
      * 转换特殊时间格式
      * 如 2022-05-11T15:23:13.8474074+08:00
      */
     public static String timeFormat(String value) {
-        if(StringUtil.isEmpty(value))
+        if (StringUtil.isEmpty(value))
             return null;
-        if(!value.contains("T"))
+        if (!value.contains("T"))
             return value;
         return value.substring(0, 19).replace('T', ' ');
     }
+
+    /**
+     * String 类型的int值 转化为Int
+     * "12"==12
+     * ""==0
+     * null==0
+     * "asf"==0
+     * "12asf"==0
+     * "asdf12asf"==0
+     *
+     * @param intValue
+     * @return
+     */
+    public static int toInteger(String intValue) {
+        return toDouble(intValue).intValue();
+    }
+
+    /**
+     * String 类型的Double值 转化为Double值
+     * "12"==12d
+     * "12.123"==12.123d
+     * ""==0d
+     * null==0d
+     * "asf"==0d
+     * "12asf"==0d
+     * "asdf12asf"==0d
+     *
+     * @param doubleValue
+     * @return
+     */
+    public static Double toDouble(String doubleValue) {
+        if (isEmpty(doubleValue)) {
+            return 0d;
+        }
+        String value = extractionOfDigital(doubleValue);
+        if (value.length() != doubleValue.length()) {
+            return 0d;
+        }
+        return Double.valueOf(doubleValue);
+    }
+
+    /**
+     * String 类型的Double值 转化为Double值
+     * "12"==12f
+     * "12.123"==12.123f
+     * ""==0f
+     * null==0f
+     * "asf"==0f
+     * "12asf"==0f
+     * "asdf12asf"==0f
+     *
+     * @param floatValue
+     * @return
+     */
+    public static Float toFloat(String floatValue) {
+        return toDouble(floatValue).floatValue();
+    }
+
 
 }

@@ -21,9 +21,9 @@
         <attr name="ja_textColor" format="color" />
         <attr name="ja_text" format="string" />
         <!--    背景相关-->
-        <attr name="ja_bgColorPress" format="color" />
-        <attr name="ja_bgColorDefault" format="color" />
-        <attr name="ja_bgColor" format="color" />
+        <attr name="ja_bgColorPress" format="reference|color" />
+        <attr name="ja_bgColorDefault" format="reference|color" />
+        <attr name="ja_bgColor" format="reference|color" />
         <!--    圆角相关-->
         <attr name="ja_radius" format="dimension" />
         <attr name="ja_leftTopRadius" format="dimension" />
@@ -37,6 +37,9 @@
         <attr name="ja_strokeColor" format="color" />
         <!--        是否可用-->
         <attr name="ja_enable" format="boolean" />
+        <!--        是否可点击-->
+        <attr name="ja_clickable" format="boolean" />
+
         <attr name="ja_gravity">
             <enum name="center" value="01" />
             <enum name="center_vertical" value="02" />

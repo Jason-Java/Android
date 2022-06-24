@@ -7,6 +7,8 @@ import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.unite.jasonjar.util.LogUtil;
+import com.unite.jasonjar.util.StringUtil;
 import com.unite.jasonjar.view.JasonButton;
 
 public class MainActivity extends AppCompatActivity
@@ -35,6 +37,6 @@ public class MainActivity extends AppCompatActivity
             }, 3000);
         });
 
-        JasonButton jasonButton = findViewById(R.id.jason);
     }
+
 }
