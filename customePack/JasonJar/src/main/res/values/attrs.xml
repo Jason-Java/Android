@@ -13,7 +13,7 @@
         <attr name="awv_scaleX" format="float" />
     </declare-styleable>
 
-    <declare-styleable name="JasonButton">
+    <declare-styleable name="JasonBaseView">
         <!--文字相关    -->
         <attr name="ja_textSize" format="dimension" />
         <attr name="ja_textColorPress" format="color" />
@@ -35,10 +35,13 @@
         <attr name="ja_strokeColorDefault" format="color" />
         <attr name="ja_strokeColorPress" format="color" />
         <attr name="ja_strokeColor" format="color" />
-        <!--        是否可用-->
-        <attr name="ja_enable" format="boolean" />
+
         <!--        是否可点击-->
         <attr name="ja_clickable" format="boolean" />
+
+        <!--        是否可用-->
+        <attr name="ja_enable" format="boolean" />
+
 
         <attr name="ja_gravity">
             <enum name="center" value="01" />
@@ -52,6 +55,14 @@
         <attr name="ja_paddingRight" format="dimension" />
         <attr name="ja_paddingTop" format="dimension" />
         <attr name="ja_paddingBottom" format="dimension" />
+
+
+    </declare-styleable>
+    <declare-styleable name="JasonButton">
+
+    </declare-styleable>
+
+    <declare-styleable name="JasonTextView">
 
 
     </declare-styleable>

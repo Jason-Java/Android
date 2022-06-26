@@ -12,17 +12,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#123456"
+        android:enabled="true"
+        android:text="冯家振"
         android:gravity="center_vertical" />
 
 
-    <com.unite.jasonjar.view.JasonTextView
+    <com.unite.jasonjar.view.JasonButton
         android:id="@+id/jason"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="3dp"
         app:ja_bgColor="#123456"
-        app:ja_radius="12dp"
+        app:ja_bgColorDefault="#145678"
+        app:ja_bgColorPress="#995678"
         app:ja_gravity="center_vertical"
-       />
+        app:ja_clickable="false"
+        app:ja_text="冯家振"
+
+         />
+
 </LinearLayout>
