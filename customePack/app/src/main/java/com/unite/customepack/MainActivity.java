@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.unite.jasonjar.util.JasonToast;
 import com.unite.jasonjar.util.LogUtil;
 import com.unite.jasonjar.util.StringUtil;
 import com.unite.jasonjar.view.JasonButton;
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity
 
         findViewById(R.id.start).setOnClickListener(v ->
         {
-            waitDialog1.show(fragmentManager, "1");
+            JasonToast.makeSuccess(this, "网络连接错误").show();
+
+            /*waitDialog1.show(fragmentManager, "1");
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable()
             {
                 @Override
@@ -38,11 +41,10 @@ public class MainActivity extends AppCompatActivity
                 {
                     waitDialog1.dismiss();
                 }
-            }, 3000);
+            }, 3000);*/
         });
 
-        TextView textView = new TextView(this);
-        textView.getTextSize();
+
 
 
     }
