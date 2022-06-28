@@ -3,6 +3,13 @@ package com.unite.jasonjar.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -86,6 +93,34 @@ public class JasonButton extends JasonBaseView
     {
         drawBackground(canvas);
         drawText(canvas);
+    }
+
+    protected void drawBackground(Canvas canvas)
+    {
+        //自定义路径
+        Path path = new Path();
+        Rect rect = new Rect(0, 0, this.getMeasuredWidth(), this.getMeasuredHeight());
+        RectF rectF = new RectF(0, 0, this.getMeasuredWidth(), this.getMeasuredHeight());
+        float[] outRadio = {leftTopRadius, leftTopRadius, rightTopRadius, rightTopRadius, rightBottomRadius, rightBottomRadius, leftBottomRadius, leftBottomRadius};
+        path.addRoundRect(rectF, outRadio, Path.Direction.CW);
+
+            /*//设置画笔颜色
+            bgPaint.setColor(bgColor);
+            bgPaint.setStyle(Paint.Style.FILL);
+            canvas.drawPath(path, bgPaint);*/
+        canvas.clipPath(path);
+        canvas.drawBitmap(((BitmapDrawable) bgDrawable).getBitmap(),null,rectF,bgPaint);
+
+
+        //绘制边框
+        if (strokeWidth > 0)
+        {
+            strokePaint.setColor(strokeColor);
+            strokePaint.setStyle(Paint.Style.STROKE);
+            strokePaint.setStrokeWidth(strokeWidth);
+            canvas.drawPath(path, strokePaint);
+        }
+
     }
 
 
