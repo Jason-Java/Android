@@ -95,33 +95,4 @@ public class JasonButton extends JasonBaseView
         drawText(canvas);
     }
 
-    protected void drawBackground(Canvas canvas)
-    {
-        //自定义路径
-        Path path = new Path();
-        Rect rect = new Rect(0, 0, this.getMeasuredWidth(), this.getMeasuredHeight());
-        RectF rectF = new RectF(0, 0, this.getMeasuredWidth(), this.getMeasuredHeight());
-        float[] outRadio = {leftTopRadius, leftTopRadius, rightTopRadius, rightTopRadius, rightBottomRadius, rightBottomRadius, leftBottomRadius, leftBottomRadius};
-        path.addRoundRect(rectF, outRadio, Path.Direction.CW);
-
-            /*//设置画笔颜色
-            bgPaint.setColor(bgColor);
-            bgPaint.setStyle(Paint.Style.FILL);
-            canvas.drawPath(path, bgPaint);*/
-        canvas.clipPath(path);
-        canvas.drawBitmap(((BitmapDrawable) bgDrawable).getBitmap(),null,rectF,bgPaint);
-
-
-        //绘制边框
-        if (strokeWidth > 0)
-        {
-            strokePaint.setColor(strokeColor);
-            strokePaint.setStyle(Paint.Style.STROKE);
-            strokePaint.setStrokeWidth(strokeWidth);
-            canvas.drawPath(path, strokePaint);
-        }
-
-    }
-
-
 }

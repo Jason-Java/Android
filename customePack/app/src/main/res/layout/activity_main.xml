@@ -13,15 +13,14 @@
         android:layout_height="wrap_content"
         android:background="#123456"
         android:enabled="true"
-        android:text="冯家振"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:text="冯家振" />
 
 
     <com.unite.jasonjar.view.JasonButton
         android:id="@+id/jason"
-<<<<<<< HEAD
-        android:layout_width="240dp"
-        android:layout_height="700dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="3dp"
         app:ja_bgColor="#123456"
@@ -30,23 +29,7 @@
         app:ja_clickable="false"
         app:ja_gravity="center_vertical"
         app:ja_radius="50dp"
-        app:ja_text="冯家振"
+        app:ja_text="冯家振" />
 
-        />
-=======
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="3dp"
-        app:ja_bgColor="@drawable/img"
-        app:ja_gravity="center_vertical"
-        app:ja_clickable="false"
-         />
-    <com.unite.jasonjar.view.JasonEditText
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        />
-
->>>>>>> ad2ad0653fed384eddaa4f30d19a118e23cb16d3
 
 </LinearLayout>
