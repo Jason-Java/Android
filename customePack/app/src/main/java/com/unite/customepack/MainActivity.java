@@ -16,36 +16,20 @@ import com.unite.jasonjar.view.JasonTextView;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FragmentManager fragmentManager = getSupportFragmentManager();
-
+        JasonToast.getInstance().init(this);
 
         WaitDialog waitDialog1 = new WaitDialog();
 
-
         findViewById(R.id.start).setOnClickListener(v ->
         {
-            JasonToast.makeSuccess(this, "网络连接错误").show();
-
-            /*waitDialog1.show(fragmentManager, "1");
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    waitDialog1.dismiss();
-                }
-            }, 3000);*/
+            JasonToast.getInstance().makeSuccess("网络连接错误");
         });
-
-
-
 
     }
 
