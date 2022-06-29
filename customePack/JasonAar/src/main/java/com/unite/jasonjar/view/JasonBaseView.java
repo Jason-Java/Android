@@ -2,6 +2,7 @@ package com.unite.jasonjar.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -302,13 +303,17 @@ public class JasonBaseView extends View {
      * @param canvas
      */
     protected void drawBackground(Canvas canvas) {
+
+
         //自定义路径
         Path path = new Path();
         RectF rectF = new RectF(0, 0, this.getMeasuredWidth(), this.getMeasuredHeight());
         float[] outRadio = {leftTopRadius, leftTopRadius, rightTopRadius, rightTopRadius, rightBottomRadius, rightBottomRadius, leftBottomRadius, leftBottomRadius};
         path.addRoundRect(rectF, outRadio, Path.Direction.CW);
         if (bgDrawable != null) {
-            ((BitmapDrawable) bgDrawable).draw(canvas);
+            Bitmap bitmap = ((BitmapDrawable) bgDrawable).getBitmap();
+            bgPaint.setAlpha(255);
+            canvas.drawBitmap(bitmap, null, rectF, bgPaint);
         } else {
             //设置画笔颜色
             bgPaint.setColor(bgColor);
@@ -332,6 +337,7 @@ public class JasonBaseView extends View {
      * @param canvas
      */
     protected void drawText(Canvas canvas) {
+
         float width = this.getMeasuredWidth();
         float height = this.getMeasuredHeight();
         textPaint.setTextSize(textSize);
@@ -354,6 +360,7 @@ public class JasonBaseView extends View {
                 canvas.drawText(text, (paddingLeft + width - textWidth - paddingRight) / 2.0f, paddingTop - fontMetrics.top - paddingBottom, textPaint);
                 break;
         }
+
     }
 
     /**
