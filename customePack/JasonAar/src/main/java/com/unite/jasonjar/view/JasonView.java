@@ -4,35 +4,23 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.ComposeShader;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RadialGradient;
 import android.graphics.RectF;
-import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.icu.text.CaseMap;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EdgeEffect;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.unite.jasonjar.R;
 import com.unite.jasonjar.util.DensityUtil;
-import com.unite.jasonjar.util.LogUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class JasonBaseView extends View
+public class JasonView
 {
 
     //是否可用
@@ -87,24 +75,21 @@ public class JasonBaseView extends View
     protected float paddingBottom;
 
 
-    public JasonBaseView(@NonNull Context context)
-    {
-        super(context);
-        init();
+    private View view;
 
+    public JasonView(View view)
+    {
+        this.view = view;
+        init();
     }
 
-    public JasonBaseView(@NonNull Context context, @Nullable AttributeSet attrs)
+    public JasonView(View view, AttributeSet attrs)
     {
-        super(context, attrs);
+        this.view = view;
         init();
         initAttributes(attrs);
     }
 
-    public JasonBaseView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr)
-    {
-        super(context, attrs, defStyleAttr);
-    }
 
     protected void init()
     {
@@ -112,25 +97,25 @@ public class JasonBaseView extends View
         bgPaint.setStyle(Paint.Style.FILL);
         bgPaint.setAntiAlias(true);
         bgPaint.setColor(bgColor);
+        bgPaint.setDither(true);
 
         textPaint = new Paint();
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setAntiAlias(true);
         textPaint.setColor(texColor);
+        textPaint.setDither(true);
 
 
         strokePaint = new Paint();
         strokePaint.setStyle(Paint.Style.STROKE);
         strokePaint.setAntiAlias(true);
-
-        this.setEnabled(false);
-        this.setClickable(false);
-
+        strokePaint.setDither(true);
     }
 
     protected void initAttributes(AttributeSet attrs)
     {
-        TypedArray attr = getContext().obtainStyledAttributes(attrs, R.styleable.JasonBaseView);
+
+        TypedArray attr = view.getContext().obtainStyledAttributes(attrs, R.styleable.JasonBaseView);
         if (attr == null)
         {
             return;
@@ -232,36 +217,42 @@ public class JasonBaseView extends View
             textSize = attr.getDimension(R.styleable.JasonBaseView_ja_textSize, DensityUtil.sp2px(15));
 
             text = attr.getString(R.styleable.JasonBaseView_ja_text);
-            textColorDefault = attr.getColor(R.styleable.JasonBaseView_ja_textColorDefault, 0);
-            textColorPress = attr.getColor(R.styleable.JasonBaseView_ja_textColorPress, 0);
+            textColorPress = attr.getColor(R.styleable.JasonBaseView_ja_textColorPress, -103);
+            textColorDefault = attr.getColor(R.styleable.JasonBaseView_ja_textColorDefault, -103);
             texColor = attr.getColor(R.styleable.JasonBaseView_ja_textColor, 0XFF000000);
-            if (textColorDefault == 0)
+
+            if (textColorDefault != -103)
+            {
+                texColor = textColorDefault;
+            }
+
+            if (textColorDefault == -103)
             {
                 textColorDefault = texColor;
             }
-            if (textColorPress == 0)
+            if (textColorPress == -103)
             {
                 textColorPress = texColor;
             }
 
             //默认不可用状态
-            enabled = attr.getBoolean(R.styleable.JasonBaseView_ja_enable, false);
+            enabled = attr.getBoolean(R.styleable.JasonBaseView_ja_enable, true);
             if (!enabled)
             {
-                super.setEnabled(false);
+                view.setEnabled(false);
             }
             else
             {
-                super.setEnabled(true);
+                view.setEnabled(true);
             }
-            clickable = attr.getBoolean(R.styleable.JasonBaseView_ja_clickable, false);
+            clickable = attr.getBoolean(R.styleable.JasonBaseView_ja_clickable, true);
             if (!clickable)
             {
-                super.setClickable(false);
+                view.setClickable(false);
             }
             else
             {
-                super.setClickable(true);
+                view.setClickable(true);
             }
 
 
@@ -299,11 +290,8 @@ public class JasonBaseView extends View
     }
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
+    public void onTouchEvent(MotionEvent event)
     {
-        boolean flag = super.onTouchEvent(event);
-
         switch (event.getAction())
         {
             //按下效果
@@ -314,7 +302,7 @@ public class JasonBaseView extends View
                     bgDrawable = bgDrawablePress;
                     texColor = textColorPress;
                     strokeColor = strokeColorPress;
-                    this.invalidate();
+                    view.invalidate();
                 }
                 break;
 
@@ -324,34 +312,38 @@ public class JasonBaseView extends View
                 bgDrawable = bgDrawableDefault;
                 texColor = textColorDefault;
                 strokeColor = strokeColorDefault;
-                invalidate();
+                view.invalidate();
 
                 break;
         }
-        return flag;
     }
 
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    protected int geMeasureWidth(int widthMeasureSpec)
     {
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        float widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        float heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        int widthMode = View.MeasureSpec.getMode(widthMeasureSpec);
+        float widthSize = View.MeasureSpec.getSize(widthMeasureSpec);
+
         textPaint.setTextSize(textSize);
         float textWidth = textPaint.measureText(text == null ? "" : text);
-        Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
-        if (widthMode != MeasureSpec.EXACTLY)
+        if (widthMode != View.MeasureSpec.EXACTLY)
         {
             widthSize = paddingLeft + paddingRight + textWidth;
         }
-        if (heightMode != MeasureSpec.EXACTLY)
+        return (int) widthSize;
+    }
+
+    public int geMeasureHeight(int heightMeasureSpec)
+    {
+        int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
+        float heightSize = View.MeasureSpec.getSize(heightMeasureSpec);
+        textPaint.setTextSize(textSize);
+        Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
+        if (heightMode != View.MeasureSpec.EXACTLY)
         {
             heightSize = paddingTop + paddingBottom + (fontMetrics.bottom - fontMetrics.top);
         }
-        setMeasuredDimension((int) widthSize, (int) heightSize);
-
+        return (int) heightSize;
     }
 
     /**
@@ -363,7 +355,7 @@ public class JasonBaseView extends View
     {
         //自定义路径
         Path path = new Path();
-        RectF rectF = new RectF(0, 0, this.getMeasuredWidth(), this.getMeasuredHeight());
+        RectF rectF = new RectF(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         float[] outRadio = {leftTopRadius, leftTopRadius, rightTopRadius, rightTopRadius, rightBottomRadius, rightBottomRadius, leftBottomRadius, leftBottomRadius};
         path.addRoundRect(rectF, outRadio, Path.Direction.CW);
         canvas.clipPath(path);
@@ -401,10 +393,9 @@ public class JasonBaseView extends View
     protected void drawText(Canvas canvas)
     {
 
-        float width = this.getMeasuredWidth();
-        float height = this.getMeasuredHeight();
+        float width = view.getMeasuredWidth();
+        float height = view.getMeasuredHeight();
         textPaint.setTextSize(textSize);
-        textPaint.setStyle(Paint.Style.FILL);
         textPaint.setColor(texColor);
         text = text == null ? "" : text;
         float textWidth = textPaint.measureText(text);
@@ -438,7 +429,7 @@ public class JasonBaseView extends View
         this.leftBottomRadius = radius;
         this.rightTopRadius = radius;
         this.rightBottomRadius = radius;
-        invalidate();
+        view.invalidate();
     }
 
     //设置左上角圆角
@@ -446,7 +437,7 @@ public class JasonBaseView extends View
     {
         radius = DensityUtil.dp2px(radius);
         this.leftTopRadius = radius;
-        invalidate();
+        view.invalidate();
     }
 
     /**
@@ -458,7 +449,7 @@ public class JasonBaseView extends View
     {
         radius = DensityUtil.dp2px(radius);
         this.leftBottomRadius = radius;
-        invalidate();
+        view.invalidate();
     }
 
     /**
@@ -470,7 +461,7 @@ public class JasonBaseView extends View
     {
         radius = DensityUtil.dp2px(radius);
         this.rightTopRadius = radius;
-        invalidate();
+        view.invalidate();
     }
 
     /**
@@ -482,7 +473,7 @@ public class JasonBaseView extends View
     {
         radius = DensityUtil.dp2px(radius);
         this.rightBottomRadius = radius;
-        invalidate();
+        view.invalidate();
     }
 
 
@@ -494,7 +485,7 @@ public class JasonBaseView extends View
     public void setJaBgColorPress(int color)
     {
         this.bgColorPress = color;
-        invalidate();
+        view.invalidate();
     }
 
     /**
@@ -506,7 +497,7 @@ public class JasonBaseView extends View
     {
         this.bgColorDefault = color;
         this.bgColor = color;
-        invalidate();
+        view.invalidate();
     }
 
     /**
@@ -517,7 +508,7 @@ public class JasonBaseView extends View
     public void setJaBackground(int Color)
     {
         this.bgColor = Color;
-        invalidate();
+        view.invalidate();
     }
 
 
@@ -545,7 +536,7 @@ public class JasonBaseView extends View
     {
         size = DensityUtil.sp2px(size);
         this.textSize = size;
-        invalidate();
+        view.invalidate();
     }
 
     /**
@@ -554,7 +545,7 @@ public class JasonBaseView extends View
     public void setJaText(String textValue)
     {
         this.text = textValue;
-        invalidate();
+        view.invalidate();
     }
 
     /**
@@ -566,7 +557,7 @@ public class JasonBaseView extends View
     {
         strokeWidth = DensityUtil.dp2px(strokeWidth);
         this.strokeWidth = strokeWidth;
-        invalidate();
+        view.invalidate();
     }
 
     /**
@@ -577,7 +568,7 @@ public class JasonBaseView extends View
     public void setJaStrokeColorPress(int strokeColor)
     {
         this.strokeColorPress = strokeColor;
-        invalidate();
+        view.invalidate();
     }
 
     /**
@@ -589,7 +580,7 @@ public class JasonBaseView extends View
     {
         this.strokeColorDefault = strokeColor;
         this.strokeColor = strokeColorDefault;
-        invalidate();
+        view.invalidate();
     }
 
 
@@ -601,7 +592,7 @@ public class JasonBaseView extends View
     public void setJaGravity(int gravity)
     {
         this.gravity = gravity;
-        invalidate();
+        view.invalidate();
     }
 
     /**
@@ -642,8 +633,8 @@ public class JasonBaseView extends View
     public void setEnabled(boolean enabled)
     {
         this.enabled = enabled;
-        super.setEnabled(enabled);
-        invalidate();
+        view.setEnabled(enabled);
+        view.invalidate();
     }
 
     /**
@@ -654,9 +645,8 @@ public class JasonBaseView extends View
     public void setClickable(boolean clickable)
     {
         this.clickable = clickable;
-        super.setClickable(clickable);
-        invalidate();
+        view.setClickable(clickable);
+        view.invalidate();
     }
-
 
 }

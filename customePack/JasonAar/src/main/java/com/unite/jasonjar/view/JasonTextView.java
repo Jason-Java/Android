@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,24 +21,21 @@ import com.unite.jasonjar.R;
 import com.unite.jasonjar.util.DensityUtil;
 import com.unite.jasonjar.util.LogUtil;
 
-public class JasonTextView extends JasonBaseView
+public class JasonTextView extends androidx.appcompat.widget.AppCompatTextView
 {
-
-
-
-
+    private JasonView jasonView;
 
     public JasonTextView(@NonNull Context context)
     {
         super(context);
-        init();
+        jasonView = new JasonView(this);
+
     }
 
     public JasonTextView(@NonNull Context context, @Nullable AttributeSet attrs)
     {
         super(context, attrs);
-        init();
-        initAttributes(attrs);
+        jasonView = new JasonView(this, attrs);
     }
 
     public JasonTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr)
@@ -45,56 +43,24 @@ public class JasonTextView extends JasonBaseView
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
-    protected void init()
-    {
-        super.init();
-        super.setEnabled(false);
-        super.setEnabled(false);
-
-    }
-
-    @Override
-    protected void initAttributes(AttributeSet attrs)
-    {
-        super.initAttributes(attrs);
-
-        TypedArray attr = getContext().obtainStyledAttributes(attrs, R.styleable.JasonBaseView);
-        if (attr == null)
-        {
-            return;
-        }
-        //背景相关
-        try
-        {
-
-        } catch (Exception e)
-        {
-            LogUtil.e("报错了");
-
-        } finally
-        {
-            attr.recycle();
-        }
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        return super.onTouchEvent(event);
+        boolean flag = super.onTouchEvent(event);
+        jasonView.onTouchEvent(event);
+        return flag;
     }
+
 
     @Override
     protected void onDraw(Canvas canvas)
     {
         //绘制背景
-        drawBackground(canvas);
-        //绘制文字
-        drawText(canvas);
+        setBackground(null);
+        jasonView.drawBackground(canvas);
+        super.onDraw(canvas);
     }
-
-
-
 
 
 }

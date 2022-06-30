@@ -12,13 +12,17 @@
         android:layout_height="100dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="3dp"
-        app:ja_bgColor="#123456"
-        app:ja_bgColorDefault="@drawable/bag"
-        app:ja_bgColorPress="#995678"
-        app:ja_clickable="false"
+        app:ja_bgColorDefault="#FF995678"
+        app:ja_bgColorPress="#88995678"
         app:ja_gravity="center_vertical"
+        app:ja_paddingLeft="12dp"
         app:ja_radius="50dp"
-        app:ja_text="冯家振" />
+        app:ja_strokeColor="#009878"
+        app:ja_strokeWidth="3dp"
+        app:ja_text="冯家振"
+        app:ja_textColorDefault="#FFFFFFFF"
+        app:ja_textColorPress="#000000"
+         />
 
     <com.unite.jasonjar.view.JasonLinerLayout
         android:layout_width="200dp"
@@ -26,7 +30,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:elevation="10dp"
-
         app:ja_radius="5dp"
         app:ja_strokeColor="#956789"
         app:ja_strokeWidth="6dp">

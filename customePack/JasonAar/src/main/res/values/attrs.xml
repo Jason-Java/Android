@@ -14,7 +14,12 @@
     </declare-styleable>
 
 
-
+    <!--文字相关    -->
+    <attr name="ja_textSize" format="dimension" />
+    <attr name="ja_textColorPress" format="color" />
+    <attr name="ja_textColorDefault" format="color" />
+    <attr name="ja_textColor" format="color" />
+    <attr name="ja_text" format="string" />
 
     <!--    背景相关-->
     <attr name="ja_bgColorPress" format="reference|color" />
@@ -40,106 +45,191 @@
     <attr name="ja_enable" format="boolean" />
 
 
+    <attr name="ja_gravity">
+        <enum name="center" value="01" />
+        <enum name="center_vertical" value="02" />
+        <enum name="center_horizontal" value="03" />
+    </attr>
 
+    <!--        内边距相关-->
+    <attr name="ja_padding" format="dimension" />
+    <attr name="ja_paddingLeft" format="dimension" />
+    <attr name="ja_paddingRight" format="dimension" />
+    <attr name="ja_paddingTop" format="dimension" />
+    <attr name="ja_paddingBottom" format="dimension" />
 
 
     <declare-styleable name="JasonBaseView">
         <!--文字相关    -->
-        <attr name="ja_textSize" format="dimension" />
-        <attr name="ja_textColorPress" format="color" />
-        <attr name="ja_textColorDefault" format="color" />
-        <attr name="ja_textColor" format="color" />
-        <attr name="ja_text" format="string" />
+        <attr name="ja_textSize" />
+        <attr name="ja_textColorPress" />
+        <attr name="ja_textColorDefault" />
+        <attr name="ja_textColor" />
+        <attr name="ja_text" />
 
         <!--    背景相关-->
-        <attr name="ja_bgColorPress"   />
-        <attr name="ja_bgColorDefault"   />
-        <attr name="ja_bgColor"   />
+        <attr name="ja_bgColorPress" />
+        <attr name="ja_bgColorDefault" />
+        <attr name="ja_bgColor" />
         <!--    圆角相关-->
-        <attr name="ja_radius"   />
-        <attr name="ja_leftTopRadius"   />
-        <attr name="ja_RightTopRadius"   />
-        <attr name="ja_leftBottomRadius"   />
-        <attr name="ja_RightBottomRadius"   />
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_RightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_RightBottomRadius" />
         <!--        边框相关-->
-        <attr name="ja_strokeWidth"   />
-        <attr name="ja_strokeColorDefault"   />
-        <attr name="ja_strokeColorPress"   />
-        <attr name="ja_strokeColor"   />
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeColorDefault" />
+        <attr name="ja_strokeColorPress" />
+        <attr name="ja_strokeColor" />
 
         <!--        是否可点击-->
-        <attr name="ja_clickable"   />
+        <attr name="ja_clickable" />
 
         <!--        是否可用-->
-        <attr name="ja_enable"   />
+        <attr name="ja_enable" />
 
 
         <attr name="ja_gravity">
-            <enum name="center" value="01" />
-            <enum name="center_vertical" value="02" />
-            <enum name="center_horizontal" value="03" />
+
         </attr>
 
         <!--        内边距相关-->
-        <attr name="ja_padding" format="dimension" />
-        <attr name="ja_paddingLeft" format="dimension" />
-        <attr name="ja_paddingRight" format="dimension" />
-        <attr name="ja_paddingTop" format="dimension" />
-        <attr name="ja_paddingBottom" format="dimension" />
+        <attr name="ja_padding" />
+        <attr name="ja_paddingLeft" />
+        <attr name="ja_paddingRight" />
+        <attr name="ja_paddingTop" />
+        <attr name="ja_paddingBottom" />
 
 
     </declare-styleable>
-    <declare-styleable name="JasonButton"></declare-styleable>
+    <declare-styleable name="JasonButton">
+        <!--文字相关    -->
+        <attr name="ja_textSize" />
+        <attr name="ja_textColorPress" />
+        <attr name="ja_textColorDefault" />
+        <attr name="ja_textColor" />
+        <attr name="ja_text" />
 
-    <declare-styleable name="JasonTextView"></declare-styleable>
-    <declare-styleable name="JasonLinerLayout" >
         <!--    背景相关-->
-        <attr name="ja_bgColorPress"   />
-        <attr name="ja_bgColorDefault"   />
-        <attr name="ja_bgColor"   />
-
-        <!--        边框相关-->
-        <attr name="ja_strokeWidth"   />
-        <attr name="ja_strokeColorDefault"   />
-        <attr name="ja_strokeColorPress"   />
-        <attr name="ja_strokeColor"   />
-
+        <attr name="ja_bgColorPress" />
+        <attr name="ja_bgColorDefault" />
+        <attr name="ja_bgColor" />
         <!--    圆角相关-->
-        <attr name="ja_radius"  />
-        <attr name="ja_leftTopRadius"  />
-        <attr name="ja_RightTopRadius"  />
-        <attr name="ja_leftBottomRadius"  />
-        <attr name="ja_RightBottomRadius"  />
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_RightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_RightBottomRadius" />
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeColorDefault" />
+        <attr name="ja_strokeColorPress" />
+        <attr name="ja_strokeColor" />
+
         <!--        是否可点击-->
-        <attr name="ja_clickable"   />
+        <attr name="ja_clickable" />
 
         <!--        是否可用-->
-        <attr name="ja_enable"   />
+        <attr name="ja_enable" />
+
+
+        <attr name="ja_gravity">
+
+        </attr>
+
+        <!--        内边距相关-->
+        <attr name="ja_padding" />
+        <attr name="ja_paddingLeft" />
+        <attr name="ja_paddingRight" />
+        <attr name="ja_paddingTop" />
+        <attr name="ja_paddingBottom" />
+
     </declare-styleable>
 
-    <declare-styleable name="JasonEditText" >
+    <declare-styleable name="JasonTextView">
+        <!--文字相关    -->
+        <attr name="ja_textSize" />
+        <attr name="ja_textColorPress" />
+        <attr name="ja_textColorDefault" />
+        <attr name="ja_textColor" />
+        <attr name="ja_text" />
+
         <!--    背景相关-->
-        <attr name="ja_bgColorPress"   />
-        <attr name="ja_bgColorDefault"   />
-        <attr name="ja_bgColor"   />
-
-        <!--        边框相关-->
-        <attr name="ja_strokeWidth"   />
-        <attr name="ja_strokeColorDefault"   />
-        <attr name="ja_strokeColorPress"   />
-        <attr name="ja_strokeColor"   />
-
+        <attr name="ja_bgColorPress" />
+        <attr name="ja_bgColorDefault" />
+        <attr name="ja_bgColor" />
         <!--    圆角相关-->
-        <attr name="ja_radius"  />
-        <attr name="ja_leftTopRadius"  />
-        <attr name="ja_RightTopRadius"  />
-        <attr name="ja_leftBottomRadius"  />
-        <attr name="ja_RightBottomRadius"  />
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_RightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_RightBottomRadius" />
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeColorDefault" />
+        <attr name="ja_strokeColorPress" />
+        <attr name="ja_strokeColor" />
+
         <!--        是否可点击-->
-        <attr name="ja_clickable"   />
+        <attr name="ja_clickable" />
 
         <!--        是否可用-->
-        <attr name="ja_enable"   />
+        <attr name="ja_enable" />
+
+
+        <attr name="ja_gravity">
+
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="JasonLinerLayout">
+        <!--    背景相关-->
+        <attr name="ja_bgColorPress" />
+        <attr name="ja_bgColorDefault" />
+        <attr name="ja_bgColor" />
+
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeColorDefault" />
+        <attr name="ja_strokeColorPress" />
+        <attr name="ja_strokeColor" />
+
+        <!--    圆角相关-->
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_RightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_RightBottomRadius" />
+        <!--        是否可点击-->
+        <attr name="ja_clickable" />
+
+        <!--        是否可用-->
+        <attr name="ja_enable" />
+    </declare-styleable>
+
+    <declare-styleable name="JasonEditText">
+        <!--    背景相关-->
+        <attr name="ja_bgColorPress" />
+        <attr name="ja_bgColorDefault" />
+        <attr name="ja_bgColor" />
+
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeColorDefault" />
+        <attr name="ja_strokeColorPress" />
+        <attr name="ja_strokeColor" />
+
+        <!--    圆角相关-->
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_RightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_RightBottomRadius" />
+        <!--        是否可点击-->
+        <attr name="ja_clickable" />
+
+        <!--        是否可用-->
+        <attr name="ja_enable" />
 
     </declare-styleable>
 </resources>

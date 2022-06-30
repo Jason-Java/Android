@@ -44,8 +44,8 @@ public class JasonToast {
     public  void makeError(String message) {
         View view = LayoutInflater.from(context).inflate(R.layout.jason_toast, null, false);
         JasonTextView textView = view.findViewById(R.id.message);
-        textView.setJaText(message);
-        textView.setJaBackground(0XFFEB432E);
+        textView.setText(message);
+       // textView.setJaBackground(0XFFEB432E);
 
         if (toast != null) {
             toast.cancel();
@@ -71,8 +71,8 @@ public class JasonToast {
     public  void makeSuccess( String message) {
         View view = LayoutInflater.from(context).inflate(R.layout.jason_toast, null, false);
         JasonTextView textView = view.findViewById(R.id.message);
-        textView.setJaText(message);
-        textView.setJaBackground(0XFF40AC5B);
+        textView.setText(message);
+//        textView.setJaBackground(0XFF40AC5B);
         if (toast != null) {
             toast.cancel();
         }
