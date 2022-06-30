@@ -1,19 +1,22 @@
-package com.unite.jasonjar.view;
+package com.unite.jasonjar.wheel;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/**
+ * @author Jason
+ * @version 1.0.0
+ * @data 2022/6/30
+ */
 public class JasonEditText extends androidx.appcompat.widget.AppCompatEditText {
-
     public JasonEditText(@NonNull Context context) {
         super(context);
     }
@@ -26,41 +29,42 @@ public class JasonEditText extends androidx.appcompat.widget.AppCompatEditText {
         super(context, attrs, defStyleAttr);
     }
 
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        setBackground(null);
+
+
+        super.dispatchDraw(canvas);
+
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         drawBackground(canvas);
-        setBackground(null);
+        super.onDraw(canvas);
     }
 
-    /**
-     * 绘制背景
-     *
-     * @param canvas
-     */
-    protected void drawBackground(Canvas canvas) {
-        Paint bgPaint = new Paint();
-
-        //自定义路径
-        Path path = new Path();
-        RectF rectF = new RectF(0,  0, super.getMeasuredWidth(), super.getMeasuredHeight());
+    private void drawBackground(Canvas canvas) {
+        canvas.save();
+        RectF rectF = new RectF();
+        rectF.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
         float[] outRadio = {20, 20, 20, 20, 20, 20, 20, 20};
+        Path path = new Path();
         path.addRoundRect(rectF, outRadio, Path.Direction.CCW);
 
-        //设置画笔颜色
+        canvas.save();
+        Paint bgPaint = new Paint();
+        /*bgPaint.setStyle(Paint.Style.FILL);
         bgPaint.setColor(0XFF123456);
-        bgPaint.setAntiAlias(true);
-        bgPaint.setStyle(Paint.Style.FILL);
-        canvas.drawPath(path,bgPaint);
-
-
-        bgPaint.setColor(0XFF098765);
-        bgPaint.setAntiAlias(true);
-        bgPaint.setStyle(Paint.Style.STROKE);
-        bgPaint.setStrokeWidth(2);
         canvas.drawPath(path, bgPaint);
+        canvas.restore();*/
+
+
+        canvas.clipPath(path);
+        bgPaint.setStyle(Paint.Style.STROKE);
+        bgPaint.setColor(0XFF00FF7F);
+        bgPaint.setStrokeWidth(5);
+        canvas.drawPath(path, bgPaint);
+        canvas.restore();
     }
-
-
 }

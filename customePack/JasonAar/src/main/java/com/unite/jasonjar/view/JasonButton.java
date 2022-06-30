@@ -91,8 +91,14 @@ public class JasonButton extends JasonBaseView
     @Override
     protected void onDraw(Canvas canvas)
     {
+        setBackground(null);
         drawBackground(canvas);
         drawText(canvas);
     }
 
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        LogUtil.i("jasonButton 调用diapatchDeaw");
+        super.dispatchDraw(canvas);
+    }
 }

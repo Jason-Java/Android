@@ -25,12 +25,6 @@ public class MainActivity extends AppCompatActivity {
         JasonToast.getInstance().init(this);
 
         WaitDialog waitDialog1 = new WaitDialog();
-
-        findViewById(R.id.start).setOnClickListener(v ->
-        {
-            JasonToast.getInstance().makeSuccess("网络连接错误");
-        });
-
     }
 
 }

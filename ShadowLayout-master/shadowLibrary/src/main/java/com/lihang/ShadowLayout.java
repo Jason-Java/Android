@@ -588,7 +588,6 @@ public class ShadowLayout extends FrameLayout {
                 linearGradient = new LinearGradient(leftPadding, topPadding, getWidth() - rightPadding, getHeight() - bottomPadding, colors, null, Shader.TileMode.CLAMP);
                 paint.setShader(linearGradient);
                 break;
-
         }
 
 
@@ -969,7 +968,8 @@ public class ShadowLayout extends FrameLayout {
         if (mCornerRadius_leftBottom == -1 && mCornerRadius_leftTop == -1 && mCornerRadius_rightTop == -1 && mCornerRadius_rightBottom == -1) {
             //如果没有设置整个属性，那么按原始去画
             canvas.drawRoundRect(shadowRect, cornerRadius, cornerRadius, shadowPaint);
-        } else {
+        }
+        else {
             //目前最佳的解决方案
             rectf.left = leftPadding;
             rectf.top = topPadding;

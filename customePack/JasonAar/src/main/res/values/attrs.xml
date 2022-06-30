@@ -13,6 +13,36 @@
         <attr name="awv_scaleX" format="float" />
     </declare-styleable>
 
+
+
+
+    <!--    背景相关-->
+    <attr name="ja_bgColorPress" format="reference|color" />
+    <attr name="ja_bgColorDefault" format="reference|color" />
+    <!--        背景相关-->
+    <attr name="ja_bgColor" format="reference|color" />
+
+    <!--        边框相关-->
+    <attr name="ja_strokeWidth" format="dimension" />
+    <attr name="ja_strokeColorDefault" format="color" />
+    <attr name="ja_strokeColorPress" format="color" />
+    <attr name="ja_strokeColor" format="color" />
+    <!--    圆角相关-->
+    <attr name="ja_radius" format="dimension" />
+    <attr name="ja_leftTopRadius" format="dimension" />
+    <attr name="ja_RightTopRadius" format="dimension" />
+    <attr name="ja_leftBottomRadius" format="dimension" />
+    <attr name="ja_RightBottomRadius" format="dimension" />
+    <!--        是否可点击-->
+    <attr name="ja_clickable" format="boolean" />
+
+    <!--        是否可用-->
+    <attr name="ja_enable" format="boolean" />
+
+
+
+
+
     <declare-styleable name="JasonBaseView">
         <!--文字相关    -->
         <attr name="ja_textSize" format="dimension" />
@@ -20,27 +50,28 @@
         <attr name="ja_textColorDefault" format="color" />
         <attr name="ja_textColor" format="color" />
         <attr name="ja_text" format="string" />
+
         <!--    背景相关-->
-        <attr name="ja_bgColorPress" format="reference|color" />
-        <attr name="ja_bgColorDefault" format="reference|color" />
-        <attr name="ja_bgColor" format="reference|color" />
+        <attr name="ja_bgColorPress"   />
+        <attr name="ja_bgColorDefault"   />
+        <attr name="ja_bgColor"   />
         <!--    圆角相关-->
-        <attr name="ja_radius" format="dimension" />
-        <attr name="ja_leftTopRadius" format="dimension" />
-        <attr name="ja_RightTopRadius" format="dimension" />
-        <attr name="ja_leftBottomRadius" format="dimension" />
-        <attr name="ja_RightBottomRadius" format="dimension" />
+        <attr name="ja_radius"   />
+        <attr name="ja_leftTopRadius"   />
+        <attr name="ja_RightTopRadius"   />
+        <attr name="ja_leftBottomRadius"   />
+        <attr name="ja_RightBottomRadius"   />
         <!--        边框相关-->
-        <attr name="ja_strokeWidth" format="dimension" />
-        <attr name="ja_strokeColorDefault" format="color" />
-        <attr name="ja_strokeColorPress" format="color" />
-        <attr name="ja_strokeColor" format="color" />
+        <attr name="ja_strokeWidth"   />
+        <attr name="ja_strokeColorDefault"   />
+        <attr name="ja_strokeColorPress"   />
+        <attr name="ja_strokeColor"   />
 
         <!--        是否可点击-->
-        <attr name="ja_clickable" format="boolean" />
+        <attr name="ja_clickable"   />
 
         <!--        是否可用-->
-        <attr name="ja_enable" format="boolean" />
+        <attr name="ja_enable"   />
 
 
         <attr name="ja_gravity">
@@ -58,12 +89,57 @@
 
 
     </declare-styleable>
-    <declare-styleable name="JasonButton">
+    <declare-styleable name="JasonButton"></declare-styleable>
 
+    <declare-styleable name="JasonTextView"></declare-styleable>
+    <declare-styleable name="JasonLinerLayout" >
+        <!--    背景相关-->
+        <attr name="ja_bgColorPress"   />
+        <attr name="ja_bgColorDefault"   />
+        <attr name="ja_bgColor"   />
+
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth"   />
+        <attr name="ja_strokeColorDefault"   />
+        <attr name="ja_strokeColorPress"   />
+        <attr name="ja_strokeColor"   />
+
+        <!--    圆角相关-->
+        <attr name="ja_radius"  />
+        <attr name="ja_leftTopRadius"  />
+        <attr name="ja_RightTopRadius"  />
+        <attr name="ja_leftBottomRadius"  />
+        <attr name="ja_RightBottomRadius"  />
+        <!--        是否可点击-->
+        <attr name="ja_clickable"   />
+
+        <!--        是否可用-->
+        <attr name="ja_enable"   />
     </declare-styleable>
 
-    <declare-styleable name="JasonTextView">
+    <declare-styleable name="JasonEditText" >
+        <!--    背景相关-->
+        <attr name="ja_bgColorPress"   />
+        <attr name="ja_bgColorDefault"   />
+        <attr name="ja_bgColor"   />
 
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth"   />
+        <attr name="ja_strokeColorDefault"   />
+        <attr name="ja_strokeColorPress"   />
+        <attr name="ja_strokeColor"   />
+
+        <!--    圆角相关-->
+        <attr name="ja_radius"  />
+        <attr name="ja_leftTopRadius"  />
+        <attr name="ja_RightTopRadius"  />
+        <attr name="ja_leftBottomRadius"  />
+        <attr name="ja_RightBottomRadius"  />
+        <!--        是否可点击-->
+        <attr name="ja_clickable"   />
+
+        <!--        是否可用-->
+        <attr name="ja_enable"   />
 
     </declare-styleable>
 </resources>
