@@ -23,7 +23,8 @@
         app:ja_textColorDefault="#FFFFFFFF"
         app:ja_textColorPress="#000000" />
 
-    <com.unite.jasonjar.view.JasonLinerLayout
+    <com.unite.jasonjar.view.JasonRadioGroup
+        android:id="@+id/parent"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
@@ -40,7 +41,11 @@
             android:background="#123456"
             android:text="123" />
 
-    </com.unite.jasonjar.view.JasonLinerLayout>
+    </com.unite.jasonjar.view.JasonRadioGroup>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

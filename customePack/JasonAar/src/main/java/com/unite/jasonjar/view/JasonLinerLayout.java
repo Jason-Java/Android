@@ -25,14 +25,13 @@ import com.unite.jasonjar.util.DensityUtil;
 public class JasonLinerLayout extends LinearLayout
 {
 
-    private JasonView jasonView;
+    public final JasonView jasonView;
 
 
     public JasonLinerLayout(Context context)
     {
         super(context);
         jasonView = new JasonView(this);
-
     }
 
     public JasonLinerLayout(Context context, @Nullable AttributeSet attrs)
@@ -44,12 +43,9 @@ public class JasonLinerLayout extends LinearLayout
     public JasonLinerLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
+        jasonView = new JasonView(this, attrs);
     }
 
-    public JasonLinerLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
-    {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
 
 
     @Override
@@ -57,7 +53,6 @@ public class JasonLinerLayout extends LinearLayout
     {
         boolean flag = super.onTouchEvent(event);
         jasonView.onTouchEvent(event);
-
         return flag;
     }
 
@@ -75,7 +70,4 @@ public class JasonLinerLayout extends LinearLayout
         setBackground(null);
         super.onDraw(canvas);
     }
-
-
-
 }

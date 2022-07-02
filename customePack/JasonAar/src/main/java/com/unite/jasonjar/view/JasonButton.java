@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 public class JasonButton extends androidx.appcompat.widget.AppCompatButton
 {
 
-    private JasonView jasonView;
+    public final  JasonView jasonView;
 
     public JasonButton(@NonNull Context context)
     {
@@ -53,6 +53,5 @@ public class JasonButton extends androidx.appcompat.widget.AppCompatButton
         jasonView.drawBackground(canvas);
         jasonView.drawText(canvas);
     }
-
 
 }

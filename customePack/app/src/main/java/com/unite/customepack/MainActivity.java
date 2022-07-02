@@ -12,6 +12,7 @@ import com.unite.jasonjar.util.JasonToast;
 import com.unite.jasonjar.util.LogUtil;
 import com.unite.jasonjar.util.StringUtil;
 import com.unite.jasonjar.view.JasonButton;
+import com.unite.jasonjar.view.JasonLinerLayout;
 import com.unite.jasonjar.view.JasonTextView;
 
 import org.w3c.dom.Text;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         JasonToast.getInstance().init(this);
 
         WaitDialog waitDialog1 = new WaitDialog();
+       JasonLinerLayout jasonLinerLayout= findViewById(R.id.parent);
+
     }
 
 }
