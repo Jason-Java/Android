@@ -319,7 +319,7 @@ public class JasonView
     }
 
 
-    protected int geMeasureWidth(int widthMeasureSpec)
+    public int getMeasureWidth(int widthMeasureSpec)
     {
         int widthMode = View.MeasureSpec.getMode(widthMeasureSpec);
         float widthSize = View.MeasureSpec.getSize(widthMeasureSpec);
@@ -333,7 +333,7 @@ public class JasonView
         return (int) widthSize;
     }
 
-    public int geMeasureHeight(int heightMeasureSpec)
+    public int getMeasureHeight(int heightMeasureSpec)
     {
         int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
         float heightSize = View.MeasureSpec.getSize(heightMeasureSpec);

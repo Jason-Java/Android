@@ -1,25 +1,12 @@
 package com.unite.jasonjar.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
-import android.util.EventLog;
 import android.view.MotionEvent;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.unite.jasonjar.R;
-import com.unite.jasonjar.util.LogUtil;
 
 public class JasonButton extends androidx.appcompat.widget.AppCompatButton
 {
@@ -55,7 +42,7 @@ public class JasonButton extends androidx.appcompat.widget.AppCompatButton
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        setMeasuredDimension(jasonView.geMeasureWidth(widthMeasureSpec),jasonView.geMeasureHeight(heightMeasureSpec));
+        setMeasuredDimension(jasonView.getMeasureWidth(widthMeasureSpec),jasonView.getMeasureHeight(heightMeasureSpec));
     }
 
 

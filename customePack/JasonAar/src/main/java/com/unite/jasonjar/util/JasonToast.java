@@ -45,7 +45,7 @@ public class JasonToast {
         View view = LayoutInflater.from(context).inflate(R.layout.jason_toast, null, false);
         JasonTextView textView = view.findViewById(R.id.message);
         textView.setText(message);
-       // textView.setJaBackground(0XFFEB432E);
+        //textView.setJaBackground(0XFFEB432E);
 
         if (toast != null) {
             toast.cancel();
