@@ -1,10 +1,17 @@
 package com.jason.system.security;
 
+import com.jason.system.enums.UserStatus;
+import com.jason.system.exception.ServiceException;
 import com.jason.system.model.domain.SysUser;
+import com.jason.system.model.service.ISysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * <p>描述:用户验证处理类
@@ -17,11 +24,12 @@ import org.springframework.stereotype.Component;
  * @date：2022/9/18 21:10
  * @see
  */
-@Component
+@Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
 
-
+    @Autowired
+    private ISysUserService userService;
 
 
 
@@ -40,7 +48,15 @@ public class UserDetailServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser user=
+        SysUser user = userService.selectUserByUserName(username);
+        if(Objects.isNull(user)||UserStatus.DELETED.getCode().equals(user.getDelFlag()))
+        {
+            throw new ServiceException("登录用户：" + username + " 不存在");
+        }
+        else if(UserStatus.DISABLE.getCode().equals(user.getStatus()))
+        {
+            throw new ServiceException("对不起，您的账号：" + username + " 已停用");
+        }
         System.out.println("----->loadUserByUsername");
         return null;
     }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jason.system.mapper.SysUserMapper">
+<mapper namespace="com.jason.system.model.mapper.SysUserMapper">
 
     <resultMap type="SysUser" id="SysUserResult">
         <id     property="userId"       column="user_id"      />
@@ -83,6 +83,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
         <!-- 数据范围过滤 -->
         ${params.dataScope}
+    </select>
+
+
+
+    <select id="selectUserByUserName" parameterType="String" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.user_name = #{userName} and u.del_flag = '0'
     </select>
 
 

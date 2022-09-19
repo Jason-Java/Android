@@ -1,5 +1,10 @@
 package com.jason.system.model.service;
 
+import com.jason.system.model.domain.SysUser;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 /**
  * <p>描述:用户 业务层
  *
@@ -11,6 +16,20 @@ package com.jason.system.model.service;
  * @date：2022/9/18 22:50
  * @see
  */
-public class ISysUserService {
+public interface ISysUserService {
 
+    /**
+     * 根据条件查询用户
+     * @param sysUser
+     * @return
+     */
+    List<SysUser> selectUserList(SysUser sysUser);
+
+
+    /**
+     * 根据用户名查询用户信息
+     * @param username
+     * @return
+     */
+    SysUser selectUserByUserName(String username);
 }
