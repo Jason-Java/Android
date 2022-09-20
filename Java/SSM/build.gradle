@@ -23,10 +23,15 @@ dependencies {
     //AOP依赖
 //    implementation 'org.aspectj:aspectjweaver:1.9.4'
 
+<<<<<<< HEAD
 
 
 
     testImplementation 'org.springframework:spring-test:5.3.18'
+=======
+    testImplementation 'org.springframework:spring-test:5.3.18'
+
+>>>>>>> da677af32c5c6d8580791f3f3273b9c376dd0b29
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
