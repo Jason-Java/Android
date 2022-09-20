@@ -1,8 +1,16 @@
 package com.jason.system.security.filter;
 
+import com.jason.system.exception.ServiceException;
+import com.jason.system.model.body.LoginUser;
+import com.jason.system.model.domain.SysUser;
+import com.jason.system.model.service.ISysUserService;
 import com.jason.system.util.StringUtils;
 import com.jason.system.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -13,10 +21,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class AuthenticationTokenFilter extends  OncePerRequestFilter {
+public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private TokenUtil tokenUtil;
+
+
+    @Autowired
+    private ISysUserService userService;
+
     /**
      * Same contract as for {@code doFilter}, but guaranteed to be
      * just invoked once per request within a single request thread.
@@ -42,16 +55,29 @@ public class AuthenticationTokenFilter extends  OncePerRequestFilter {
          *
          *  不过期则进行业务处理
          */
-        if(StringUtils.startsWith(request.getRequestURI(),"/login"))
-        {
+        if (StringUtils.startsWith(request.getRequestURI(), "/login")) {
             filterChain.doFilter(request, response);
             return;
         }
-        if(tokenUtil.isTokenExpired(request) && 存在这个人)
-        {
-            tokenUtil.refreshToken(request,response);
 
+        // token无效
+        if (!tokenUtil.isTokenExpired(request)) {
+            throw new ServiceException("token无效", 403);
         }
+
+        SysUser user = userService.selectUserByUserName(tokenUtil.getUserNameFromToken(request));
+        if (StringUtils.isNull(user)) {
+            throw new ServiceException("用户不存在", 403);
+        }
+        // todo 查询权限
+        LoginUser loginUser=new LoginUser(user,null);
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=
+                new UsernamePasswordAuthenticationToken(loginUser,null,loginUser.getAuthorities());
+        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+        tokenUtil.refreshToken(request, response);
 
 
         //如果登陆了放行
