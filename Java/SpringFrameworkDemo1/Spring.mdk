@@ -1,0 +1,19 @@
+
+管理第三方资源Bean
+```java
+//   注入资源通过属性字段进行注入
+    @Value("${driver}")
+    String driver;
+
+    
+
+    @Bean
+    public DruidDataSource getDruidDataSource(User user) {//注入引用类型 通过参数进行自动装配
+        DruidDataSource dt = new DruidDataSource();
+        dt.setDriverClassName("driver");
+        dt.setUrl("jdbc:mysql://localhost/bjpowernode");
+        dt.setUsername("root");
+        dt.setPassword("123456");
+        return new DruidDataSource();
+    }
+```

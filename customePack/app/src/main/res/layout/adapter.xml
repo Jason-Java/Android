@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <com.unite.jasonjar.view.JasonButton
+        android:id="@+id/jason"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="3dp"
+        android:text="冯家振"
+        app:ja_bgColorDefault="#FF995678"
+        app:ja_bgColorPress="#88995678"
+        app:ja_gravity="center_vertical"
+        app:ja_paddingLeft="12dp"
+        app:ja_radius="5dp"
+        app:ja_strokeColor="#009878"
+        app:ja_strokeWidth="3dp"
+        app:ja_textColorDefault="#FFFFFFFF"
+        app:ja_textColorPress="#000000" />
+    <com.unite.jasonjar.view.JasonButton
+        android:id="@+id/jason2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="3dp"
+        android:text="冯家振"
+        app:ja_bgColorDefault="#FF995678"
+        app:ja_bgColorPress="#88995678"
+        app:ja_gravity="center_vertical"
+        app:ja_paddingLeft="12dp"
+        app:ja_radius="5dp"
+        app:ja_strokeColor="#009878"
+        app:ja_strokeWidth="3dp"
+        app:ja_textColorDefault="#FFFFFFFF"
+        app:ja_textColorPress="#000000" />
+
+</LinearLayout>

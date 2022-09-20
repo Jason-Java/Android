@@ -10,16 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
 
-    protected ArrayList<T> item = new ArrayList<>();
+    protected List<T> item ;
     protected Activity activity;
     private int layoutId;
 
     public BaseRecyclerViewAdapter(Activity activity, int layoutId) {
         this.activity = activity;
         this.layoutId = layoutId;
+        item = new ArrayList<>();
     }
 
     @NonNull
@@ -35,6 +37,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
     public int getItemCount() {
         return item.size();
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int index) {
@@ -60,12 +63,10 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
      * 添加数据集合
      * @param i
      */
-    public void addItem(ArrayList<T> i) {
+    public void addItem(List<T> i) {
         int star = item.size();
         item.addAll(i);
-        int count = item.size() - star;
-        notifyItemRangeChanged(star - 1, count);
-        notifyItemChanged(getItemCount() - 1);
+        notifyItemRangeChanged(star , i.size());
     }
 
     /**
@@ -78,13 +79,20 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
     }
 
     /**
-     * 移除项元素
+     * 移除指定位置的元素
      *
      * @param index
      */
-    public void removeItem(int index) {
+    public boolean removeItem(int index) {
+        if (index > getItemCount()-1 || getItemCount() == 0 || index < 0) {
+            return false;
+        }
         item.remove(index);
-        notifyDataSetChanged();
+        notifyItemMoved(index,index);
+
+
+        //notifyDataSetChanged();
+        return true;
     }
 
     /**
@@ -100,9 +108,10 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
      *
      * @return
      */
-    public ArrayList<T> getAllItem() {
+    public List<T> getAllItem() {
         return item;
     }
+
 
     /**
      * 获取指定位置的item
@@ -112,6 +121,11 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
      */
     public T getItem(int index) {
         return item.get(index);
+    }
+
+    public void replaceItem(int index, T element) {
+        item.set(index, element);
+        notifyItemChanged(index);
     }
 }
 

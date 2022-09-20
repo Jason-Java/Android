@@ -23,7 +23,7 @@ import com.unite.jasonjar.util.LogUtil;
 
 public class JasonTextView extends androidx.appcompat.widget.AppCompatTextView
 {
-    private JasonView jasonView;
+    public JasonView jasonView;
 
     public JasonTextView(@NonNull Context context)
     {

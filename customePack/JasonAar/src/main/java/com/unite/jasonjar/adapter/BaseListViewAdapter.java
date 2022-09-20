@@ -8,13 +8,15 @@ import android.widget.BaseAdapter;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseListViewAdapter<T> extends BaseAdapter {
-    protected ArrayList<T> item = new ArrayList<>();
+    protected List<T> item ;
     protected Activity activity;
     protected int layoutId;
 
     public BaseListViewAdapter(Activity activity, int layoutId) {
+        item = new ArrayList<>();
         this.activity = activity;
         this.layoutId = layoutId;
     }
@@ -45,7 +47,7 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
 
     protected abstract void convert(ViewHolder holder, T item, int index);
 
-    public void setItem(ArrayList<T> item) {
+    public void setItem(List<T> item) {
         if (item != null && item.size() > 0) {
             this.item.clear();
             this.item.addAll(item);
@@ -66,7 +68,7 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
      * 添加数据集合
      * @param i
      */
-    public void addItem(@NonNull ArrayList<T> i) {
+    public void addItem(@NonNull List<T> i) {
         item.addAll(0, i);
         notifyDataSetChanged();
     }
@@ -84,8 +86,17 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
      * 获取所有的数据列表
      * @return
      */
-    public ArrayList<T> getAllItem() {
+    public List<T> getAllItem() {
         return item;
+    }
+
+    public boolean removeItem(int index) {
+        if (index > getCount()-1 || getCount() == 0 || index < 0) {
+            return false;
+        }
+        item.remove(index);
+        notifyDataSetChanged();
+        return true;
     }
 
 }

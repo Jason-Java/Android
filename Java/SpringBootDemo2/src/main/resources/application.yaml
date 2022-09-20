@@ -1,0 +1,20 @@
+person:
+    userName: 张三
+    boss: true
+    birth: 2019/12/9
+    age: 12
+    pet:
+      name: 小狗
+      weight: 99.99
+    interests: [篮球,足球,asdfadf,123sdfd]
+    animal: [阿毛,阿吉]
+    score: {english:90,aa:12,gg:44}
+    salarys: [99,89,55]
+    allPets:
+      sick:
+        - {user: 阿狗,weight: 99}
+        - {user: 阿狗,weight: 99}
+        - {user: 阿狗,weight: 99}
+      health:
+        - name: 阿狗
+          weight: 99

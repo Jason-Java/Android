@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 配置文件信息 -->
+    <properties resource="myBatis.properties"></properties>
+    <settings>
+        <!--        sql语句和字段名映射不匹配进行报错-->
+        <setting name="autoMappingUnknownColumnBehavior" value="FAILING"/>
+        <!--        开始数据库的蛇形命名(user_name)和字段驼峰命名(userName)相匹配-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!--    为全限定类型设置别名-->
+    <typeAliases>
+        <!--        为每一个类分别设置一个别名-->
+        <!--        <typeAlias type="com.jason.dao.EMP" alias="EMP"/>-->
+
+        <!--        为整个包下面的实体类设置别名  别名为类的名字   不区分大小写
+                    如果类上面设置了注解, 则以注解的别名为准-->
+        <package name="com.jason.dao"/>
+
+    </typeAliases>
+
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <!-- 连接池类型 -->
+            <dataSource type="POOLED">
+                <!-- 从配置文件中加载属性 -->
+                <property name="driver" value="${derive}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${user}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!-- 加载前面编写的SQL语句的文件 -->
+        <mapper resource="empMapper.xml"/>
+        <mapper resource="deptMapper.xml"/>
+        <mapper resource="studentMapper.xml"/>
+    </mappers>
+
+</configuration>

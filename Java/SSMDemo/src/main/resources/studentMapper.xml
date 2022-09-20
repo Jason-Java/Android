@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jason.mapper.IStudentMapper">
+
+
+
+    <resultMap id="studentResultMap" type="student" autoMapping="true">
+        <id column="no" property="no"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="sex" property="sex"/>
+        <result column="emial" property="emial"/>
+        <result column="birth" property="birth"/>
+    </resultMap>
+
+
+    <select id="selectAll" resultMap="studentResultMap">
+        select no, name, age, sex, emial, birth
+        from t_student;
+    </select>
+
+    <select id="selectOne" resultMap="studentResultMap">
+        select no, name, age, sex, emial, birth
+        from t_student
+        <where>
+            <if test="no!=null">
+                no=#{no}
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="insertOne" parameterType="student" useGeneratedKeys="true" keyProperty="no">
+        insert into t_student(no, name, age, sex, emial, birth)
+        values (#{no}, #{name}, #{age}, #{sex}, #{emial}, str_to_date(#{birth}, '%Y-%m-%d'));
+    </insert>
+
+
+
+    <delete id="deleteOne">
+        delete
+        from t_student
+        <where>
+            <if test="no!=null">
+                no=#{no}
+            </if>
+            <if test="name!=null">
+                or name= #{name}
+            </if>
+        </where>
+    </delete>
+
+
+
+    <update id="update">
+        update t_student
+        <set>
+            <if test="Student.name!=null">
+                name=#{Student.name}
+            </if>
+            <if test="Student.birth!=null">
+               birth=str_to_date(#{Student.birth}, '%Y-%m-%d')
+            </if>
+        </set>
+        <where>
+            <if test="no!=null">
+                no = #{no}
+            </if>
+        </where>
+    </update>
+
+</mapper>

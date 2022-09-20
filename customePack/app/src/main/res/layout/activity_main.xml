@@ -6,46 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.unite.jasonjar.view.JasonTextView
-        android:id="@+id/jason"
+    <Button
+        android:id="@+id/as"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="3dp"
-        android:text="冯家振"
-        app:ja_bgColorDefault="#FF995678"
-        app:ja_bgColorPress="#88995678"
-        app:ja_gravity="center_vertical"
-        app:ja_paddingLeft="12dp"
-        app:ja_radius="5dp"
-        app:ja_strokeColor="#009878"
-        app:ja_strokeWidth="3dp"
-        app:ja_textColorDefault="#FFFFFFFF"
-        app:ja_textColorPress="#000000" />
-
-    <com.unite.jasonjar.view.JasonRadioGroup
-        android:id="@+id/parent"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:elevation="10dp"
-        app:ja_bgColor="#FFffffff"
-        app:ja_radius="5dp"
-        app:ja_strokeColor="#956789"
-        app:ja_strokeWidth="6dp">
-
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="25dp"
-            android:background="#123456"
-            android:text="123" />
-
-    </com.unite.jasonjar.view.JasonRadioGroup>
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+        android:text="链接"
+/>
 
 </LinearLayout>

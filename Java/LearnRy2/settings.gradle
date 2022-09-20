@@ -1,0 +1,6 @@
+rootProject.name = 'jason-admin'
+include 'jason-admin'
+include 'jason-common'
+include 'jason-system'
+include 'jason-framework'
+

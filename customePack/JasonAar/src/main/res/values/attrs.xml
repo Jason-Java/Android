@@ -134,9 +134,7 @@
         <attr name="ja_enable" />
 
 
-        <attr name="ja_gravity">
-
-        </attr>
+        <attr name="ja_gravity"/>
 
         <!--        内边距相关-->
         <attr name="ja_padding" />
@@ -178,9 +176,7 @@
         <attr name="ja_enable" />
 
 
-        <attr name="ja_gravity">
-
-        </attr>
+        <attr name="ja_gravity"/>
     </declare-styleable>
     <declare-styleable name="JasonLinerLayout">
         <!--    背景相关-->

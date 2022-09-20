@@ -1,33 +1,31 @@
 package com.unite.customepack;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.TextView;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
-import com.unite.jasonjar.util.JasonToast;
 import com.unite.jasonjar.util.LogUtil;
-import com.unite.jasonjar.util.StringUtil;
-import com.unite.jasonjar.view.JasonButton;
-import com.unite.jasonjar.view.JasonLinerLayout;
-import com.unite.jasonjar.view.JasonTextView;
 
-import org.w3c.dom.Text;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    UniteWebSocket uniteWebSocket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        JasonToast.getInstance().init(this);
+         uniteWebSocket = new UniteWebSocket();
 
-        WaitDialog waitDialog1 = new WaitDialog();
-       JasonLinerLayout jasonLinerLayout= findViewById(R.id.parent);
+        findViewById(R.id.as).setOnClickListener(this);
 
     }
 
+    @Override
+    public void onClick(View v) {
+        uniteWebSocket.openSocket("01311100000009;01311100000004");
+    }
+    
 }

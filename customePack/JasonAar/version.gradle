@@ -1,0 +1,10 @@
+ext {
+    androidId = [
+            compileSdk : 30,
+            minSdk     : 21,
+            targetSdk  : 30,
+            versionCode: 116,
+            versionName: "1.1.6"
+    ]
+    jasonVersionName= "1.1.6"
+}

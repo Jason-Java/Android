@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.7">
+      <module name="customePack.app" target="1.8" />
+      <module name="customePack.JasonAar" target="1.8" />
+      <module name="customePack.StackOverView" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
