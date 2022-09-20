@@ -1,8 +1,8 @@
 package com.jason.config;
 
+import com.jason.system.exception.SecurityGlobalException;
 import com.jason.system.security.UserDetailServiceImpl;
 import com.jason.system.security.filter.AuthenticationTokenFilter;
-import com.jason.system.security.handler.AuthenticationExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -23,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationTokenFilter authenticationTokenFilter;
     //认证失败处理器
     @Autowired
-    private AuthenticationExceptionHandler authenticationExceptionHandler;
+    private SecurityGlobalException securityGlobalException;
 
     @Autowired
     private UserDetailServiceImpl userDetailService;
@@ -36,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().disable();
 
         //添加认证失败处理类
-        http.exceptionHandling().authenticationEntryPoint(authenticationExceptionHandler);
+        http.exceptionHandling().authenticationEntryPoint(securityGlobalException);
 
         //过滤请求资源
         http.authorizeRequests()
@@ -58,9 +59,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+
+    @Bean
+    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailService);
+        auth.userDetailsService(userDetailService).passwordEncoder(getBCryptPasswordEncoder());
 
     }
 

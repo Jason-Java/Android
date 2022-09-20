@@ -1,7 +1,10 @@
 package com.jason.system.model.service;
 
+import com.jason.system.exception.ServiceException;
+import com.jason.system.model.body.LoginUser;
 import com.jason.system.security.AuthenticationContextHolder;
 import com.jason.system.model.service.impl.SysConfigServiceImpl;
+import com.jason.system.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +23,9 @@ public class SysLoginService {
 
     @Autowired
     private SysConfigServiceImpl configService;
+
+    @Autowired
+    private TokenUtil tokenUtil;
 
     /**
      * 登陆验证
@@ -41,16 +47,17 @@ public class SysLoginService {
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
             AuthenticationContextHolder.setContext(authenticationToken);
-
             authentication = authenticationManager.authenticate(authenticationToken);
-
-
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw  new  ServiceException(e.getMessage());
+        }
+        finally {
+            AuthenticationContextHolder.clearContext();
         }
 
+        LoginUser loginUser= (LoginUser) authentication.getPrincipal();
 
-        return "123";
+        return tokenUtil.generateToken(loginUser.getUsername());
 
     }
 

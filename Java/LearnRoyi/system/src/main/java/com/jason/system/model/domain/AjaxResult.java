@@ -99,4 +99,62 @@ public class AjaxResult extends HashMap<String, Object> {
         return new AjaxResult(HttpStatus.SUCCESS, msg, data);
     }
 
+    /**
+     * 返回错误消息
+     *
+     * @return
+     */
+    public static AjaxResult error()
+    {
+        return AjaxResult.error("操作失败");
+    }
+
+    /**
+     * 返回错误消息
+     *
+     * @param msg 返回内容
+     * @return 警告消息
+     */
+    public static AjaxResult error(String msg)
+    {
+        return AjaxResult.error(msg, null);
+    }
+
+    /**
+     * 返回错误消息
+     *
+     * @param msg 返回内容
+     * @param data 数据对象
+     * @return 警告消息
+     */
+    public static AjaxResult error(String msg, Object data)
+    {
+        return new AjaxResult(HttpStatus.ERROR, msg, data);
+    }
+
+    /**
+     * 返回错误消息
+     *
+     * @param code 状态码
+     * @param msg 返回内容
+     * @return 警告消息
+     */
+    public static AjaxResult error(int code, String msg)
+    {
+        return new AjaxResult(code, msg, null);
+    }
+
+    /**
+     * 方便链式调用
+     *
+     * @param key 键
+     * @param value 值
+     * @return 数据对象
+     */
+    @Override
+    public AjaxResult put(String key, Object value)
+    {
+        super.put(key, value);
+        return this;
+    }
 }

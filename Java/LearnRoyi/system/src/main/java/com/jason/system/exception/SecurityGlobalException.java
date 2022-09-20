@@ -1,5 +1,7 @@
-package com.jason.system.security.handler;
+package com.jason.system.exception;
 
+import com.alibaba.fastjson.JSONObject;
+import com.jason.system.model.domain.AjaxResult;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -10,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class AuthenticationExceptionHandler implements AuthenticationEntryPoint {
+public class SecurityGlobalException implements AuthenticationEntryPoint {
+
+
     /**
      * Commences an authentication scheme.
      * <p>
@@ -28,7 +32,9 @@ public class AuthenticationExceptionHandler implements AuthenticationEntryPoint 
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        System.out.println("------>认证失败处理");
 
+        response.setStatus(200);
+        AjaxResult error = AjaxResult.error(500, authException.getMessage());
+        response.getWriter().println(error);
     }
 }

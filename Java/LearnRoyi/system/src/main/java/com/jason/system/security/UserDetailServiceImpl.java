@@ -2,10 +2,15 @@ package com.jason.system.security;
 
 import com.jason.system.enums.UserStatus;
 import com.jason.system.exception.ServiceException;
+import com.jason.system.model.body.LoginUser;
 import com.jason.system.model.domain.SysUser;
 import com.jason.system.model.service.ISysUserService;
+import com.jason.system.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,8 +37,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private ISysUserService userService;
 
 
-
-
     /**
      * Locates the user based on the username. In the actual implementation, the search
      * may possibly be case sensitive, or case insensitive depending on how the
@@ -49,16 +52,20 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser user = userService.selectUserByUserName(username);
-        if(Objects.isNull(user)||UserStatus.DELETED.getCode().equals(user.getDelFlag()))
-        {
+        if (Objects.isNull(user) || UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
             throw new ServiceException("登录用户：" + username + " 不存在");
-        }
-        else if(UserStatus.DISABLE.getCode().equals(user.getStatus()))
-        {
+        } else if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
             throw new ServiceException("对不起，您的账号：" + username + " 已停用");
         }
-        System.out.println("----->loadUserByUsername");
-        return null;
+
+        Authentication token = AuthenticationContextHolder.getContext();
+        String password = token.getCredentials().toString();
+        if (!SecurityUtil.passwordMatch(password, user.getPassword())) {
+            throw new ServiceException("密码错误");
+        }
+
+
+        return new LoginUser(user, null);
     }
 
 
