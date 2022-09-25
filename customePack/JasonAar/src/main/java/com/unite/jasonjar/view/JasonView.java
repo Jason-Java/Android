@@ -269,15 +269,6 @@ public class JasonView {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                LogUtil.i("我是坐标 X " + event.getX() + "  Y  " + event.getY());
-               /* if (event.getX() >= locations[0] + viewWidth
-                        || event.getX() <= locations[0]) {
-                    bgColor = bgColorDefault;
-                    bgDrawable = bgDrawableDefault;
-                    texColor = textColorDefault;
-                    strokeColor = strokeColorDefault;
-                    view.invalidate();
-                }*/
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:

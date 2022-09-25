@@ -1,6 +1,7 @@
 package com.jason.system.exception;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jason.system.constant.HttpStatus;
 import com.jason.system.model.domain.AjaxResult;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -33,8 +34,16 @@ public class SecurityGlobalException implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
-        response.setStatus(200);
-        AjaxResult error = AjaxResult.error(500, authException.getMessage());
-        response.getWriter().println(error);
+        response.setStatus(HttpStatus.SUCCESS);
+        response.setContentType("application/json;charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("msg",request.getRequestURI()+" "+"无访问权限");
+        jsonObject.put("code", 500);
+
+        response.getWriter().println(jsonObject.toJSONString());
+        response.getWriter().flush();
+        response.getWriter().close();
     }
+
+
 }

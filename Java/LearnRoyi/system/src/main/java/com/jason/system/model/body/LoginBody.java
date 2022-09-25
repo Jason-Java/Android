@@ -1,5 +1,7 @@
 package com.jason.system.model.body;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 用户登录对象
  * 

@@ -1,5 +1,6 @@
 package com.jason.system.security.filter;
 
+import com.jason.system.exception.SecurityException;
 import com.jason.system.exception.ServiceException;
 import com.jason.system.model.body.LoginUser;
 import com.jason.system.model.domain.SysUser;
@@ -61,28 +62,31 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         }
 
         // token无效
-        if (!tokenUtil.isTokenExpired(request)) {
+        if (tokenUtil.isTokenExpired(request)) {
             throw new ServiceException("token无效", 403);
         }
 
         SysUser user = userService.selectUserByUserName(tokenUtil.getUserNameFromToken(request));
         if (StringUtils.isNull(user)) {
-            throw new ServiceException("用户不存在", 403);
+            throw new SecurityException(403, "用户不存在");
         }
-        // todo 查询权限
-        LoginUser loginUser=new LoginUser(user,null);
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=
-                new UsernamePasswordAuthenticationToken(loginUser,null,loginUser.getAuthorities());
+
+
+
+        // todo 查询权限
+        LoginUser loginUser = new LoginUser(user, null);
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
         usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
+        //刷新token
         tokenUtil.refreshToken(request, response);
 
 
         //如果登陆了放行
-
-
         filterChain.doFilter(request, response);
     }
 }

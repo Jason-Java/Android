@@ -1,6 +1,7 @@
 package com.jason.system.util;
 
 import com.jason.system.constant.Constants;
+import com.jason.system.exception.ServiceException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -79,7 +80,7 @@ public class TokenUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
         return claims;
     }
@@ -101,7 +102,7 @@ public class TokenUtil {
     private String generateToken(Map<String, Object> claims) {
         return Jwts.builder()
                 .setClaims(claims)
-                .setExpiration(new Date(System.currentTimeMillis() + expireTime * 1000))//失效时间
+                .setExpiration(new Date(System.currentTimeMillis() + expireTime * 1000*60))//失效时间
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }

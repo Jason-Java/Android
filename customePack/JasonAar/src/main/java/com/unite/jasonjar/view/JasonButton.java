@@ -9,11 +9,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class JasonButton extends androidx.appcompat.widget.AppCompatButton {
+public class JasonButton extends Button {
 
     public final JasonView jasonView;
 

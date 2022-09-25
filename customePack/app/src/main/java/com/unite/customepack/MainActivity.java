@@ -12,12 +12,12 @@ import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    UniteWebSocket uniteWebSocket;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-         uniteWebSocket = new UniteWebSocket();
+
 
         findViewById(R.id.as).setOnClickListener(this);
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        uniteWebSocket.openSocket("01311100000009;01311100000004");
+        System.out.println("123");
     }
     
 }

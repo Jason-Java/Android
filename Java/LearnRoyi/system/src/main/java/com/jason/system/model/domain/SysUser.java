@@ -3,6 +3,9 @@ package com.jason.system.model.domain;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -22,15 +25,20 @@ public class SysUser extends BaseDomain
     private Long deptId;
 
     /** 用户账号 */
+    @NotBlank(message = "用户账户不可为空")
+    @Size(min=1,max = 30,message = "用户账号长度不能超过30字符")
     private String userName;
 
     /** 用户昵称 */
+    @Size(min = 0,max = 30,message = "用户昵称长度不能超过30字符")
     private String nickName;
 
     /** 用户邮箱 */
+    @Email(message = "邮箱格式不正确")
     private String email;
 
     /** 手机号码 */
+    @Size(min = 0,max = 11,message = "手机号长度不能超过11个字符")
     private String phonenumber;
 
     /** 用户性别 */
