@@ -36,7 +36,6 @@ public class SysLoginController {
     private ISysRoleService roleService;
 
     @Autowired
-
     private SysMenuServiceImpl menuService;
 
 
@@ -61,7 +60,7 @@ public class SysLoginController {
      *
      * @return 用户信息
      */
-    @GetMapping("getInfo")
+    @GetMapping("/getInfo")
     public AjaxResult getInfo() {
         SysUser sysUser = SecurityUtil.getLoginUser().getUser();
         //角色集合

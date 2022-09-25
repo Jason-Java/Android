@@ -56,10 +56,10 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
          *
          *  不过期则进行业务处理
          */
-        if (StringUtils.startsWith(request.getRequestURI(), "/login")) {
+      /*  if (StringUtils.startsWith(request.getRequestURI(), "/login") || StringUtils.startsWith(request.getRequestURI(), "/swagger")) {
             filterChain.doFilter(request, response);
             return;
-        }
+        }*/
 
         // token无效
         if (tokenUtil.isTokenExpired(request)) {

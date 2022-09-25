@@ -40,12 +40,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling().authenticationEntryPoint(securityGlobalException);
 
         //过滤请求资源
-        http.authorizeRequests()
+        http.
+                authorizeRequests()
                 //登陆接口可以匿名访问
-                .antMatchers("/login", "/login/*").anonymous()
+                .antMatchers("/login", "/login/**").anonymous()
                 //静态资源可以允许访问
+                .antMatchers("/swagger-ui","/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/", "/**/*.html", "/**/*.js", "profile/**").permitAll()
-                .antMatchers("/swagger-ui", "/swagger-ui/", "/swagger-ui.html").permitAll()
+                .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
+                .antMatchers("/swagger-ui/**","/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**").permitAll()
                 //除了上述资源其余资源都需要认证
                 .anyRequest().authenticated()
                 .and()
@@ -56,6 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //添加JWT 过滤器
         http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+
 
     }
 
