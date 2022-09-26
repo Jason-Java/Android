@@ -45,12 +45,35 @@
         from sys_menu
     </sql>
 
+    <sql id="whereByUserIdVo">
+        menu_id
+        in (
+            select menu_id from sys_role_menu where role_id in (select role_id from sys_user where user_id =
+        #{userId}
+        )
+        )
+    </sql>
+
 
     <select id="selectMenuPermsByUserId" parameterType="Long" resultType="String">
         select perms
         from sys_menu
         where menu_id in
-              (select menu_id from sys_role_menu where role_id in (select role_id from sys_user where user_id = #{userId}))
+              (select menu_id
+               from sys_role_menu
+               where role_id in (select role_id from sys_user where user_id = #{userId}))
     </select>
+
+
+    <select id="selectMenuByUserId" parameterType="Long" resultMap="SysMenuResult">
+        <include refid="selectMenuVo"/>
+        where menu_type in ('M','C') and 'status'=0 and visible=0
+        <if test="userId!=null and userId!=0">
+            and
+            <include refid="whereByUserIdVo"/>
+        </if>
+        order by parent_id,order_num
+    </select>
+
 
 </mapper>

@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public class LoginUser implements UserDetails {
@@ -59,7 +60,7 @@ public class LoginUser implements UserDetails {
     /**
      * 权限列表
      */
-    private Set<String> permissions;
+    private List<String> permissions;
 
     /**
      * 用户信息
@@ -94,12 +95,12 @@ public class LoginUser implements UserDetails {
 
     }
 
-    public LoginUser(SysUser user, Set<String> permissions) {
+    public LoginUser(SysUser user, List<String> permissions) {
         this.user = user;
         this.permissions = permissions;
     }
 
-    public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions) {
+    public LoginUser(Long userId, Long deptId, SysUser user, List<String> permissions) {
         this.userId = userId;
         this.deptId = deptId;
         this.user = user;
@@ -232,11 +233,11 @@ public class LoginUser implements UserDetails {
         this.expireTime = expireTime;
     }
 
-    public Set<String> getPermissions() {
+    public List<String> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(Set<String> permissions) {
+    public void setPermissions(List<String> permissions) {
         this.permissions = permissions;
     }
 

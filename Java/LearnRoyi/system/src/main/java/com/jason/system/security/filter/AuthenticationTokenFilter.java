@@ -4,6 +4,7 @@ import com.jason.system.exception.SecurityException;
 import com.jason.system.exception.ServiceException;
 import com.jason.system.model.body.LoginUser;
 import com.jason.system.model.domain.SysUser;
+import com.jason.system.model.service.ISysMenuService;
 import com.jason.system.model.service.ISysUserService;
 import com.jason.system.util.StringUtils;
 import com.jason.system.util.TokenUtil;
@@ -20,16 +21,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 @Component
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private TokenUtil tokenUtil;
-
-
     @Autowired
     private ISysUserService userService;
+    @Autowired
+    private ISysMenuService menuService;
 
     /**
      * Same contract as for {@code doFilter}, but guaranteed to be
@@ -48,18 +51,14 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         //如果为登陆则进行登陆
 
 
-        // TODO: 2022/9/20
+
         /**
-         * 如果是登录路由则进行登录
-         *  如果不是登录 则判断是否有 token
-         *  token是否过期
-         *
-         *  不过期则进行业务处理
+         * 没有token进行放行
          */
-      /*  if (StringUtils.startsWith(request.getRequestURI(), "/login") || StringUtils.startsWith(request.getRequestURI(), "/swagger")) {
+        if (!tokenUtil.isHaveToken(request)) {
             filterChain.doFilter(request, response);
             return;
-        }*/
+        }
 
         // token无效
         if (tokenUtil.isTokenExpired(request)) {
@@ -71,11 +70,9 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
             throw new SecurityException(403, "用户不存在");
         }
 
-
-
-
-        // todo 查询权限
-        LoginUser loginUser = new LoginUser(user, null);
+        //  查询权限
+        List<String> perms=  menuService.selectMenuPermsByUserId(user.getUserId());
+        LoginUser loginUser = new LoginUser(user, perms);
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
@@ -84,8 +81,6 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
         //刷新token
         tokenUtil.refreshToken(request, response);
-
-
         //如果登陆了放行
         filterChain.doFilter(request, response);
     }

@@ -4,12 +4,14 @@ package com.jason.system.model.controller;
 import com.jason.system.constant.Constants;
 import com.jason.system.model.body.LoginBody;
 import com.jason.system.model.domain.AjaxResult;
+import com.jason.system.model.domain.SysMenu;
 import com.jason.system.model.domain.SysUser;
 import com.jason.system.model.service.ISysMenuService;
 import com.jason.system.model.service.ISysRoleService;
 import com.jason.system.model.service.SysLoginService;
 import com.jason.system.model.service.impl.SysMenuServiceImpl;
 import com.jason.system.util.SecurityUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
@@ -45,6 +47,7 @@ public class SysLoginController {
      * @param loginBody 登录信息
      * @return 结果
      */
+    @ApiOperation("登陆")
     @PostMapping("/login")
     public AjaxResult login(@Validated @RequestBody LoginBody loginBody) {
         AjaxResult ajax = AjaxResult.success();
@@ -60,6 +63,7 @@ public class SysLoginController {
      *
      * @return 用户信息
      */
+    @ApiOperation("根据token获取用户信息")
     @GetMapping("/getInfo")
     public AjaxResult getInfo() {
         SysUser sysUser = SecurityUtil.getLoginUser().getUser();
@@ -73,6 +77,13 @@ public class SysLoginController {
         ajax.put("permissions", perms);
         return ajax;
     }
+
+    @GetMapping("/getRouters")
+    public List<SysMenu> getRouters() {
+        Long userId = SecurityUtil.getLoginUser().getUserId();
+        return menuService.selectMenuByUserId(userId);
+    }
+
 
 
 }

@@ -49,6 +49,9 @@ public class JwtFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        System.out.println(request.getRequestURI()+"  被拦截");
+
         String token = request.getHeader("Authorization");
 
         //没有token

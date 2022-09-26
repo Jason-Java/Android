@@ -50,6 +50,17 @@ public class TokenUtil {
     }
 
     /**
+     * 判断是否有token
+     * @param request
+     * @return true有token false无token
+     */
+    public boolean isHaveToken(HttpServletRequest request)
+    {
+        String token = getTokenFromRequest(request);
+        return StringUtils.isNotNull(token);
+    }
+
+    /**
      * 从Token中获取用户名
      *
      * @param token

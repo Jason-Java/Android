@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 
 @Configuration
-@MapperScan("com.jason")
+@MapperScan("com.jason.**.mapper")
 @ComponentScan("com.jason")
 @EnableWebSecurity
 public class SpringBootConfig extends WebMvcConfigurationSupport {
@@ -25,7 +25,6 @@ public class SpringBootConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/swagger-ui/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
     }
-
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
