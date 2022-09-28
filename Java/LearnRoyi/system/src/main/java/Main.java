@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -12,7 +13,7 @@ public class Main {
         studentArrayList.add(new Student("小明",12,"男"));
         studentArrayList.add(new Student("小六",13,"女"));
         studentArrayList.add(new Student("小十多",14,"男"));
-        studentArrayList.add(new Student("小ew",15,"女"));
+        studentArrayList.add(new Student("小ew",12,"女"));
         studentArrayList.add(new Student("小分隔符",16,"男"));
         studentArrayList.add(new Student("小23",17,"女"));
         studentArrayList.add(new Student("小语言",18,"男"));
@@ -26,7 +27,14 @@ public class Main {
             public boolean test(Student student) {
                 return student.getSex().equals("女");
             }
-        }).collect(Collectors.toList());
+        }).peek(new Consumer<Student>() {
+               @Override
+               public void accept(Student student) {
+
+               }
+           })
+
+        .collect(Collectors.toList());
         System.out.println(res);
     }
 

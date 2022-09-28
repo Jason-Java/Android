@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SysMenuServiceImpl implements ISysMenuService {
@@ -51,30 +53,50 @@ public class SysMenuServiceImpl implements ISysMenuService {
 
     }
 
-    public List<SysMenu> buildMenuTree(int parentId,List<SysMenu> menus) {
+    public List<RouterVo> buildMenuTree(List<SysMenu> menus) {
         List<RouterVo> routerVoList = new ArrayList<>();
         RouterVo routerVo = null;
-        for (SysMenu menu : menus) {
+        for (int i = 0; i < menus.size(); i++) {
+            SysMenu menu = menus.get(i);
             routerVo = new RouterVo();
+            routerVo.setId(menu.getMenuId());
             routerVo.setName(menu.getMenuName());
             routerVo.setPath(menu.getPath());
             routerVo.setQuery(menu.getQuery());
             routerVo.setComponent(menu.getComponent());
             if (menu.getParentId() == 0) {
-                List<RouterVo> childRouter = new ArrayList<>();
-                routerVo.setChildren(childRouter);
                 routerVoList.add(routerVo);
-                menus.remove(menu);
+                menus.remove(i);
+                i--;
+                findChild(routerVo, menus);
+            } else {
+                break;
             }
-
         }
-        return null;
+        return routerVoList;
     }
 
 
+    private void findChild(RouterVo parent, List<SysMenu> menus) {
+        RouterVo routerVo = null;
+        for (int i = 0; i < menus.size(); i++) {
+            if (parent.getId() == menus.get(i).getParentId()) {
+                if (parent.getChildren() == null)
+                    parent.setChildren(new ArrayList<RouterVo>());
+                routerVo = new RouterVo();
+                routerVo.setId(menus.get(i).getMenuId());
+                routerVo.setName(menus.get(i).getMenuName());
+                routerVo.setPath(menus.get(i).getPath());
+                routerVo.setQuery(menus.get(i).getQuery());
+                routerVo.setComponent(menus.get(i).getComponent());
+                menus.remove(i);
+                i--;
+                parent.getChildren().add(routerVo);
+                findChild(routerVo, menus);
+            }
 
-
-
+        }
+    }
 
 
 }

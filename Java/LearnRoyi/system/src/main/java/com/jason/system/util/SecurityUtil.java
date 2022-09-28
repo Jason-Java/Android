@@ -2,11 +2,14 @@ package com.jason.system.util;
 
 
 import com.jason.system.model.body.LoginUser;
+import com.jason.system.model.domain.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.List;
 
 public class SecurityUtil {
 
@@ -32,8 +35,24 @@ public class SecurityUtil {
         return (LoginUser) getAuthentication().getPrincipal();
     }
 
+    public static List<SysRole> getRoles() {
+      return  getLoginUser().getUser().getRoles();
+    }
+
+    /**
+     * 获取当前用户的权限
+     * @return 权限集合
+     */
+    public static List<String> getPermission() {
+        return getLoginUser().getPermissions();
+    }
+
     private static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
+
+
+
+
 
 }
