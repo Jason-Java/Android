@@ -73,6 +73,9 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         //  查询权限
         List<String> perms=  menuService.selectMenuPermsByUserId(user.getUserId());
         LoginUser loginUser = new LoginUser(user, perms);
+        loginUser.setUserId(user.getUserId());
+        loginUser.setDeptId(user.getDeptId());
+
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());

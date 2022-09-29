@@ -1,13 +1,15 @@
 package com.jason.system.model.controller;
 
+import com.jason.system.aspectj.Log;
 import com.jason.system.model.domain.AjaxResult;
 import com.jason.system.model.domain.SysMenu;
 import com.jason.system.model.service.ISysMenuService;
+import com.jason.system.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>描述:菜单管理
@@ -27,10 +29,28 @@ public class SysMenuController {
     @Autowired
     private ISysMenuService menuService;
 
-    @PreAuthorize("@permi.hasPermission('system:menu:query7')")
+    /**
+     * 获取菜单树列表
+     * @param menu
+     * @return
+     */
+    @PreAuthorize("@permi.hasPermission('system:menu:list7')")
     @GetMapping("/list")
-    public void list(SysMenu menu) {
-        System.out.println("函数执行完毕");
+    public AjaxResult list(SysMenu menu) {
+        Long userId = SecurityUtil.getUserId();
+       List<SysMenu> menuList= menuService.selectMenuListByUserId(menu, userId);
+        return AjaxResult.success(menuService.buildMenuTree(menuList));
     }
+
+    @PreAuthorize("@permi.hasPermission('system:menu:query')")
+    @GetMapping("/{menuId}")
+    @Log
+    public AjaxResult getInfo(@PathVariable Long menuId) {
+        return AjaxResult.success(menuService.selectMenuById(menuId));
+    }
+
+    /*@PreAuthorize("@permi.hasPermi('system:menu:add')")
+    @PostMapping()
+    public AjaxResult add()*/
 
 }

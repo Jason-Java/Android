@@ -65,7 +65,7 @@
     </select>
 
 
-    <select id="selectMenuByUserId" parameterType="Long" resultMap="SysMenuResult">
+    <select id="selectRouteByUserId" parameterType="Long" resultMap="SysMenuResult">
         <include refid="selectMenuVo"/>
         where menu_type in ('M','C') and 'status'=0 and visible=0
         <if test="userId!=null and userId!=0">
@@ -73,6 +73,31 @@
             <include refid="whereByUserIdVo"/>
         </if>
         order by parent_id,order_num
+    </select>
+
+    <select id="selectMenuListByUserId" resultMap="SysMenuResult">
+        <include refid="selectMenuVo"/>
+        <where>
+            <if test="sysMenu.menuName != null and sysMenu.menuName != ''">
+                AND menu_name like concat('%', #{sysMenu.menuName}, '%')
+            </if>
+            <if test="sysMenu.visible != null and sysMenu.visible != ''">
+                AND visible = #{sysMenu.visible}
+            </if>
+            <if test="sysMenu.status != null and sysMenu.status != ''">
+                AND status = #{sysMenu.status}
+            </if>
+            <if test="userId!=null and userId!=0">
+                and
+                <include refid="whereByUserIdVo"/>
+            </if>
+        </where>
+        order by parent_id,order_num
+    </select>
+
+    <select id="selectMenuById" parameterType="Long" resultMap="SysMenuResult">
+        <include refid="selectMenuVo"></include>
+        where menu_id=#{menuId}
     </select>
 
 

@@ -3,6 +3,7 @@ package com.jason.config;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -16,6 +17,7 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 @ComponentScan("com.jason")
 @EnableOpenApi
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableAspectJAutoProxy
 public class SpringBootConfig extends WebMvcConfigurationSupport {
 
     /**

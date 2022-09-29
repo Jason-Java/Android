@@ -28,19 +28,45 @@ public class SecurityUtil {
 
     /**
      * 获取用户登录信息
-     * @return
+     *
+     * @return 用户登录信息
      */
     public static LoginUser getLoginUser() {
 
         return (LoginUser) getAuthentication().getPrincipal();
     }
 
+    /**
+     * 获取角色信息
+     *
+     * @return 角色列表
+     */
     public static List<SysRole> getRoles() {
-      return  getLoginUser().getUser().getRoles();
+        return getLoginUser().getUser().getRoles();
     }
 
     /**
+     * 获取用户Id
+     *
+     * @return 返回用户Id
+     */
+    public static Long getUserId() {
+        return getLoginUser().getUserId();
+    }
+
+    /**
+     * 获取用户部门Id
+     *
+     * @return 返回部门id
+     */
+    public static Long getDeptId() {
+        return getLoginUser().getDeptId();
+    }
+
+
+    /**
      * 获取当前用户的权限
+     *
      * @return 权限集合
      */
     public static List<String> getPermission() {
@@ -50,9 +76,6 @@ public class SecurityUtil {
     private static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
-
-
-
 
 
 }

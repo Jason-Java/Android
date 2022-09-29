@@ -6,19 +6,34 @@ import com.jason.system.model.domain.SysUser;
 import com.jason.system.model.mapper.SysMenuMapper;
 import com.jason.system.model.service.ISysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class SysMenuServiceImpl implements ISysMenuService {
 
     @Autowired
     private SysMenuMapper menuMapper;
+
+
+    /**
+     * 根据用户Id查询用户具有的菜单
+     *
+     * @param sysMenu 查询条件
+     * @param userId  用户Id
+     * @return 菜单集合
+     */
+    @Override
+    public List<SysMenu> selectMenuListByUserId(SysMenu sysMenu, Long userId) {
+
+        if (SysUser.isAdmin(userId)) {
+            userId = null;
+        }
+        return menuMapper.selectMenuListByUserId(sysMenu, userId);
+    }
+
 
 
     /**
@@ -39,20 +54,26 @@ public class SysMenuServiceImpl implements ISysMenuService {
     }
 
     /**
-     * 根据用户Id查询Menu 如果userId==null || userId=0 则返回全部
+     * 根据用户Id查询Route 如果userId==null || userId=0 则返回全部
      *
      * @param userId 用户id
      * @return Menu集合
      */
     @Override
-    public List<SysMenu> selectMenuByUserId(Long userId) {
+    public List<SysMenu> selectRouteByUserId(Long userId) {
         if (SysUser.isAdmin(userId)) {
-            return menuMapper.selectMenuByUserId(null);
+            return menuMapper.selectRouteByUserId(null);
         }
-        return menuMapper.selectMenuByUserId(userId);
+        return menuMapper.selectRouteByUserId(userId);
 
     }
 
+    /**
+     * 构建MenuTree
+     *
+     * @param menus 菜单集合
+     * @return 具有父子关系的菜单树
+     */
     public List<RouterVo> buildMenuTree(List<SysMenu> menus) {
         List<RouterVo> routerVoList = new ArrayList<>();
         RouterVo routerVo = null;
@@ -68,16 +89,42 @@ public class SysMenuServiceImpl implements ISysMenuService {
                 routerVoList.add(routerVo);
                 menus.remove(i);
                 i--;
-                findChild(routerVo, menus);
+                buildMenuTree(routerVo, menus);
             } else {
                 break;
             }
+        }
+
+        if (menus.size() <= 0) {
+            return routerVoList;
+        }
+
+        for (int i = 0; i < menus.size(); i++) {
+            SysMenu menu = menus.get(i);
+            routerVo = new RouterVo();
+            routerVo.setId(menu.getMenuId());
+            routerVo.setName(menu.getMenuName());
+            routerVo.setPath(menu.getPath());
+            routerVo.setQuery(menu.getQuery());
+            routerVo.setComponent(menu.getComponent());
+            routerVoList.add(routerVo);
+            menus.remove(i);
+            i--;
+            buildMenuTree(routerVo, menus);
         }
         return routerVoList;
     }
 
 
-    private void findChild(RouterVo parent, List<SysMenu> menus) {
+
+
+    /**
+     * 构建menuTrue
+     *
+     * @param parent
+     * @param menus
+     */
+    private void buildMenuTree(RouterVo parent, List<SysMenu> menus) {
         RouterVo routerVo = null;
         for (int i = 0; i < menus.size(); i++) {
             if (parent.getId() == menus.get(i).getParentId()) {
@@ -92,11 +139,19 @@ public class SysMenuServiceImpl implements ISysMenuService {
                 menus.remove(i);
                 i--;
                 parent.getChildren().add(routerVo);
-                findChild(routerVo, menus);
+                buildMenuTree(routerVo, menus);
             }
-
         }
     }
 
-
+    /**
+     * 根据Id获取菜单详情
+     *
+     * @param menuId 菜单Id
+     * @return 返回菜单详情
+     */
+    @Override
+    public SysMenu selectMenuById(Long menuId) {
+        return  menuMapper.selectMenuById(menuId);
+    }
 }

@@ -3,19 +3,15 @@ package com.jason.system.model.controller;
 
 import com.jason.system.constant.Constants;
 import com.jason.system.model.body.LoginBody;
-import com.jason.system.model.body.RouterVo;
 import com.jason.system.model.domain.AjaxResult;
 import com.jason.system.model.domain.SysMenu;
 import com.jason.system.model.domain.SysUser;
-import com.jason.system.model.service.ISysMenuService;
 import com.jason.system.model.service.ISysRoleService;
 import com.jason.system.model.service.SysLoginService;
 import com.jason.system.model.service.impl.SysMenuServiceImpl;
 import com.jason.system.util.SecurityUtil;
 import io.swagger.annotations.ApiOperation;
-import jdk.javadoc.internal.doclets.toolkit.taglets.snippet.Style;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,7 +79,7 @@ public class SysLoginController {
     @GetMapping("/getRouters")
     public AjaxResult getRouters() {
         Long userId = SecurityUtil.getLoginUser().getUserId();
-        List<SysMenu> menuList = menuService.selectMenuByUserId(userId);
+        List<SysMenu> menuList = menuService.selectRouteByUserId(userId);
         return AjaxResult.success(menuService.buildMenuTree(menuList));
     }
 }
