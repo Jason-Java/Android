@@ -1,6 +1,7 @@
 package com.jason.system.model.controller;
 
 
+import com.jason.system.aspectj.Log;
 import com.jason.system.constant.Constants;
 import com.jason.system.model.body.LoginBody;
 import com.jason.system.model.domain.AjaxResult;
@@ -46,6 +47,7 @@ public class SysLoginController {
      * @return 结果
      */
     @ApiOperation("登陆")
+    @Log
     @PostMapping("/login")
     public AjaxResult login(@Validated @RequestBody LoginBody loginBody) {
         AjaxResult ajax = AjaxResult.success();
@@ -55,6 +57,13 @@ public class SysLoginController {
         ajax.put(Constants.TOKEN, token);
         return ajax;
     }
+
+    @Log
+    @GetMapping("/login")
+    public void login() {
+
+    }
+
 
     /**
      * 获取用户信息

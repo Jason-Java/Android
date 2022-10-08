@@ -17,9 +17,28 @@ public class ServletUtil {
         return getRequestAttributes().getResponse();
     }
 
+
     public static ServletRequestAttributes getRequestAttributes() {
         return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
     }
+
+    /**
+     * 获取请求的路径
+     * @return
+     */
+    public static String getURI() {
+        return getRequest().getRequestURI();
+    }
+
+    /**
+     * 获取请求方式 GET,POST....
+     * @return
+     */
+    public static String getMethod() {
+        return getRequest().getMethod();
+    }
+
+
 
 
 }
