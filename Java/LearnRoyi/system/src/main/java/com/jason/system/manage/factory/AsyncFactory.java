@@ -1,19 +1,29 @@
 package com.jason.system.manage.factory;
 
+import com.jason.ApplicationContext;
 import com.jason.system.model.domain.SysOperLog;
-import com.jason.system.util.ip.IpUtils;
+import com.jason.system.model.service.ISysOperLogService;
+import com.jason.system.model.service.SysLoginService;
+import com.jason.system.model.service.impl.SysConfigServiceImpl;
+import com.jason.system.model.service.impl.SysOperLogServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.TimerTask;
 
 public class AsyncFactory {
 
 
-    public static TimerTask recordOper(final SysOperLog operLog) {
+    private static ISysOperLogService operLogService = ApplicationContext.getBean(SysOperLogServiceImpl.class);
+
+
+    public static TimerTask recordOperLog(final SysOperLog operLog) {
         return new TimerTask() {
             @Override
             public void run() {
+
                 System.out.println("=====>保存数据库");
-                System.out.println(operLog.toString());
+                operLogService.insertOperlog(operLog);
+//                System.out.println(operLog.toString());
             }
         };
     }

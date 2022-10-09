@@ -1,6 +1,8 @@
 package com.jason.system.aspectj;
 
 import com.alibaba.fastjson.JSON;
+import com.jason.system.manage.AsyncManager;
+import com.jason.system.manage.factory.AsyncFactory;
 import com.jason.system.model.body.LoginUser;
 import com.jason.system.model.domain.SysOperLog;
 import com.jason.system.util.SecurityUtil;
@@ -9,13 +11,9 @@ import com.jason.system.util.ip.IpUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletException;
 import java.util.Map;
@@ -58,7 +56,8 @@ public class LogAspectj {
 
         operLog.setRequestMethod(ServletUtil.getMethod());
         getAnnotationDescription(log, operLog, pjp, obj);
-        System.out.println(operLog.toString());
+
+        AsyncManager.me().schedule(AsyncFactory.recordOperLog(operLog));
 
         return obj;
     }

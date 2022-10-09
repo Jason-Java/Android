@@ -26,7 +26,6 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @see
  */
 @Configuration
-
 public class SwaggerConfig {
 
 
