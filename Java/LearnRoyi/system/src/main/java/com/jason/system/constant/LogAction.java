@@ -7,6 +7,11 @@ public class LogAction {
     public final static String OTHER = "其它";
 
     /**
+     * 查询
+     */
+    public final static String QUERY = "查询";
+
+    /**
      * 新增
      */
     public final static String INSERT = "新增";
@@ -50,4 +55,6 @@ public class LogAction {
      * 清空数据
      */
     public final static String CLEAN = "清空数据";
+
+
 }

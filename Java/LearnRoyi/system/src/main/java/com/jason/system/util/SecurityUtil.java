@@ -1,6 +1,7 @@
 package com.jason.system.util;
 
 
+import com.jason.system.aspectj.Log;
 import com.jason.system.model.body.LoginUser;
 import com.jason.system.model.domain.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,13 @@ public class SecurityUtil {
      * @return 用户登录信息
      */
     public static LoginUser getLoginUser() {
-
-        return (LoginUser) getAuthentication().getPrincipal();
+        LoginUser loginUser = null;
+        try{
+            loginUser = (LoginUser) getAuthentication().getPrincipal();
+        }
+        catch (Exception ignore){
+        }
+        return loginUser;
     }
 
     /**

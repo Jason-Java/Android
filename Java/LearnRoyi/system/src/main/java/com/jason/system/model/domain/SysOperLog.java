@@ -3,6 +3,7 @@ package com.jason.system.model.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -26,7 +27,7 @@ public class SysOperLog extends BaseDomain {
     /**
      * 业务类型（0其它 1新增 2修改 3删除）
      */
-    private Integer businessType;
+    private String businessType;
 
     /**
      * 业务类型数组
@@ -114,11 +115,11 @@ public class SysOperLog extends BaseDomain {
         this.title = title;
     }
 
-    public Integer getBusinessType() {
+    public String getBusinessType() {
         return businessType;
     }
 
-    public void setBusinessType(Integer businessType) {
+    public void setBusinessType(String businessType) {
         this.businessType = businessType;
     }
 
@@ -232,5 +233,28 @@ public class SysOperLog extends BaseDomain {
 
     public void setOperTime(Date operTime) {
         this.operTime = operTime;
+    }
+
+    @Override
+    public String toString() {
+        return "SysOperLog{" +
+                "operId=" + operId +
+                ", title='" + title + '\'' +
+                ", businessType='" + businessType + '\'' +
+                ", businessTypes=" + Arrays.toString(businessTypes) +
+                ", method='" + method + '\'' +
+                ", requestMethod='" + requestMethod + '\'' +
+                ", operatorType=" + operatorType +
+                ", operName='" + operName + '\'' +
+                ", deptName='" + deptName + '\'' +
+                ", operUrl='" + operUrl + '\'' +
+                ", operIp='" + operIp + '\'' +
+                ", operLocation='" + operLocation + '\'' +
+                ", operParam='" + operParam + '\'' +
+                ", jsonResult='" + jsonResult + '\'' +
+                ", status=" + status +
+                ", errorMsg='" + errorMsg + '\'' +
+                ", operTime=" + operTime +
+                '}';
     }
 }

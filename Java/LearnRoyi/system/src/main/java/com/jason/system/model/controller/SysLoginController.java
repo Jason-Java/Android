@@ -3,6 +3,7 @@ package com.jason.system.model.controller;
 
 import com.jason.system.aspectj.Log;
 import com.jason.system.constant.Constants;
+import com.jason.system.constant.LogAction;
 import com.jason.system.model.body.LoginBody;
 import com.jason.system.model.domain.AjaxResult;
 import com.jason.system.model.domain.SysMenu;
@@ -47,7 +48,7 @@ public class SysLoginController {
      * @return 结果
      */
     @ApiOperation("登陆")
-    @Log
+    @Log(title = "登录")
     @PostMapping("/login")
     public AjaxResult login(@Validated @RequestBody LoginBody loginBody) {
         AjaxResult ajax = AjaxResult.success();
@@ -58,12 +59,6 @@ public class SysLoginController {
         return ajax;
     }
 
-    @Log
-    @GetMapping("/login")
-    public void login() {
-
-    }
-
 
     /**
      * 获取用户信息
@@ -71,6 +66,7 @@ public class SysLoginController {
      * @return 用户信息
      */
     @ApiOperation("根据token获取用户信息")
+    @Log(title = "获取用户信息",action =LogAction.QUERY )
     @GetMapping("/getInfo")
     public AjaxResult getInfo() {
         SysUser sysUser = SecurityUtil.getLoginUser().getUser();
@@ -85,6 +81,7 @@ public class SysLoginController {
         return ajax;
     }
 
+    @Log(title = "获取角色信息",action =LogAction.QUERY)
     @GetMapping("/getRouters")
     public AjaxResult getRouters() {
         Long userId = SecurityUtil.getLoginUser().getUserId();
