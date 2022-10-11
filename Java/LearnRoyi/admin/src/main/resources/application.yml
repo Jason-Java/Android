@@ -1,12 +1,10 @@
-
-spring:
-  profiles:
-    active: company
----
-
 spring:
   profiles:
     active: home
+---
+
+spring:
+  profiles: home
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -19,11 +17,26 @@ server:
   servlet:
     context-path: /
 
+
+
+mybatis:
+  type-aliases-package: com.jason.system.model.domain
+  mapper-locations: classpath*:mapper/*Mapper.xml
+
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 令牌有效期（默认30分钟）
+  expireTime: 30
+
+
 ---
 
 spring:
-  profiles:
-    active: company
+  profiles: company
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -35,7 +48,6 @@ server:
   port: 9091
   servlet:
     context-path: /
-
 
 
 mybatis:

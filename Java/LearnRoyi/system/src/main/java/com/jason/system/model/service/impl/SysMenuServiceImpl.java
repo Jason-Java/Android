@@ -5,7 +5,9 @@ import com.jason.system.model.body.RouterVo;
 import com.jason.system.model.domain.SysMenu;
 import com.jason.system.model.domain.SysUser;
 import com.jason.system.model.mapper.SysMenuMapper;
+import com.jason.system.model.mapper.SysRoleMenuMapper;
 import com.jason.system.model.service.ISysMenuService;
+import com.jason.system.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Autowired
     private SysMenuMapper menuMapper;
 
+    @Autowired
+    private SysRoleMenuMapper roleMenuMapper;
 
     /**
      * 根据用户Id查询用户具有的菜单
@@ -182,7 +186,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param menu 菜单信息
      * @return 结果
      */
-    public int updateMenu(SysMenu menu){
+    public int updateMenu(SysMenu menu) {
         return menuMapper.updateMenu(menu);
     }
 
@@ -193,30 +197,45 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return
      */
     @Override
-    public int hasChildByMenuId(Long menuId) {
-        return 0;
+    public boolean hasChildByMenuId(Long menuId) {
+        return menuMapper.hasChildByMenuId(menuId) > 0;
     }
 
     /**
-     * 删除菜单
+     * 删除菜单---修改菜单状态
      *
      * @param menuId
      * @return
      */
     @Override
-    public int deleteMenu(Long menuId) {
-        return 0;
+    public boolean deleteMenu(Long menuId) {
+        SysMenu menu = new SysMenu();
+        menu.setMenuId(menuId);
+        menu.setUpdateBy(SecurityUtil.getUserName());
+        menu.setStatus("1");
+        return menuMapper.updateMenu(menu) > 0;
     }
 
     /**
-     * 删除菜单
+     * 删除菜单--真正删除
      *
-     * @param menu
+     * @param menuId
      * @return
      */
     @Override
-    public int deleteMenu(SysMenu menu) {
-        return 0;
+    public boolean reallyDeleteMenu(Long menuId) {
+        return menuMapper.deleteMenu(menuId) > 0;
+    }
+
+    /**
+     * 菜单有分配
+     *
+     * @param menuId
+     * @return
+     */
+    @Override
+    public boolean hasDistributionByMenuId(Long menuId) {
+        return roleMenuMapper.menuHasDistribution(menuId) > 0;
     }
 
 }

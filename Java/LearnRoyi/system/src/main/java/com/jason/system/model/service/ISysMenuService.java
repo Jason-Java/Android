@@ -2,7 +2,6 @@ package com.jason.system.model.service;
 
 import com.jason.system.model.body.RouterVo;
 import com.jason.system.model.domain.SysMenu;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 public interface ISysMenuService {
@@ -78,20 +77,26 @@ public interface ISysMenuService {
      * @param menuId
      * @return
      */
-    int hasChildByMenuId(Long menuId);
+    boolean hasChildByMenuId(Long menuId);
 
     /**
      * 删除菜单
      * @param menuId
      * @return
      */
-    int  deleteMenu(Long menuId);
+    boolean  deleteMenu(Long menuId);
 
     /**
      * 删除菜单
-     * @param menu
+     * @param menuId
      * @return
      */
-    int deleteMenu(SysMenu menu);
+    boolean reallyDeleteMenu(Long menuId);
 
+    /**
+     * 菜单有分配
+     * @param menuId
+     * @return
+     */
+    boolean hasDistributionByMenuId(Long menuId);
 }

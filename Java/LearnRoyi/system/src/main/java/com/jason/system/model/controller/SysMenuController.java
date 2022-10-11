@@ -101,4 +101,17 @@ public class SysMenuController extends BaseController {
         return menuService.updateMenu(menu)>0?AjaxResult.success("修改成功"):AjaxResult.error("修改失败，请稍候重试");
     }
 
+
+    @Log(title = "菜单", action = LogAction.DELETE)
+    @PreAuthorize("@permi.hasPermission('system:menu:remove')")
+    @DeleteMapping("/{menuId}")
+    public AjaxResult delete(@PathVariable Long menuId){
+        if (menuService.hasChildByMenuId(menuId)) {
+            AjaxResult.error("有子菜单不允许删除" );
+        } else if (menuService.hasDistributionByMenuId(menuId)) {
+            AjaxResult.error("菜单已分配不允许删除" );
+        }
+        return menuService.deleteMenu(menuId)?AjaxResult.success("删除成功"):AjaxResult.error("删除失败");
+    }
+
 }
