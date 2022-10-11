@@ -50,4 +50,48 @@ public interface ISysMenuService {
      */
     SysMenu selectMenuById( Long menuId);
 
+    /**
+     * 检查菜单是否具有唯一性
+     * @param sysMenu
+     * @return
+     */
+    int checkMenuUnique(SysMenu sysMenu);
+
+    /**
+     * 新增菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public int insertMenu(SysMenu menu);
+
+    /**
+     * 修改菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public int updateMenu(SysMenu menu);
+
+    /**
+     * 是否有子菜单
+     * @param menuId
+     * @return
+     */
+    int hasChildByMenuId(Long menuId);
+
+    /**
+     * 删除菜单
+     * @param menuId
+     * @return
+     */
+    int  deleteMenu(Long menuId);
+
+    /**
+     * 删除菜单
+     * @param menu
+     * @return
+     */
+    int deleteMenu(SysMenu menu);
+
 }

@@ -61,6 +61,15 @@ public class SecurityUtil {
     }
 
     /**
+     * 获取用户名
+     * @return
+     */
+    public static String getUserName() {
+        return getLoginUser().getUsername();
+    }
+
+
+    /**
      * 获取用户部门Id
      *
      * @return 返回部门id

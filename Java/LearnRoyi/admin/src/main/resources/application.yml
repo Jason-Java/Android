@@ -1,3 +1,4 @@
+
 spring:
   profiles:
     active: company
@@ -31,9 +32,10 @@ spring:
     password: 123456
 
 server:
-  port: 8080
+  port: 9091
   servlet:
     context-path: /
+
 
 
 mybatis:

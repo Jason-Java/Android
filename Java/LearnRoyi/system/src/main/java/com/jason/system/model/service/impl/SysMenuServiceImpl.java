@@ -1,5 +1,6 @@
 package com.jason.system.model.service.impl;
 
+import com.jason.system.constant.UserConstant;
 import com.jason.system.model.body.RouterVo;
 import com.jason.system.model.domain.SysMenu;
 import com.jason.system.model.domain.SysUser;
@@ -33,7 +34,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
         }
         return menuMapper.selectMenuListByUserId(sysMenu, userId);
     }
-
 
 
     /**
@@ -116,8 +116,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
     }
 
 
-
-
     /**
      * 构建menuTrue
      *
@@ -152,6 +150,73 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public SysMenu selectMenuById(Long menuId) {
-        return  menuMapper.selectMenuById(menuId);
+        return menuMapper.selectMenuById(menuId);
     }
+
+
+    /**
+     * 检查菜单是否具有唯一性
+     *
+     * @param sysMenu
+     * @return
+     */
+    @Override
+    public int checkMenuUnique(SysMenu sysMenu) {
+        return menuMapper.checkMenuUnique(sysMenu) > 0 ? UserConstant.NOT_UNIQUE : UserConstant.UNIQUE;
+    }
+
+    /**
+     * 新增菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    @Override
+    public int insertMenu(SysMenu menu) {
+        return menuMapper.insertMenu(menu);
+    }
+
+    /**
+     * 修改菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public int updateMenu(SysMenu menu){
+        return menuMapper.updateMenu(menu);
+    }
+
+    /**
+     * 是否有子菜单
+     *
+     * @param menuId
+     * @return
+     */
+    @Override
+    public int hasChildByMenuId(Long menuId) {
+        return 0;
+    }
+
+    /**
+     * 删除菜单
+     *
+     * @param menuId
+     * @return
+     */
+    @Override
+    public int deleteMenu(Long menuId) {
+        return 0;
+    }
+
+    /**
+     * 删除菜单
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public int deleteMenu(SysMenu menu) {
+        return 0;
+    }
+
 }
