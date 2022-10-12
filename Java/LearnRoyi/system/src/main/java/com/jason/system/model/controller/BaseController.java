@@ -1,6 +1,12 @@
 package com.jason.system.model.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.jason.system.model.domain.DataTableInfo;
+import com.jason.system.util.PageUtil;
 import com.jason.system.util.SecurityUtil;
+
+import java.util.List;
 
 /**
  * <p>描述:
@@ -29,6 +35,21 @@ public class BaseController {
      */
     protected String getUserName() {
         return SecurityUtil.getUserName();
+    }
+
+    protected void startPage() {
+        PageUtil.startPage();
+    }
+
+    protected DataTableInfo getDateTable(List<?> list)
+    {
+        DataTableInfo tableInfo = new DataTableInfo();
+        tableInfo.setCode(200);
+        tableInfo.setMsg("查询成功");
+        Page page= (Page) list;
+        tableInfo.setTotal(page.getTotal());
+        tableInfo.setData(list);
+        return tableInfo;
     }
 
 

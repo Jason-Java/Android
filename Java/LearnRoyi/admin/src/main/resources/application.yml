@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: company
+    active: home
 ---
 
 spring:
@@ -53,6 +53,14 @@ server:
 mybatis:
   type-aliases-package: com.jason.system.model.domain
   mapper-locations: classpath*:mapper/*Mapper.xml
+
+pagehelper:
+  helper-dialect: mysql
+  page-size-zero: true
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
 
 
 

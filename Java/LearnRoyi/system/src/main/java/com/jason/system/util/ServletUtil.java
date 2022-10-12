@@ -38,6 +38,9 @@ public class ServletUtil {
         return getRequest().getMethod();
     }
 
+    public static String getRequestParameter(String name) {
+        return getRequest().getParameter(name);
+    }
 
 
 

@@ -22,9 +22,7 @@ import java.util.List;
  * @see
  */
 @Service
-@Primary
 class SysUserServiceImpl implements ISysUserService {
-
 
     @Autowired
     private SysUserMapper userMapper;
