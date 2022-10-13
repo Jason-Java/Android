@@ -44,4 +44,7 @@ public class SysUserController extends BaseController {
         List<SysUser> userList = userService.selectUserList(user);
         return getDateTable(userList);
     }
+
+
+
 }
