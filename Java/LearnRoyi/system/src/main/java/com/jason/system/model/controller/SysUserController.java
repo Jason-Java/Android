@@ -42,7 +42,6 @@ public class SysUserController extends BaseController {
     public DataTableInfo list(SysUser user) {
         startPage();
         List<SysUser> userList = userService.selectUserList(user);
-        System.out.println(userList);
         return getDateTable(userList);
     }
 }
