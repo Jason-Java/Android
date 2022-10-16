@@ -1,6 +1,7 @@
 package com.jason.system.aspectj;
 
 import com.alibaba.fastjson.JSON;
+import com.jason.system.annotation.Log;
 import com.jason.system.manage.AsyncManager;
 import com.jason.system.manage.factory.AsyncFactory;
 import com.jason.system.model.body.LoginUser;
@@ -22,7 +23,7 @@ import java.util.Map;
 @Aspect
 public class LogAspectj {
 
-    @Pointcut("@annotation(com.jason.system.aspectj.Log)")
+    @Pointcut("@annotation(com.jason.system.annotation.Log)")
     private void pointCut() {
     }
 

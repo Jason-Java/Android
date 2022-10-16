@@ -1,4 +1,4 @@
-package com.jason.system.aspectj;
+package com.jason.system.annotation;
 
 import com.jason.system.constant.LogAction;
 

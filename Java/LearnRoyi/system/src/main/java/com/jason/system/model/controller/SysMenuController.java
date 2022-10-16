@@ -1,6 +1,6 @@
 package com.jason.system.model.controller;
 
-import com.jason.system.aspectj.Log;
+import com.jason.system.annotation.Log;
 import com.jason.system.constant.LogAction;
 import com.jason.system.constant.UserConstant;
 import com.jason.system.model.domain.AjaxResult;

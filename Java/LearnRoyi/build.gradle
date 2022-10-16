@@ -37,6 +37,9 @@ subprojects {
         //pageHelp--分页插件
         implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.3'
 
+        //Excel导入导出
+        implementation 'org.apache.poi:poi-ooxml:4.1.2'
+
         //参数校验
         implementation 'org.hibernate.validator:hibernate-validator'
         implementation 'org.apache.tomcat.embed:tomcat-embed-el'
@@ -49,6 +52,9 @@ subprojects {
 
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.springframework.security:spring-security-test'
+
+
+
     }
     tasks.named('test') {
         useJUnitPlatform()

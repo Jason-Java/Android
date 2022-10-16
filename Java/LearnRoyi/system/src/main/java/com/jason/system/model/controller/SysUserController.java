@@ -1,20 +1,20 @@
 package com.jason.system.model.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.jason.system.aspectj.Log;
+import com.jason.system.annotation.Log;
 import com.jason.system.constant.LogAction;
+import com.jason.system.model.domain.AjaxResult;
 import com.jason.system.model.domain.DataTableInfo;
 import com.jason.system.model.domain.SysUser;
 import com.jason.system.model.service.ISysUserService;
-import org.apache.catalina.User;
+import com.jason.system.util.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -45,6 +45,11 @@ public class SysUserController extends BaseController {
         return getDateTable(userList);
     }
 
-
+    @GetMapping("/export")
+    public void export(HttpServletResponse response, SysUser user) {
+        List<SysUser> userList = userService.selectUserList(user);
+        ExcelUtil<SysUser> excelUtil = new ExcelUtil<>(SysUser.class);
+        excelUtil.exportExcel(response, userList, "用户列表");
+    }
 
 }

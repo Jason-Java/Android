@@ -1,11 +1,8 @@
 package com.jason.system.util;
 
 
-import com.jason.system.aspectj.Log;
 import com.jason.system.model.body.LoginUser;
 import com.jason.system.model.domain.SysRole;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
