@@ -88,8 +88,10 @@ public class SysUser extends BaseDomain
     private List<SysRole> roles;
 
     /** 角色组 */
-    @Excel(name = "角色Id")
+
     private Long[] roleIds;
+    @Excel(name = "角色Id")
+    private List<String> roleidss;
 
     /** 岗位组 */
     private Long[] postIds;

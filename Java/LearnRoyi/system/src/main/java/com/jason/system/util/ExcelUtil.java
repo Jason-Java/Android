@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -409,23 +410,100 @@ public class ExcelUtil<T> {
         for (int no = 0; no < sheetNo; no++) {
             if (no > 0) {
                 this.sheet = this.wb.createSheet(sheetName + no);
-                subMergedLastRowNum=0;
-                subMergedFirstRowNum=1;
-                rowNum=0;
+                subMergedLastRowNum = 0;
+                subMergedFirstRowNum = 1;
+                rowNum = 0;
                 this.createTitle();
                 this.createColumnName();
             }
-            fillExcelData();
+             fillExcelData(0,2);
         }
     }
 
 
     private void fillExcelData(int starIndex, int endIndex) {
+        Row row = null;
+        for (int i = starIndex; i < endIndex; i++) {
 
+            row = this.sheet.createRow(rowNum++);
+            row.setHeight((short) maxHeight);
+            T vo = list.get(i);
+            Object ob = null;
+            for (int j = 0; j < this.fields.size(); j++) {
+                Field field = (Field) this.fields.get(j)[0];
+                Excel excel = (Excel) this.fields.get(j)[1];
+                try {
+                    ob=getFieldValue(field,excel, vo);
+                } catch (Exception e) {
+                    System.err.println("属性获取失败  "+e.getMessage());
+                }
+                Cell cell= row.createCell(j);
+                cell.setCellStyle(styles.get(StringUtils.format(DATA_STYLE_KEY_TEMP,field.getName())));
+                cell.setCellValue(ob.toString());
+            }
+        }
+    }
+
+    private Object getFieldValue(Field file,Excel excel, T vo) throws Exception {
+        Object ob = file.get(vo);
+        if (StringUtils.isNotEmpty(excel.targetAttr())) {
+            String target = excel.targetAttr();
+            if(target.contains(".")){
+                String[] targets=target.split("[.]");
+                for (String name : targets) {
+                    ob = getFieldValue(ob, name);
+                }
+            }
+            else {
+                ob = getFieldValue(ob, target);
+            }
+        }
+        return ob;
     }
 
 
+    private Object getFieldValue(Object o, String name) throws Exception{
+        if (StringUtils.isNotNull(o) && StringUtils.isNotEmpty(name)) {
+            Class<?> clazz = o.getClass();
+            Field field=clazz.getDeclaredField(name);
+            field.setAccessible(true);
+            o=field.get(o);
+        }
+        return o;
+    }
 
+
+    private String fieldValuePares(Object ob, Excel excel) {
+        String fieldValue = ob == null ? "" : ob.toString();
+        String convert=excel.readConvertExp();
+        String dateFormat= excel.dateFormat();
+        String dictType= excel.dictType();
+        String separator=excel.separator();
+        if (StringUtils.isNotEmpty(convert)) {
+            return convertByExp(fieldValue, convert);
+        } else if () {
+            
+        }
+    }
+
+
+    /**
+     * 
+     * @param fieldValue
+     * @param convertExp
+     * @return
+     */
+    private String convertByExp(String fieldValue,String convertExp){
+        String keyValues[] = convertExp.split(",");
+        for (String  keyValue: keyValues) {
+            String key=keyValue.split("=")[0];
+            String value=keyValue.split("=")[1];
+            if (key.equals(fieldValue)) {
+                return value;
+            }
+        }
+        return "";
+    }
 
 
     public boolean isSubList() {
