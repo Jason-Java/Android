@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -481,8 +483,10 @@ public class ExcelUtil<T> {
         String separator=excel.separator();
         if (StringUtils.isNotEmpty(convert)) {
             return convertByExp(fieldValue, convert);
-        } else if () {
-            
+        } else if (StringUtils.isNotNull(dateFormat)) {
+            return dataFormat(fieldValue, dateFormat);
+        } else if (StringUtils.isNotEmpty(dictType)) {
+
         }
     }
 
@@ -504,6 +508,27 @@ public class ExcelUtil<T> {
         }
         return "";
     }
+
+    /**
+     * 日期格式化
+     * @param date
+     * @param format
+     * @return
+     */
+    private String dataFormat(String date,String format)
+    {
+        if (StringUtils.isNotEmpty(date)) {
+            return "";
+        }
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(format);
+        return dateFormatter.format(date);
+    }
+
+    private String convertDictType(String value, String dictType) {
+
+    }
+
 
 
     public boolean isSubList() {
