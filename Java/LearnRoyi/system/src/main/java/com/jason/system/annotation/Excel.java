@@ -130,10 +130,7 @@ public @interface Excel {
      */
     public boolean isStatistics() default false;
 
-    /**
-     * 导出类型（0数字 1字符串 2图片）
-     */
-    public ColumnType cellType() default ColumnType.STRING;
+
 
     /**
      * 导出列头背景色
@@ -190,25 +187,6 @@ public @interface Excel {
             return this.value;
         }
     }
-
-    public enum ColumnType
-    {
-        NUMERIC(0), STRING(1), IMAGE(2);
-        private final int value;
-
-        ColumnType(int value)
-        {
-            this.value = value;
-        }
-
-        public int value()
-        {
-            return this.value;
-        }
-    }
-
-
-
 
 
 }

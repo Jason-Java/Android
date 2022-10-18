@@ -25,7 +25,7 @@ public class SysUser extends BaseDomain
     /**
      * 用户ID
      */
-    @Excel(name = "用户序号", cellType = Excel.ColumnType.NUMERIC, prompt = "用户编号")
+    @Excel(name = "用户序号", prompt = "用户编号")
     private Long userId;
 
     /** 部门ID */
@@ -53,7 +53,7 @@ public class SysUser extends BaseDomain
     private String phonenumber;
 
     /** 用户性别 */
-    @Excel(name = "用户性别"/*, readConverterExp = "0=男,1=女,2=未知"*/)
+    @Excel(name = "用户性别", readConvertExp = "0=男,1=女,2=未知")
     private String sex;
 
     /** 用户头像 */
@@ -63,7 +63,7 @@ public class SysUser extends BaseDomain
     private String password;
 
     /** 帐号状态（0正常 1停用） */
-    @Excel(name = "帐号状态"/*, readConverterExp = "0=正常,1=停用"*/)
+    @Excel(name = "帐号状态", readConvertExp = "0=正常,1=停用")
     private String status;
 
     /** 删除标志（0代表存在 2代表删除） */
@@ -85,13 +85,13 @@ public class SysUser extends BaseDomain
     private SysDept dept;
 
     /** 角色对象 */
+    @Excel(name = "角色信息")
     private List<SysRole> roles;
 
     /** 角色组 */
 
     private Long[] roleIds;
-    @Excel(name = "角色Id")
-    private List<String> roleidss;
+
 
     /** 岗位组 */
     private Long[] postIds;

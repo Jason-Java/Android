@@ -251,6 +251,7 @@ public class ExcelUtil<T> {
         style.setBorderBottom(BorderStyle.THIN);
         style.setBottomBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
 
+
         Font dataFont = this.wb.createFont();
         dataFont.setFontName("Arial");
         dataFont.setBold(true);
@@ -258,11 +259,9 @@ public class ExcelUtil<T> {
         style.setFont(dataFont);
         styles.put("data", style);
 
-
         style = this.wb.createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
-
         Font totalFont = this.wb.createFont();
         totalFont.setFontName("Arial");
         totalFont.setBold(true);
@@ -298,8 +297,9 @@ public class ExcelUtil<T> {
 
             style.setAlignment(excel.align());
             style.setVerticalAlignment(VerticalAlignment.CENTER);
-            style.setFillBackgroundColor(excel.headerBackgroundColor().index);
+            style.setFillForegroundColor(excel.headerBackgroundColor().index);
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
 
 
             font = workbook.createFont();
@@ -321,14 +321,14 @@ public class ExcelUtil<T> {
         for (Object[] object : this.fields) {
             Field field = (Field) object[0];
             Excel excel = (Excel) object[1];
-            String key = StringUtils.format(COLUMN_STYLE_KEY_TEMP, field.getName());
+            String key = StringUtils.format(DATA_STYLE_KEY_TEMP, field.getName());
             //创建单元格样式
             style = workbook.createCellStyle();
             style.cloneStyleFrom(styles.get("data"));
 
             style.setAlignment(excel.align());
             style.setVerticalAlignment(VerticalAlignment.CENTER);
-            style.setFillBackgroundColor(excel.backgroundColor().index);
+            style.setFillForegroundColor(excel.backgroundColor().getIndex());
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             font = workbook.createFont();
@@ -354,7 +354,6 @@ public class ExcelUtil<T> {
                 titleLastCol = titleLastCol + subFields.size() - 1;
             }
             Row row = sheet.createRow(rowNum++);
-//        row.setHeight((short) maxHeight);
             row.setHeightInPoints((float) maxHeight);
             Cell cell = row.createCell(0);
             cell.setCellStyle(styles.get("title"));
@@ -374,7 +373,15 @@ public class ExcelUtil<T> {
             cell = row.createCell(i);
             Field field = (Field) this.fields.get(i)[0];
             Excel excel = (Excel) this.fields.get(i)[1];
-            cell.setCellValue(excel.name());
+            StringBuilder columnName = new StringBuilder();
+            columnName.append(excel.name());
+            String prompt = excel.prompt();
+            if (StringUtils.isNotEmpty(prompt)) {
+                columnName.append("( ");
+                columnName.append(prompt);
+                columnName.append(" )");
+            }
+            cell.setCellValue(columnName.toString());
             cell.setCellStyle(styles.get(StringUtils.format(COLUMN_STYLE_KEY_TEMP, field.getName())));
         }
     }
@@ -418,90 +425,107 @@ public class ExcelUtil<T> {
                 this.createTitle();
                 this.createColumnName();
             }
-             fillExcelData(0,2);
+            fillExcelData(no * sheetSize, (no + 1) * sheetSize);
         }
     }
 
 
     private void fillExcelData(int starIndex, int endIndex) {
+        if (starIndex < 0) {
+            starIndex = 0;
+        }
+        if (endIndex < starIndex) {
+            endIndex = starIndex;
+        }
+        if (endIndex > this.list.size()) {
+            endIndex = list.size();
+        }
+
         Row row = null;
         for (int i = starIndex; i < endIndex; i++) {
 
             row = this.sheet.createRow(rowNum++);
-            row.setHeight((short) maxHeight);
+            //row.setHeight((short) maxHeight);
+            row.setHeightInPoints((float) maxHeight);
             T vo = list.get(i);
             Object ob = null;
             for (int j = 0; j < this.fields.size(); j++) {
                 Field field = (Field) this.fields.get(j)[0];
                 Excel excel = (Excel) this.fields.get(j)[1];
                 try {
-                    ob=getFieldValue(field,excel, vo);
+                    ob = getFieldValue(field, excel, vo);
                 } catch (Exception e) {
-                    System.err.println("属性获取失败  "+e.getMessage());
+                    System.err.println("属性获取失败  " + e.getMessage());
                 }
-                Cell cell= row.createCell(j);
-                cell.setCellStyle(styles.get(StringUtils.format(DATA_STYLE_KEY_TEMP,field.getName())));
+                Cell cell = row.createCell(j);
+                cell.setCellStyle(styles.get(StringUtils.format(DATA_STYLE_KEY_TEMP, field.getName())));
                 cell.setCellValue(ob.toString());
             }
         }
     }
 
-    private Object getFieldValue(Field file,Excel excel, T vo) throws Exception {
+    private String getFieldValue(Field file, Excel excel, T vo) throws Exception {
         Object ob = file.get(vo);
         if (StringUtils.isNotEmpty(excel.targetAttr())) {
             String target = excel.targetAttr();
-            if(target.contains(".")){
-                String[] targets=target.split("[.]");
+            if (target.contains(".")) {
+                String[] targets = target.split("[.]");
                 for (String name : targets) {
                     ob = getFieldValue(ob, name);
                 }
-            }
-            else {
+            } else {
                 ob = getFieldValue(ob, target);
             }
         }
-        return ob;
+        return fieldValuePares(ob, excel);
     }
 
 
-    private Object getFieldValue(Object o, String name) throws Exception{
+    private Object getFieldValue(Object o, String name) throws Exception {
         if (StringUtils.isNotNull(o) && StringUtils.isNotEmpty(name)) {
             Class<?> clazz = o.getClass();
-            Field field=clazz.getDeclaredField(name);
+            Field field = clazz.getDeclaredField(name);
             field.setAccessible(true);
-            o=field.get(o);
+            o = field.get(o);
         }
         return o;
     }
 
 
+    /**
+     * 根据Excel注解处理属性值
+     * @param ob
+     * @param excel
+     * @return
+     */
     private String fieldValuePares(Object ob, Excel excel) {
         String fieldValue = ob == null ? "" : ob.toString();
-        String convert=excel.readConvertExp();
-        String dateFormat= excel.dateFormat();
-        String dictType= excel.dictType();
-        String separator=excel.separator();
+        String convert = excel.readConvertExp();
+        String dateFormat = excel.dateFormat();
+        String dictType = excel.dictType();
+        String separator = excel.separator();
         if (StringUtils.isNotEmpty(convert)) {
             return convertByExp(fieldValue, convert);
-        } else if (StringUtils.isNotNull(dateFormat)) {
+        } else if (StringUtils.isNotEmpty(dateFormat)) {
             return dataFormat(fieldValue, dateFormat);
         } else if (StringUtils.isNotEmpty(dictType)) {
-
+            return convertDictType(fieldValue, dictType);
+        } else {
+            return fieldValue;
         }
     }
 
 
     /**
-     * 
      * @param fieldValue
      * @param convertExp
      * @return
      */
-    private String convertByExp(String fieldValue,String convertExp){
+    private String convertByExp(String fieldValue, String convertExp) {
         String keyValues[] = convertExp.split(",");
-        for (String  keyValue: keyValues) {
-            String key=keyValue.split("=")[0];
-            String value=keyValue.split("=")[1];
+        for (String keyValue : keyValues) {
+            String key = keyValue.split("=")[0];
+            String value = keyValue.split("=")[1];
             if (key.equals(fieldValue)) {
                 return value;
             }
@@ -511,12 +535,12 @@ public class ExcelUtil<T> {
 
     /**
      * 日期格式化
+     *
      * @param date
      * @param format
      * @return
      */
-    private String dataFormat(String date,String format)
-    {
+    private String dataFormat(String date, String format) {
         if (StringUtils.isNotEmpty(date)) {
             return "";
         }
@@ -525,10 +549,17 @@ public class ExcelUtil<T> {
         return dateFormatter.format(date);
     }
 
+    /**
+     * 字典类型转换
+     *
+     * @param value
+     * @param dictType
+     * @return
+     */
     private String convertDictType(String value, String dictType) {
-
+        // todo 字典类型转换未实现
+        return value;
     }
-
 
 
     public boolean isSubList() {
