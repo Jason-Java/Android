@@ -1,5 +1,6 @@
 package com.jason.system.model.domain;
 
+import com.jason.system.annotation.Excel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -17,15 +18,18 @@ public class SysRole extends BaseDomain
     private static final long serialVersionUID = 1L;
 
     /** 角色ID */
+    @Excel(name = "角色序号")
     private Long roleId;
 
     /** 角色名称 */
     @NotBlank(message = "角色名称不能为空")
+    @Excel(name = "角色名称")
     private String roleName;
 
     /** 角色权限 */
     @NotBlank(message = "权限字符不能为空")
     @Size(min = 0,max = 100,message = "权限字符长度不能超过100个字符")
+    @Excel(name = "角色权限")
     private String roleKey;
 
     /** 角色排序 */

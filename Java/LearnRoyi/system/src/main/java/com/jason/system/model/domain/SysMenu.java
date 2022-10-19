@@ -1,5 +1,7 @@
 package com.jason.system.model.domain;
 
+import com.jason.system.annotation.Excel;
+import com.jason.system.annotation.Excels;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -19,12 +21,15 @@ public class SysMenu extends BaseDomain
     private static final long serialVersionUID = 1L;
 
     /** 菜单ID */
+    @Excel(name = "菜单Id")
     private Long menuId;
 
     /** 菜单名称 */
+    @Excel(name = "菜单名单")
     private String menuName;
 
     /** 父菜单名称 */
+    @Excel(name = "父菜单名称")
     private String parentName;
 
     /** 父菜单ID */
