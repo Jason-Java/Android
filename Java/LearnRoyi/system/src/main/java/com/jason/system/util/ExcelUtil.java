@@ -430,6 +430,11 @@ public class ExcelUtil<T> {
     }
 
 
+    /**
+     * 填充表格数据
+     * @param starIndex list的开始位置
+     * @param endIndex list的结束位置
+     */
     private void fillExcelData(int starIndex, int endIndex) {
         if (starIndex < 0) {
             starIndex = 0;
@@ -464,6 +469,15 @@ public class ExcelUtil<T> {
         }
     }
 
+    /**
+     * 获取属性值
+     *
+     * @param file 属性字段
+     * @param excel file字段上面的Excel注解
+     * @param vo 实体
+     * @return
+     * @throws Exception
+     */
     private String getFieldValue(Field file, Excel excel, T vo) throws Exception {
         Object ob = file.get(vo);
         if (StringUtils.isNotEmpty(excel.targetAttr())) {
@@ -480,7 +494,13 @@ public class ExcelUtil<T> {
         return fieldValuePares(ob, excel);
     }
 
-
+    /**
+     * 获取属性值
+     * @param o
+     * @param name
+     * @return
+     * @throws Exception
+     */
     private Object getFieldValue(Object o, String name) throws Exception {
         if (StringUtils.isNotNull(o) && StringUtils.isNotEmpty(name)) {
             Class<?> clazz = o.getClass();
@@ -562,6 +582,10 @@ public class ExcelUtil<T> {
     }
 
 
+    /**
+     * 是否有子列表
+     * @return
+     */
     public boolean isSubList() {
         return StringUtils.isNotEmpty(subFields) && subFields.size() > 0;
     }
