@@ -128,7 +128,8 @@ public class ExcelUtil<T> {
 
         createExcelFiled();
         createWorkBook();
-        createTitle(this.title);
+        //创建表头
+        createTitle(this.sheet.createRow(rowNum++), 0,this.fields.size() + getSubFieldCount(this.subFields)-1, this.title);
 
         createColumnName();
 
@@ -303,7 +304,7 @@ public class ExcelUtil<T> {
         CellStyle style = null;
         Font font = null;
 
-        for (Object[] object : this.fields) {
+        for (Object[] object : fields) {
             Field field = (Field) object[0];
             Excel excel = (Excel) object[1];
             String key = StringUtils.format(COLUMN_STYLE_KEY_TEMP, field.getName());
@@ -347,7 +348,7 @@ public class ExcelUtil<T> {
     private void annotationDataStyle(Workbook workbook, Map<String, CellStyle> styles, List<Object[]> fields) {
         CellStyle style = null;
         Font font = null;
-        for (Object[] object : this.fields) {
+        for (Object[] object : fields) {
             Field field = (Field) object[0];
             Excel excel = (Excel) object[1];
             String key = StringUtils.format(DATA_STYLE_KEY_TEMP, field.getName());
@@ -372,23 +373,18 @@ public class ExcelUtil<T> {
 
     /**
      * 创建表---表头
+     * @param row
+     * @param startCol 开始列
+     * @param endCol 结束列
+     * @param title 表头名
      */
-    private void createTitle(String title) {
+    private void createTitle(Row row, int startCol,int endCol, String title) {
         if (StringUtils.isNotEmpty(title)) {
-            subMergedFirstRowNum++;
-            subMergedLastRowNum++;
-            int titleLastCol = this.fields.size() - 1;
-            if (isSubList()) {
-                for (Field field : subFields.keySet()) {
-                    titleLastCol = titleLastCol + subFields.get(field).size();
-                }
-            }
-            Row row = sheet.createRow(rowNum++);
             row.setHeightInPoints((float) maxHeight);
-            Cell cell = row.createCell(0);
+            Cell cell = row.createCell(startCol);
             cell.setCellStyle(styles.get("title"));
             cell.setCellValue(title);
-            sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), row.getRowNum(), titleLastCol));
+            sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), startCol, endCol));
         }
     }
 
@@ -398,35 +394,7 @@ public class ExcelUtil<T> {
     private void createColumnName() {
         Row row = this.sheet.createRow(rowNum++);
         //创建主列表
-
         createColumnName(row, 0, this.fields, isSubList());
-
-       /* row.setHeightInPoints((short) 16);
-        Cell cell = null;
-
-        for (int i = 0; i < this.fields.size(); i++) {
-            Field field = (Field) this.fields.get(i)[0];
-            Excel excel = (Excel) this.fields.get(i)[1];
-
-            double width = excel.width();
-            this.sheet.setColumnWidth(i, (int) (width * 256));
-            StringBuilder columnName = new StringBuilder();
-            columnName.append(excel.name());
-            String prompt = excel.prompt();
-            if (StringUtils.isNotEmpty(prompt)) {
-                columnName.append("( ");
-                columnName.append(prompt);
-                columnName.append(" )");
-            }
-            cell = row.createCell(i);
-            cell.setCellValue(columnName.toString());
-            cell.setCellStyle(styles.get(StringUtils.format(COLUMN_STYLE_KEY_TEMP, field.getName())));
-
-            if (isSubList()) {
-                this.sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum() + 1, i, i));
-            }
-        }*/
-
 
         //如果有子列表
         if (isSubList()) {
@@ -434,45 +402,26 @@ public class ExcelUtil<T> {
             int subColumnStart = this.fields.size();
             int subColumnLast = this.fields.size();
             for (Field field : this.subFields.keySet()) {
-                // 创建 字列表 表头
-                Cell subTitleCell = row.createCell(subColumnStart);
-                subTitleCell.setCellStyle(styles.get("title"));
                 Excel excel = field.getAnnotation(Excel.class);
-                subTitleCell.setCellValue(excel.name());
                 subColumnLast += subFields.get(field).size() - 1;
-                this.sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), subColumnStart, subColumnLast));
-
+                // 创建 子列表 表头
+                createTitle(row,subColumnStart,subColumnLast,excel.name());
+                //创建子列
                 createColumnName(subRow, subColumnStart, this.subFields.get(field), false);
-
-               /* for (int i = 0; i < this.subFields.get(field).size(); i++) {
-                    Cell subColumnNameCell = subRow.createCell(subColumnStart + i);
-                    subColumnNameCell.setCellStyle(styles.get(StringUtils.format(COLUMN_STYLE_KEY_TEMP, field)));
-                    subColumnNameCell.setCellValue("123");
-                }*/
-
 
                 subColumnStart = subColumnLast + 1;
                 subColumnLast = subColumnStart;
-               /* // 创建子列表 列名
-                for (Object[] obj : this.subFields.get(field)) {
-                    Field subField = (Field) obj[0];
-                    Excel subExcel = (Excel) obj[1];
-
-                }*/
             }
-            /* if (subFields.containsKey(field)) {
-
-             *//*int startCol=i;
-                int lastCol=subFields.get(field).size()-1;
-                this.sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), startCol, lastCol));*//*
-                // 创建子列表 列名
-            }*/
-
-        }else{
-            rowNum++;
         }
     }
 
+    /**
+     * 创建列名
+     * @param row 行
+     * @param startCol 起始单元格编号
+     * @param fields   [filed，Excel] 的列表
+     * @param hasSubField 是否有子列表
+     */
     private void createColumnName(Row row, int startCol, List<Object[]> fields, boolean hasSubField) {
         row.setHeightInPoints((short) 16);
         Cell cell = null;
@@ -481,7 +430,7 @@ public class ExcelUtil<T> {
             Excel excel = (Excel) fields.get(i)[1];
 
             double width = excel.width();
-            this.sheet.setColumnWidth(i, (int) (width * 256));
+            this.sheet.setColumnWidth(startCol+i, (int) (width * 256));
             StringBuilder columnName = new StringBuilder();
             columnName.append(excel.name());
             String prompt = excel.prompt();
@@ -537,7 +486,7 @@ public class ExcelUtil<T> {
             writeSheet();
             wb.write(response.getOutputStream());
         } catch (Exception e) {
-            System.out.println("导出Excel报错");
+            System.out.println("导出Excel报错  "+e.getMessage());
         } finally {
             try {
                 wb.close();
@@ -551,7 +500,7 @@ public class ExcelUtil<T> {
     /**
      * 写入工作薄
      */
-    private void writeSheet() {
+    private void writeSheet() throws Exception {
         int sheetNo = Math.max(1, (int) Math.ceil(this.list.size() * 1.0 / sheetSize));
         for (int no = 0; no < sheetNo; no++) {
             if (no > 0) {
@@ -559,7 +508,10 @@ public class ExcelUtil<T> {
                 subMergedLastRowNum = 0;
                 subMergedFirstRowNum = 1;
                 rowNum = 0;
-                this.createTitle(this.title);
+                Row row = this.sheet.createRow(rowNum++);
+                int startCol = 0;
+                int endCol = this.fields.size() + getSubFieldCount(this.subFields)-1;
+                this.createTitle(row,startCol,endCol,this.title);
                 this.createColumnName();
             }
             fillExcelData(no * sheetSize, (no + 1) * sheetSize);
@@ -573,7 +525,7 @@ public class ExcelUtil<T> {
      * @param starIndex list的开始位置
      * @param endIndex  list的结束位置
      */
-    private void fillExcelData(int starIndex, int endIndex) {
+    private void fillExcelData(int starIndex, int endIndex) throws Exception {
         if (starIndex < 0) {
             starIndex = 0;
         }
@@ -583,13 +535,26 @@ public class ExcelUtil<T> {
         if (endIndex > this.list.size()) {
             endIndex = list.size();
         }
+        // 获取合并单元格最大行数
+
 
         Row row = null;
         for (int i = starIndex; i < endIndex; i++) {
-
             row = this.sheet.createRow(rowNum++);
             row.setHeightInPoints((float) maxHeight);
             T vo = list.get(i);
+
+            int mergeRowCount = 0;
+
+            for (Field field: this.subFields.keySet()) {
+                System.out.println("123 "+field.getName());
+                List list= (List) field.get(vo);
+
+                if (list!=null &&list.size() > mergeRowCount) {
+                    mergeRowCount = list.size();
+                }
+            }
+
             Object ob = null;
             for (int j = 0; j < this.fields.size(); j++) {
                 Field field = (Field) this.fields.get(j)[0];
@@ -602,9 +567,15 @@ public class ExcelUtil<T> {
                 Cell cell = row.createCell(j);
                 cell.setCellStyle(styles.get(StringUtils.format(DATA_STYLE_KEY_TEMP, field.getName())));
                 cell.setCellValue(ob.toString());
+                if (row.getRowNum() >= row.getRowNum() + mergeRowCount) {
+                    continue;
+                }
+                this.sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(),row.getRowNum()+mergeRowCount,j,j));
             }
         }
     }
+
+
 
     /**
      * 获取属性值
@@ -759,6 +730,19 @@ public class ExcelUtil<T> {
         Object[] object = fields.stream().max(Comparator.comparing(objects -> ((Excel) objects[1]).height())).orElse(null);
         double maxHeight = ((Excel) object[1]).height();
         return maxHeight;
+    }
+
+    /**
+     * 获取子列表属性个数
+     * @param subFields
+     * @return
+     */
+    private int getSubFieldCount(HashMap<Field, List<Object[]>> subFields) {
+        int count = 0;
+        for (Field f : subFields.keySet()) {
+            count += subFields.get(f).size();
+        }
+        return count;
     }
 
 }

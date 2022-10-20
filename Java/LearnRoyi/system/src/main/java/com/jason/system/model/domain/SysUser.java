@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,8 @@ import java.util.List;
 public class SysUser extends BaseDomain {
 
     private static final long serialVersionUID = 1L;
+
+
 
     /**
      * 用户ID
@@ -112,7 +115,7 @@ public class SysUser extends BaseDomain {
     private List<SysRole> roles;
 
 
-    @Excel(name = "权限信息")
+  //  @Excel(name = "权限信息")
     private List<SysMenu> menus;
 
     /**
@@ -133,7 +136,14 @@ public class SysUser extends BaseDomain {
     private Long roleId;
 
     public SysUser() {
-
+        List<SysRole> list = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            SysRole r = new SysRole();
+            r.setRoleId((long) i);
+            r.setRoleName("123");
+            list.add(r);
+        }
+        this.roles = list;
     }
 
     public SysUser(Long userId) {
@@ -268,10 +278,11 @@ public class SysUser extends BaseDomain {
     }
 
     public List<SysRole> getRoles() {
-        return roles;
+        return this.roles;
     }
 
     public void setRoles(List<SysRole> roles) {
+
         this.roles = roles;
     }
 
