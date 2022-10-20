@@ -81,7 +81,7 @@ public class ExcelUtil<T> {
     /**
      * 对象的子列表属性
      */
-    private HashMap<Field,List<Object[]>> subFields;
+    private HashMap<Field, List<Object[]>> subFields;
     /**
      * 最大高度
      */
@@ -169,7 +169,7 @@ public class ExcelUtil<T> {
                         subMethod = getSubMethod(field.getName(), clazz);
                         ParameterizedType pt = (ParameterizedType) field.getGenericType();
                         Class<?> subClass = (Class<?>) pt.getActualTypeArguments()[0];
-                        this.subFields.put(field,getFiled(subClass));
+                        this.subFields.put(field, getFiled(subClass));
                         //this.subFields = FieldUtils.getFieldsListWithAnnotation(subClass, Excel.class);
                         FieldUtils.getFieldsListWithAnnotation(subClass, Excel.class);
                         continue;
@@ -197,7 +197,6 @@ public class ExcelUtil<T> {
         }
         return filedList;
     }
-
 
 
     /**
@@ -282,6 +281,25 @@ public class ExcelUtil<T> {
      * @param styles
      */
     private void annotationHeadStyle(Workbook workbook, Map<String, CellStyle> styles) {
+        List<Object[]> files = new ArrayList<>();
+        files.addAll(this.fields);
+        for (Field field : this.subFields.keySet()) {
+            files.addAll(this.subFields.get(field));
+        }
+
+        annotationHeadStyle(workbook, styles, files);
+
+
+    }
+
+    /**
+     * 根据注解创建表头样式
+     *
+     * @param workbook
+     * @param styles
+     */
+    private void annotationHeadStyle(Workbook workbook, Map<String, CellStyle> styles, List<Object[]> fields) {
+
         CellStyle style = null;
         Font font = null;
 
@@ -309,10 +327,24 @@ public class ExcelUtil<T> {
         }
     }
 
+
     /**
      * 根据注解创建数据样式
      */
     private void annotationDataStyle(Workbook workbook, Map<String, CellStyle> styles) {
+        List<Object[]> files = new ArrayList<>();
+        files.addAll(this.fields);
+        for (Field field : this.subFields.keySet()) {
+            files.addAll(this.subFields.get(field));
+        }
+        annotationDataStyle(workbook, styles, fields);
+    }
+
+
+    /**
+     * 根据注解创建数据样式
+     */
+    private void annotationDataStyle(Workbook workbook, Map<String, CellStyle> styles, List<Object[]> fields) {
         CellStyle style = null;
         Font font = null;
         for (Object[] object : this.fields) {
@@ -338,7 +370,6 @@ public class ExcelUtil<T> {
         }
     }
 
-
     /**
      * 创建表---表头
      */
@@ -348,8 +379,8 @@ public class ExcelUtil<T> {
             subMergedLastRowNum++;
             int titleLastCol = this.fields.size() - 1;
             if (isSubList()) {
-                for (Field field: subFields.keySet()) {
-                    titleLastCol = titleLastCol + subFields.get(field).size() - 1;
+                for (Field field : subFields.keySet()) {
+                    titleLastCol = titleLastCol + subFields.get(field).size();
                 }
             }
             Row row = sheet.createRow(rowNum++);
@@ -366,19 +397,19 @@ public class ExcelUtil<T> {
      */
     private void createColumnName() {
         Row row = this.sheet.createRow(rowNum++);
-        row.setHeightInPoints((short) 16);
+        //创建主列表
+
+        createColumnName(row, 0, this.fields, isSubList());
+
+       /* row.setHeightInPoints((short) 16);
         Cell cell = null;
 
         for (int i = 0; i < this.fields.size(); i++) {
-            cell = row.createCell(i);
             Field field = (Field) this.fields.get(i)[0];
             Excel excel = (Excel) this.fields.get(i)[1];
 
-            if (subFields.containsKey(field)) {
-                // todo 创建子列表 列名
-            }
             double width = excel.width();
-            this.sheet.setColumnWidth(i, (int) (width*256));
+            this.sheet.setColumnWidth(i, (int) (width * 256));
             StringBuilder columnName = new StringBuilder();
             columnName.append(excel.name());
             String prompt = excel.prompt();
@@ -387,21 +418,107 @@ public class ExcelUtil<T> {
                 columnName.append(prompt);
                 columnName.append(" )");
             }
+            cell = row.createCell(i);
             cell.setCellValue(columnName.toString());
             cell.setCellStyle(styles.get(StringUtils.format(COLUMN_STYLE_KEY_TEMP, field.getName())));
 
-            if (isSubList() && !subFields.containsKey(field)) {
+            if (isSubList()) {
                 this.sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum() + 1, i, i));
+            }
+        }*/
+
+
+        //如果有子列表
+        if (isSubList()) {
+            Row subRow = this.sheet.createRow(rowNum++);
+            int subColumnStart = this.fields.size();
+            int subColumnLast = this.fields.size();
+            for (Field field : this.subFields.keySet()) {
+                // 创建 字列表 表头
+                Cell subTitleCell = row.createCell(subColumnStart);
+                subTitleCell.setCellStyle(styles.get("title"));
+                Excel excel = field.getAnnotation(Excel.class);
+                subTitleCell.setCellValue(excel.name());
+                subColumnLast += subFields.get(field).size() - 1;
+                this.sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), subColumnStart, subColumnLast));
+
+                createColumnName(subRow, subColumnStart, this.subFields.get(field), false);
+
+               /* for (int i = 0; i < this.subFields.get(field).size(); i++) {
+                    Cell subColumnNameCell = subRow.createCell(subColumnStart + i);
+                    subColumnNameCell.setCellStyle(styles.get(StringUtils.format(COLUMN_STYLE_KEY_TEMP, field)));
+                    subColumnNameCell.setCellValue("123");
+                }*/
+
+
+                subColumnStart = subColumnLast + 1;
+                subColumnLast = subColumnStart;
+               /* // 创建子列表 列名
+                for (Object[] obj : this.subFields.get(field)) {
+                    Field subField = (Field) obj[0];
+                    Excel subExcel = (Excel) obj[1];
+
+                }*/
+            }
+            /* if (subFields.containsKey(field)) {
+
+             *//*int startCol=i;
+                int lastCol=subFields.get(field).size()-1;
+                this.sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), startCol, lastCol));*//*
+                // 创建子列表 列名
+            }*/
+
+        }else{
+            rowNum++;
+        }
+    }
+
+    private void createColumnName(Row row, int startCol, List<Object[]> fields, boolean hasSubField) {
+        row.setHeightInPoints((short) 16);
+        Cell cell = null;
+        for (int i = 0; i < fields.size(); i++) {
+            Field field = (Field) fields.get(i)[0];
+            Excel excel = (Excel) fields.get(i)[1];
+
+            double width = excel.width();
+            this.sheet.setColumnWidth(i, (int) (width * 256));
+            StringBuilder columnName = new StringBuilder();
+            columnName.append(excel.name());
+            String prompt = excel.prompt();
+            if (StringUtils.isNotEmpty(prompt)) {
+                columnName.append("( ");
+                columnName.append(prompt);
+                columnName.append(" )");
+            }
+            cell = row.createCell(startCol + i);
+            cell.setCellValue(columnName.toString());
+            cell.setCellStyle(styles.get(StringUtils.format(COLUMN_STYLE_KEY_TEMP, field.getName())));
+
+            if (hasSubField) {
+                this.sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum() + 1, startCol + i, startCol + i));
             }
         }
     }
 
-
-
+    /**
+     * 导出Excel
+     *
+     * @param response  http响应
+     * @param list      数据列表
+     * @param sheetName 工作簿名称
+     */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName) {
         exportExcel(response, list, sheetName, "用户信息");
     }
 
+    /**
+     * 导出Excel
+     *
+     * @param response  http响应
+     * @param list      数据列表
+     * @param sheetName 工作簿名称
+     * @param title     表头名
+     */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName, String title) {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("UTF-8");
@@ -410,7 +527,12 @@ public class ExcelUtil<T> {
         exportExcel(response);
     }
 
-    public void exportExcel(HttpServletResponse response) {
+    /**
+     * 导出Excel
+     *
+     * @param response http响应
+     */
+    private void exportExcel(HttpServletResponse response) {
         try {
             writeSheet();
             wb.write(response.getOutputStream());
