@@ -125,9 +125,14 @@ public class ExcelUtil<T> {
 
         createExcelFiled();
         createWorkBook();
+<<<<<<< HEAD
         Row row = this.sheet.createRow(rowNum++);
         int endCol = this.fields.size() + getSubFileCount(this.subFields) - 1;
         createTitle(row, 0, endCol, this.title);
+=======
+        //创建表头
+        createTitle(this.sheet.createRow(rowNum++), 0,this.fields.size() + getSubFieldCount(this.subFields)-1, this.title);
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
 
         createColumnName();
 
@@ -371,7 +376,12 @@ public class ExcelUtil<T> {
 
     /**
      * 创建表---表头
+     * @param row
+     * @param startCol 开始列
+     * @param endCol 结束列
+     * @param title 表头名
      */
+<<<<<<< HEAD
     private void createTitle(Row row, int starCol, int endCol, String title) {
         if (StringUtils.isNotEmpty(title)) {
             row.setHeightInPoints((float) maxHeight);
@@ -379,6 +389,15 @@ public class ExcelUtil<T> {
             cell.setCellStyle(styles.get("title"));
             cell.setCellValue(title);
             sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), starCol, endCol));
+=======
+    private void createTitle(Row row, int startCol,int endCol, String title) {
+        if (StringUtils.isNotEmpty(title)) {
+            row.setHeightInPoints((float) maxHeight);
+            Cell cell = row.createCell(startCol);
+            cell.setCellStyle(styles.get("title"));
+            cell.setCellValue(title);
+            sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), startCol, endCol));
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
         }
     }
 
@@ -396,12 +415,20 @@ public class ExcelUtil<T> {
             int subColumnStart = this.fields.size();
             int subColumnLast = this.fields.size();
             for (Field field : this.subFields.keySet()) {
+<<<<<<< HEAD
                 // 创建 字列表 表头
                 Excel excel = field.getAnnotation(Excel.class);
                 subColumnLast += subFields.get(field).size() - 1;
                 createTitle(row, subColumnStart, subColumnLast, excel.name());
 
                 //创建字列表 列表头
+=======
+                Excel excel = field.getAnnotation(Excel.class);
+                subColumnLast += subFields.get(field).size() - 1;
+                // 创建 子列表 表头
+                createTitle(row,subColumnStart,subColumnLast,excel.name());
+                //创建子列
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
                 createColumnName(subRow, subColumnStart, this.subFields.get(field), false);
 
                 subColumnStart = subColumnLast + 1;
@@ -411,12 +438,20 @@ public class ExcelUtil<T> {
     }
 
     /**
+<<<<<<< HEAD
      * 创建列表名
      *
      * @param row         行
      * @param startCol    开始列
      * @param fields      结束列
      * @param hasSubField 是否有子列
+=======
+     * 创建列名
+     * @param row 行
+     * @param startCol 起始单元格编号
+     * @param fields   [filed，Excel] 的列表
+     * @param hasSubField 是否有子列表
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
      */
     private void createColumnName(Row row, int startCol, List<Object[]> fields, boolean hasSubField) {
         row.setHeightInPoints((short) 16);
@@ -426,7 +461,7 @@ public class ExcelUtil<T> {
             Excel excel = (Excel) fields.get(i)[1];
 
             double width = excel.width();
-            this.sheet.setColumnWidth(i, (int) (width * 256));
+            this.sheet.setColumnWidth(startCol+i, (int) (width * 256));
             StringBuilder columnName = new StringBuilder();
             columnName.append(excel.name());
             String prompt = excel.prompt();
@@ -482,7 +517,11 @@ public class ExcelUtil<T> {
             writeSheet();
             wb.write(response.getOutputStream());
         } catch (Exception e) {
+<<<<<<< HEAD
             System.out.println("导出Excel报错 " + e.getMessage());
+=======
+            System.out.println("导出Excel报错  "+e.getMessage());
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
         } finally {
             try {
                 wb.close();
@@ -496,7 +535,7 @@ public class ExcelUtil<T> {
     /**
      * 写入工作薄
      */
-    private void writeSheet() {
+    private void writeSheet() throws Exception {
         int sheetNo = Math.max(1, (int) Math.ceil(this.list.size() * 1.0 / sheetSize));
         for (int no = 0; no < sheetNo; no++) {
             if (no > 0) {
@@ -505,8 +544,14 @@ public class ExcelUtil<T> {
                 subMergedFirstRowNum = 1;
                 rowNum = 0;
                 Row row = this.sheet.createRow(rowNum++);
+<<<<<<< HEAD
                 int endCol = this.fields.size() + getSubFileCount(this.subFields) - 1;
                 this.createTitle(row, 0, endCol, this.title);
+=======
+                int startCol = 0;
+                int endCol = this.fields.size() + getSubFieldCount(this.subFields)-1;
+                this.createTitle(row,startCol,endCol,this.title);
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
                 this.createColumnName();
             }
             fillExcelData(no * sheetSize, (no + 1) * sheetSize);
@@ -520,7 +565,7 @@ public class ExcelUtil<T> {
      * @param starIndex list的开始位置
      * @param endIndex  list的结束位置
      */
-    private void fillExcelData(int starIndex, int endIndex) {
+    private void fillExcelData(int starIndex, int endIndex) throws Exception {
         if (starIndex < 0) {
             starIndex = 0;
         }
@@ -530,12 +575,14 @@ public class ExcelUtil<T> {
         if (endIndex > this.list.size()) {
             endIndex = this.list.size();
         }
+        // 获取合并单元格最大行数
+
 
         Row row = null;
         for (int i = starIndex; i < endIndex; i++) {
-
             row = this.sheet.createRow(rowNum++);
             row.setHeightInPoints((float) maxHeight);
+<<<<<<< HEAD
             T vo = this.list.get(i);
 
             //获取合并列数
@@ -557,6 +604,24 @@ public class ExcelUtil<T> {
                 Cell cell = row.createCell(j);
                 fillCellData(cell, this.fields.get(j), vo);
               *//*  Field field = (Field) this.fields.get(j)[0];
+=======
+            T vo = list.get(i);
+
+            int mergeRowCount = 0;
+
+            for (Field field: this.subFields.keySet()) {
+                System.out.println("123 "+field.getName());
+                List list= (List) field.get(vo);
+
+                if (list!=null &&list.size() > mergeRowCount) {
+                    mergeRowCount = list.size();
+                }
+            }
+
+            Object ob = null;
+            for (int j = 0; j < this.fields.size(); j++) {
+                Field field = (Field) this.fields.get(j)[0];
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
                 Excel excel = (Excel) this.fields.get(j)[1];
                 try {
                     ob = getFieldValue(field, excel, vo);
@@ -565,6 +630,7 @@ public class ExcelUtil<T> {
                 }
 
                 cell.setCellValue(ob.toString());
+<<<<<<< HEAD
                 cell.setCellStyle(styles.get(StringUtils.format(DATA_STYLE_KEY_TEMP, field.getName())));*//*
 
                 if (mergerRowCount > 0) {
@@ -594,11 +660,18 @@ public class ExcelUtil<T> {
                     row = this.sheet.createRow(rowNum++);
                 }
 
+=======
+                if (row.getRowNum() >= row.getRowNum() + mergeRowCount) {
+                    continue;
+                }
+                this.sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(),row.getRowNum()+mergeRowCount,j,j));
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
             }
             rowNum += mergerRowCount;
         }
     }
 
+<<<<<<< HEAD
     private void fillCellData(Cell cell, Object[] fields, Object vo) {
         Field field = (Field) fields[0];
         Excel excel = (Excel) fields[1];
@@ -612,6 +685,9 @@ public class ExcelUtil<T> {
         cell.setCellValue(ob.toString());
         cell.setCellStyle(styles.get(StringUtils.format(DATA_STYLE_KEY_TEMP, field.getName())));
     }
+=======
+
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
 
     /**
      * 获取属性值
@@ -769,6 +845,7 @@ public class ExcelUtil<T> {
     }
 
     /**
+<<<<<<< HEAD
      * 获取子列属性数
      *
      * @param map
@@ -782,10 +859,21 @@ public class ExcelUtil<T> {
 
         for (Field field : map.keySet()) {
             count += map.get(field).size();
+=======
+     * 获取子列表属性个数
+     * @param subFields
+     * @return
+     */
+    private int getSubFieldCount(HashMap<Field, List<Object[]>> subFields) {
+        int count = 0;
+        for (Field f : subFields.keySet()) {
+            count += subFields.get(f).size();
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
         }
         return count;
     }
 
+<<<<<<< HEAD
     /**
      * 获取子列list的最大数 用于主数据进行合并行数
      *
@@ -809,4 +897,6 @@ public class ExcelUtil<T> {
         return listSize;
     }
 
+=======
+>>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
 }
