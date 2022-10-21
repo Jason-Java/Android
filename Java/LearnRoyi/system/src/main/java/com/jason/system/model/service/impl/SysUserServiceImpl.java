@@ -1,5 +1,6 @@
 package com.jason.system.model.service.impl;
 
+import com.jason.system.model.domain.SysRole;
 import com.jason.system.model.domain.SysUser;
 import com.jason.system.model.mapper.SysConfigMapper;
 import com.jason.system.model.mapper.SysUserMapper;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +37,19 @@ class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public List<SysUser> selectUserList(SysUser sysUser) {
-        return userMapper.selectUserList(sysUser);
+        List<SysUser> list = userMapper.selectUserList(sysUser);
+        for (SysUser user : list) {
+
+            List<SysRole> list12 = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                SysRole r = new SysRole();
+                r.setRoleId((long) i);
+                r.setRoleName("角色name "+i);
+                list12.add(r);
+            }
+            user.setRoles(list12);
+        }
+        return list;
     }
 
     /**
@@ -48,7 +62,6 @@ class SysUserServiceImpl implements ISysUserService {
     public SysUser selectUserByUserName(String username) {
         return userMapper.selectUserByUserName(username);
     }
-
 
 
 }

@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -112,7 +113,7 @@ public class SysUser extends BaseDomain {
     private List<SysRole> roles;
 
 
-    @Excel(name = "权限信息")
+   // @Excel(name = "权限信息")
     private List<SysMenu> menus;
 
     /**
@@ -268,7 +269,8 @@ public class SysUser extends BaseDomain {
     }
 
     public List<SysRole> getRoles() {
-        return roles;
+
+        return this.roles;
     }
 
     public void setRoles(List<SysRole> roles) {
