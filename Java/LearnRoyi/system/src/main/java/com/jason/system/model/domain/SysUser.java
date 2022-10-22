@@ -115,11 +115,7 @@ public class SysUser extends BaseDomain {
     private List<SysRole> roles;
 
 
-<<<<<<< HEAD
    // @Excel(name = "权限信息")
-=======
-  //  @Excel(name = "权限信息")
->>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
     private List<SysMenu> menus;
 
     /**
@@ -282,10 +278,6 @@ public class SysUser extends BaseDomain {
     }
 
     public List<SysRole> getRoles() {
-<<<<<<< HEAD
-
-=======
->>>>>>> ba9be3631c31822fae72524737b3d699bfdd1e8c
         return this.roles;
     }
 
