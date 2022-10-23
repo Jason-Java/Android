@@ -2,7 +2,6 @@ package com.jason.system.util;
 
 import com.jason.system.annotation.Excel;
 import com.jason.system.annotation.Excels;
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -114,7 +113,15 @@ public class ExcelUtil<T> {
         this.clazz = clazz;
     }
 
-    private void init(List<T> list, String sheetName, String title, Excel.Type type) {
+    /**
+     *
+     * @param list 数据列表
+     * @param sheetName 工作簿名称
+     * @param title 表头名称
+     * @param type 导入或导出
+     * @param excludeField 需要排除的属性字段
+     */
+    private void init(List<T> list, String sheetName, String title, Excel.Type type,Field[] excludeField) {
         if (list == null) {
             list = new ArrayList<>();
         }
@@ -122,15 +129,14 @@ public class ExcelUtil<T> {
         this.sheetName = sheetName;
         this.type = type;
         this.title = title;
+        this.excludeField = excludeField;
 
         createExcelFiled();
         createWorkBook();
         Row row = this.sheet.createRow(rowNum++);
         int endCol = this.fields.size() + getSubFileCount(this.subFields) - 1;
         createTitle(row, 0, endCol, this.title);
-
         createColumnName();
-
     }
 
 
@@ -140,7 +146,6 @@ public class ExcelUtil<T> {
         //所有属性上面的注解
         this.fields = getFiled(this.clazz);
         this.fields = fields.stream().sorted(Comparator.comparing(objects -> ((Excel) objects[1]).sort())).collect(Collectors.toList());
-
         this.maxHeight = getRowMaxHeight();
     }
 
@@ -157,39 +162,37 @@ public class ExcelUtil<T> {
         tempField.addAll(Arrays.asList(clazz.getSuperclass().getDeclaredFields()));
         tempField.addAll(Arrays.asList(clazz.getDeclaredFields()));
         for (Field field : tempField) {
+
             //排除指定的字段
-            if (!ArrayUtil.contain(this.excludeField, field.getName())) {
-                //但注解
-                if (field.isAnnotationPresent(Excel.class)) {
-                    Excel excel = field.getAnnotation(Excel.class);
-                    field.setAccessible(true);
+            if (ArrayUtil.contain(this.excludeField, field.getName())) {
+                continue;
+            }
+            //单注解
+            if (field.isAnnotationPresent(Excel.class)) {
+                Excel excel = field.getAnnotation(Excel.class);
+                field.setAccessible(true);
+                if (excel != null && (excel.type() == Excel.Type.ALL || excel.type() == type)) {
                     //判断是否为数组或列表
                     if (Collection.class.isAssignableFrom(field.getType())) {
-                        subMethod = getSubMethod(field.getName(), clazz);
                         ParameterizedType pt = (ParameterizedType) field.getGenericType();
                         Class<?> subClass = (Class<?>) pt.getActualTypeArguments()[0];
                         this.subFields.put(field, getFiled(subClass));
-                        //this.subFields = FieldUtils.getFieldsListWithAnnotation(subClass, Excel.class);
-                        FieldUtils.getFieldsListWithAnnotation(subClass, Excel.class);
                         continue;
-                    }
-
-                    if (excel != null && (excel.type() == Excel.Type.ALL || excel.type() == type)) {
+                    } else {
                         filedList.add(new Object[]{field, excel});
                     }
-
                 }
-                // 多注解
-                if (field.isAnnotationPresent(Excels.class)) {
-                    Excels excels = field.getAnnotation(Excels.class);
-                    if (excels == null || excels.value() == null) {
-                        continue;
-                    }
-                    for (Excel excel : excels.value()) {
-                        if (excel != null && (excel.type() == Excel.Type.ALL || excel.type() == type)) {
-                            field.setAccessible(true);
-                            filedList.add(new Object[]{field, excel});
-                        }
+            }
+            // 多注解
+            if (field.isAnnotationPresent(Excels.class)) {
+                Excels excels = field.getAnnotation(Excels.class);
+                if (excels == null || excels.value() == null) {
+                    continue;
+                }
+                for (Excel excel : excels.value()) {
+                    if (excel != null && (excel.type() == Excel.Type.ALL || excel.type() == type)) {
+                        field.setAccessible(true);
+                        filedList.add(new Object[]{field, excel});
                     }
                 }
             }
@@ -266,10 +269,19 @@ public class ExcelUtil<T> {
 
         styles.put("total", style);
 
-        annotationHeadStyle(this.wb, styles);
-        annotationDataStyle(this.wb, styles);
+        annotationStyle(this.wb, styles);
         return styles;
 
+    }
+
+    private void annotationStyle(Workbook workbook, Map<String, CellStyle> styles) {
+        List<Object[]> files = new ArrayList<>();
+        files.addAll(this.fields);
+        for (Field field : this.subFields.keySet()) {
+            files.addAll(this.subFields.get(field));
+        }
+        annotationHeadStyle(workbook, styles, files);
+        annotationDataStyle(workbook, styles, files);
     }
 
 
@@ -285,7 +297,6 @@ public class ExcelUtil<T> {
         for (Field field : this.subFields.keySet()) {
             files.addAll(this.subFields.get(field));
         }
-
         annotationHeadStyle(workbook, styles, files);
 
 
@@ -331,10 +342,10 @@ public class ExcelUtil<T> {
      * 根据注解创建数据样式
      */
     private void annotationDataStyle(Workbook workbook, Map<String, CellStyle> styles) {
-        List<Object[]> files = new ArrayList<>();
-        files.addAll(this.fields);
+        List<Object[]> fields = new ArrayList<>();
+        fields.addAll(this.fields);
         for (Field field : this.subFields.keySet()) {
-            files.addAll(this.subFields.get(field));
+            fields.addAll(this.subFields.get(field));
         }
         annotationDataStyle(workbook, styles, fields);
     }
@@ -426,7 +437,7 @@ public class ExcelUtil<T> {
             Excel excel = (Excel) fields.get(i)[1];
 
             double width = excel.width();
-            this.sheet.setColumnWidth(i, (int) (width * 256));
+            this.sheet.setColumnWidth(startCol + i, (int) (width * 256));
             StringBuilder columnName = new StringBuilder();
             columnName.append(excel.name());
             String prompt = excel.prompt();
@@ -445,6 +456,8 @@ public class ExcelUtil<T> {
         }
     }
 
+
+
     /**
      * 导出Excel
      *
@@ -453,7 +466,7 @@ public class ExcelUtil<T> {
      * @param sheetName 工作簿名称
      */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName) {
-        exportExcel(response, list, sheetName, "用户信息");
+        exportExcel(response, list, sheetName, "用户信息",null);
     }
 
     /**
@@ -463,11 +476,12 @@ public class ExcelUtil<T> {
      * @param list      数据列表
      * @param sheetName 工作簿名称
      * @param title     表头名
+     * @param excludeField 需要排除的属性
      */
-    public void exportExcel(HttpServletResponse response, List<T> list, String sheetName, String title) {
+    public void exportExcel(HttpServletResponse response, List<T> list, String sheetName, String title,Field[] excludeField) {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("UTF-8");
-        this.init(list, sheetName, title, Excel.Type.EXPORT);
+        this.init(list, sheetName, title, Excel.Type.EXPORT, excludeField);
 
         exportExcel(response);
     }
@@ -493,10 +507,11 @@ public class ExcelUtil<T> {
     }
 
 
+
     /**
      * 写入工作薄
      */
-    private void writeSheet() {
+    private void writeSheet() throws Exception {
         int sheetNo = Math.max(1, (int) Math.ceil(this.list.size() * 1.0 / sheetSize));
         for (int no = 0; no < sheetNo; no++) {
             if (no > 0) {
@@ -520,7 +535,7 @@ public class ExcelUtil<T> {
      * @param starIndex list的开始位置
      * @param endIndex  list的结束位置
      */
-    private void fillExcelData(int starIndex, int endIndex) {
+    private void fillExcelData(int starIndex, int endIndex) throws Exception {
         if (starIndex < 0) {
             starIndex = 0;
         }
@@ -534,12 +549,12 @@ public class ExcelUtil<T> {
         Row row = null;
         for (int i = starIndex; i < endIndex; i++) {
 
-            row = this.sheet.createRow(rowNum++);
+            row = this.sheet.createRow(rowNum);
             row.setHeightInPoints((float) maxHeight);
             T vo = this.list.get(i);
 
             //获取合并列数
-            int mergerRowCount = getSubListSize(this.subFields, vo);
+            int mergerRowCount = getSubListSize(this.subFields, vo) - 1;
 
             //设置主列数据
             int startCol = 0;
@@ -553,48 +568,25 @@ public class ExcelUtil<T> {
                 startCol++;
             }
 
-            /*for (int j = 0; j < this.fields.size(); j++) {
-                Cell cell = row.createCell(j);
-                fillCellData(cell, this.fields.get(j), vo);
-              */
-            /*  Field field = (Field) this.fields.get(j)[0];
-                Excel excel = (Excel) this.fields.get(j)[1];
-                try {
-                    ob = getFieldValue(field, excel, vo);
-                } catch (Exception e) {
-                    System.err.println("属性获取失败  " + e.getMessage());
-                }
 
-                cell.setCellValue(ob.toString());
-                cell.setCellStyle(styles.get(StringUtils.format(DATA_STYLE_KEY_TEMP, field.getName())));*/
-            /*
-
-                if (mergerRowCount > 0) {
-                    CellRangeAddress cellAddresses = new CellRangeAddress(row.getRowNum(), row.getRowNum() + mergerRowCount, j, j);
-                    this.sheet.addMergedRegion(cellAddresses);
-                }
-            }*/
             //设置子列数据
-
             for (Field field : this.subFields.keySet()) {
-                List subFieldObjectList = null;
-                try {
-                    //子列对象
-                    subFieldObjectList = (List) field.get(vo);
-                } catch (Exception ignore) {
-                    System.out.println("获取子列失败");
-                }
+                List subFieldObjectList = (List) field.get(vo);
                 List<Object[]> subFileObjects = this.subFields.get(field);
-
-                for (Object subFieldObject: subFieldObjectList) {
-                    for (int j = 0; j < subFileObjects.size(); j++) {
-                        Cell cell = row.createCell(startCol+j);
-                        fillCellData(cell, subFileObjects.get(j), subFieldObject);
+                for (int k = 0; k < subFieldObjectList.size(); k++) {
+                    row = this.sheet.getRow(rowNum + k);
+                    if (row == null) {
+                        row = this.sheet.createRow(rowNum + k);
+                        row.setHeightInPoints((float) maxHeight);
                     }
-                    row = this.sheet.createRow(rowNum++);
+                    for (int j = 0; j < subFileObjects.size(); j++) {
+                        Cell cell = row.createCell(startCol + j);
+                        fillCellData(cell, subFileObjects.get(j), subFieldObjectList.get(k));
+                    }
                 }
+                startCol += subFileObjects.size();
             }
-            rowNum += mergerRowCount;
+            rowNum += mergerRowCount + 1;
         }
     }
 
@@ -722,6 +714,8 @@ public class ExcelUtil<T> {
      * @return
      */
     private String convertDictType(String value, String dictType) {
+
+        System.err.println("字典类型转换未实现");
         // todo 字典类型转换未实现
         return value;
     }

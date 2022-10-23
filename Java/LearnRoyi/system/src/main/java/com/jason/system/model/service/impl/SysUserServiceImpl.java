@@ -1,10 +1,16 @@
 package com.jason.system.model.service.impl;
 
+import com.jason.ApplicationContext;
+import com.jason.system.annotation.DataScope;
+import com.jason.system.annotation.Log;
+import com.jason.system.model.domain.SysMenu;
 import com.jason.system.model.domain.SysRole;
 import com.jason.system.model.domain.SysUser;
 import com.jason.system.model.mapper.SysConfigMapper;
 import com.jason.system.model.mapper.SysUserMapper;
 import com.jason.system.model.service.ISysUserService;
+import com.jason.system.util.SecurityUtil;
+import com.jason.system.util.ServletUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -36,19 +42,10 @@ class SysUserServiceImpl implements ISysUserService {
      * @return
      */
     @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    @Log
     public List<SysUser> selectUserList(SysUser sysUser) {
         List<SysUser> list = userMapper.selectUserList(sysUser);
-        for (SysUser user : list) {
-
-            List<SysRole> list12 = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
-                SysRole r = new SysRole();
-                r.setRoleId((long) i);
-                r.setRoleName("角色name "+i);
-                list12.add(r);
-            }
-            user.setRoles(list12);
-        }
         return list;
     }
 
@@ -61,6 +58,25 @@ class SysUserServiceImpl implements ISysUserService {
     @Override
     public SysUser selectUserByUserName(String username) {
         return userMapper.selectUserByUserName(username);
+    }
+
+    /**
+     * 校验用户是否有数据权限
+     *
+     * @param userId
+     */
+    @Override
+    public void checkUserDataScope(Long userId) {
+        //如果是admin账户则不进行数据过滤
+        if (SysUser.isAdmin(SecurityUtil.getUserId())) {
+            return;
+        }
+
+        SysUser user = new SysUser();
+        user.setUserId(userId);
+        List<SysUser> users = ApplicationContext.getAopProxy(this).selectUserList(new SysUser());
+
+
     }
 
 

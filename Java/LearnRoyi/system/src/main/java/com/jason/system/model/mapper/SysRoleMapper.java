@@ -9,6 +9,15 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapper {
 
+
+    /**
+     * 获取角色列表
+     * @param role
+     * @return
+     */
+    List<SysRole> selectRoleList(SysRole role);
+
+
     /**
      * 根据用户Id查询角色信息
      *

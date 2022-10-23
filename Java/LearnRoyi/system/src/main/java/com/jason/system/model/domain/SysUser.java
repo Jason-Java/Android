@@ -115,7 +115,7 @@ public class SysUser extends BaseDomain {
     private List<SysRole> roles;
 
 
-   // @Excel(name = "权限信息")
+    @Excel(name = "权限信息")
     private List<SysMenu> menus;
 
     /**
@@ -136,14 +136,6 @@ public class SysUser extends BaseDomain {
     private Long roleId;
 
     public SysUser() {
-        List<SysRole> list = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            SysRole r = new SysRole();
-            r.setRoleId((long) i);
-            r.setRoleName("123");
-            list.add(r);
-        }
-        this.roles = list;
     }
 
     public SysUser(Long userId) {

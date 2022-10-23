@@ -32,4 +32,10 @@ public interface ISysUserService {
      * @return
      */
     SysUser selectUserByUserName(String username);
+
+    /**
+     * 校验用户是否有数据权限
+     * @param userId
+     */
+    void checkUserDataScope(Long userId);
 }

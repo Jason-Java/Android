@@ -10,6 +10,16 @@ import java.util.Set;
 
 
 public interface ISysRoleService {
+
+
+
+    /**
+     * 获取角色列表
+     * @param role
+     * @return
+     */
+    List<SysRole> selectRoleList(SysRole role);
+
     /**
      * 根据用户Id查询角色信息
      *
@@ -25,4 +35,6 @@ public interface ISysRoleService {
      * @return RoleKey列表
      */
     Set<String> selectRoleKeyByUserId(Long userId);
+
+    List<SysRole> selectRoleAll();
 }

@@ -1,5 +1,7 @@
 package com.jason.system.model.service.impl;
 
+import com.jason.ApplicationContext;
+import com.jason.system.annotation.DataScope;
 import com.jason.system.model.domain.SysRole;
 import com.jason.system.model.domain.SysUser;
 import com.jason.system.model.mapper.SysRoleMapper;
@@ -19,6 +21,20 @@ public class SysRoleServiceImpl implements ISysRoleService {
 
     @Autowired
     private SysRoleMapper roleMapper;
+
+
+
+    /**
+     * 获取角色列表
+     *
+     * @param role
+     * @return
+     */
+    @Override
+    @DataScope(deptAlias = "d")
+    public List<SysRole> selectRoleList(SysRole role) {
+        return roleMapper.selectRoleList(role);
+    }
 
     /**
      * 根据用户Id查询角色信息
@@ -52,6 +68,11 @@ public class SysRoleServiceImpl implements ISysRoleService {
             }
         }
         return roleKey;
+    }
+
+    @Override
+    public List<SysRole> selectRoleAll() {
+        return ApplicationContext.getAopProxy(this).selectRoleList(new SysRole());
     }
 
 }

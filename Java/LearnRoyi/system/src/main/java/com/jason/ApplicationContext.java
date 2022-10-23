@@ -1,5 +1,6 @@
 package com.jason;
 
+
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanInitializationException;
@@ -22,6 +23,16 @@ import org.springframework.stereotype.Component;
 public final class ApplicationContext implements ApplicationContextAware {
 
     private static org.springframework.context.ApplicationContext context;
+
+    /**
+     * 获取Aop代理对象
+     * @param invoker
+     * @return
+     * @param <T>
+     */
+    public static <T> T getAopProxy(T invoker) {
+        return (T) AopContext.currentProxy();
+    }
 
 
     @Override

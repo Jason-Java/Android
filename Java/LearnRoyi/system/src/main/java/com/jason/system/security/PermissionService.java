@@ -35,19 +35,7 @@ public class PermissionService {
 
     public boolean hasPermission(String permi) {
 
-        if (StringUtils.isEmpty(permi)) {
-            return false;
-        }
-        if (StringUtils.isEmpty(SecurityUtil.getPermission())) {
-            return false;
-        }
-        for (SysRole role : SecurityUtil.getRoles()) {
-            if (role.getRoleKey().equals(SUPER_ADMIN)) {
-                return true;
-            }
-        }
-
-        return SecurityUtil.getPermission().stream().filter(x->x.equals(permi)).count()>0;
+        return hasAnyPermission(permi);
     }
 
     public boolean hasAnyPermission(String... permiss) {
@@ -62,8 +50,15 @@ public class PermissionService {
                 return true;
             }
         }
-
-        return SecurityUtil.getPermission().stream().filter(x->Arrays.asList(permiss).contains(x)).count()>0;
+        for (String permi : SecurityUtil.getPermission()) {
+            for (String s: permiss) {
+                if (s.equals(permi)) {
+                    PermissionContextHolder.setPermission(permi);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

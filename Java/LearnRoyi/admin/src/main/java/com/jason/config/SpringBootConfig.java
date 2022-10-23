@@ -19,7 +19,7 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 @ComponentScan(value={"com.jason"},excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION,value = {Mapper.class}))
 @EnableOpenApi
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableAspectJAutoProxy
+@EnableAspectJAutoProxy(exposeProxy = true,proxyTargetClass = true)
 public class SpringBootConfig extends WebMvcConfigurationSupport {
 
     /**
