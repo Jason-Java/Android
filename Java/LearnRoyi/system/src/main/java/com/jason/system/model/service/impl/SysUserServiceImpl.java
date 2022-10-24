@@ -46,6 +46,19 @@ class SysUserServiceImpl implements ISysUserService {
     @Log
     public List<SysUser> selectUserList(SysUser sysUser) {
         List<SysUser> list = userMapper.selectUserList(sysUser);
+        for (SysUser user: list
+             ) {
+            List<SysRole> roleList = new ArrayList<>();
+            for (int i = 0; i < 9; i++) {
+                SysRole role = new SysRole();
+                role.setRoleId((long) i);
+                role.setRoleName("roleName " + i);
+                roleList.add(role);
+            }
+            user.setRoles(roleList);
+        }
+
+
         return list;
     }
 

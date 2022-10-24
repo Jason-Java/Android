@@ -133,9 +133,11 @@ public class ExcelUtil<T> {
 
         createExcelFiled();
         createWorkBook();
-        Row row = this.sheet.createRow(rowNum++);
+
+
+        //  Row row = this.sheet.createRow(rowNum++);
         int endCol = this.fields.size() + getSubFileCount(this.subFields) - 1;
-        createTitle(row, 0, endCol, this.title);
+        rowNum=createTitle(rowNum, 0, endCol, this.title);
         createColumnName();
     }
 
@@ -383,14 +385,19 @@ public class ExcelUtil<T> {
     /**
      * 创建表---表头
      */
-    private void createTitle(Row row, int starCol, int endCol, String title) {
+    private int createTitle(int rowNum, int starCol, int endCol, String title) {
         if (StringUtils.isNotEmpty(title)) {
+            Row row=this.sheet.getRow(rowNum);
+            if (row == null) {
+                row = this.sheet.createRow(rowNum++);
+            }
             row.setHeightInPoints((float) maxHeight);
             Cell cell = row.createCell(starCol);
             cell.setCellStyle(styles.get("title"));
             cell.setCellValue(title);
             sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), starCol, endCol));
         }
+        return rowNum;
     }
 
     /**
@@ -410,7 +417,7 @@ public class ExcelUtil<T> {
                 // 创建 字列表 表头
                 Excel excel = field.getAnnotation(Excel.class);
                 subColumnLast += subFields.get(field).size() - 1;
-                createTitle(row, subColumnStart, subColumnLast, excel.name());
+                createTitle(row.getRowNum(), subColumnStart, subColumnLast, excel.name());
 
                 //创建字列表 列表头
                 createColumnName(subRow, subColumnStart, this.subFields.get(field), false);
@@ -466,7 +473,7 @@ public class ExcelUtil<T> {
      * @param sheetName 工作簿名称
      */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName) {
-        exportExcel(response, list, sheetName, "用户信息",null);
+        exportExcel(response, list, sheetName, null,null);
     }
 
     /**
@@ -519,9 +526,8 @@ public class ExcelUtil<T> {
                 subMergedLastRowNum = 0;
                 subMergedFirstRowNum = 1;
                 rowNum = 0;
-                Row row = this.sheet.createRow(rowNum++);
                 int endCol = this.fields.size() + getSubFileCount(this.subFields) - 1;
-                this.createTitle(row, 0, endCol, this.title);
+                rowNum=this.createTitle(rowNum, 0, endCol, this.title);
                 this.createColumnName();
             }
             fillExcelData(no * sheetSize, (no + 1) * sheetSize);
@@ -554,7 +560,7 @@ public class ExcelUtil<T> {
             T vo = this.list.get(i);
 
             //获取合并列数
-            int mergerRowCount = getSubListSize(this.subFields, vo) - 1;
+            int mergerRowCount = getSubListSize(this.subFields, vo) ;
 
             //设置主列数据
             int startCol = 0;
