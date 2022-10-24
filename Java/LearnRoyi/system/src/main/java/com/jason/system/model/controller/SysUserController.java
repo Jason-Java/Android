@@ -6,9 +6,11 @@ import com.jason.system.model.domain.AjaxResult;
 import com.jason.system.model.domain.DataTableInfo;
 import com.jason.system.model.domain.SysRole;
 import com.jason.system.model.domain.SysUser;
+import com.jason.system.model.service.ISysPostService;
 import com.jason.system.model.service.ISysRoleService;
 import com.jason.system.model.service.ISysUserService;
 import com.jason.system.util.ExcelUtil;
+import com.jason.system.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +46,10 @@ public class SysUserController extends BaseController {
     private ISysRoleService roleService;
 
 
+    @Autowired
+    private ISysPostService postService;
+
+
 
     @PreAuthorize("@permi.hasPermission('system:user:list')")
     @Log(title = "用户模块", action = LogAction.QUERY)
@@ -61,11 +67,11 @@ public class SysUserController extends BaseController {
     public void export(HttpServletResponse response, SysUser user) {
         List<SysUser> userList = userService.selectUserList(user);
         ExcelUtil<SysUser> excelUtil = new ExcelUtil<>(SysUser.class);
-        excelUtil.exportExcel(response, userList, "用户列表");
+        excelUtil.exportExcel(response, userList, "用户列表", "用户数据", null);
     }
 
 
-    @GetMapping({"/", "/{userId}"})
+    @GetMapping(value={"/", "/{userId}"})
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId) {
         userService.checkUserDataScope(userId);
         AjaxResult ajax = AjaxResult.success();
@@ -74,8 +80,13 @@ public class SysUserController extends BaseController {
             roles = roles.stream().filter(x -> !x.isAdmin()).collect(Collectors.toList());
         }
         ajax.put("roles",roles);
-        //ajax.put("posts",postService.selectPostAll())
-
+        ajax.put("posts",postService.selectPostAll());
+        if (StringUtils.isNotNull(userId)) {
+            SysUser user = userService.selectUserById(userId);
+            ajax.put(AjaxResult.DATA_TAG, user);
+            ajax.put("postIds", postService.selectPostListByUserId(userId));
+            ajax.put("roleIds", user.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList()));
+        }
         return ajax;
     }
 

@@ -115,7 +115,7 @@ public class SysUser extends BaseDomain {
     private List<SysRole> roles;
 
 
-    @Excel(name = "权限信息")
+  //  @Excel(name = "权限信息")
     private List<SysMenu> menus;
 
     /**

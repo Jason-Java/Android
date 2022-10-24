@@ -10,12 +10,7 @@ import java.util.List;
 public interface SysRoleMapper {
 
 
-    /**
-     * 获取角色列表
-     * @param role
-     * @return
-     */
-    List<SysRole> selectRoleList(SysRole role);
+
 
 
     /**
@@ -25,4 +20,15 @@ public interface SysRoleMapper {
      * @return 角色信息列表
      */
     List<SysRole> selectRoleByUserId(@Param("userId") Long userId);
+
+
+
+    /**
+     * 获取角色列表
+     *
+     * @param role
+     * @return
+     */
+
+    List<SysRole> selectRoleList(SysRole role);
 }

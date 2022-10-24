@@ -7,10 +7,13 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -488,6 +491,7 @@ public class ExcelUtil<T> {
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName, String title,Field[] excludeField) {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename="+ "用户" +".xlsx");
         this.init(list, sheetName, title, Excel.Type.EXPORT, excludeField);
 
         exportExcel(response);
@@ -568,7 +572,7 @@ public class ExcelUtil<T> {
                 Cell cell = row.createCell(startCol);
                 fillCellData(cell, obj, vo);
                 if (mergerRowCount > 0) {
-                    CellRangeAddress cellAddresses = new CellRangeAddress(row.getRowNum(), row.getRowNum() + mergerRowCount, startCol, startCol);
+                    CellRangeAddress cellAddresses = new CellRangeAddress(row.getRowNum(), row.getRowNum() + mergerRowCount-1, startCol, startCol);
                     this.sheet.addMergedRegion(cellAddresses);
                 }
                 startCol++;
@@ -808,4 +812,8 @@ public class ExcelUtil<T> {
         return listSize;
     }
 
+    private String encodingFileName(String fileName) {
+        fileName=UUID.randomUUID()+"_"+fileName+".xlsx";
+        return fileName;
+    }
 }
