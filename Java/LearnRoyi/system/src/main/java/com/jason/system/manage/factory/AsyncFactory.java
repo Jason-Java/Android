@@ -3,10 +3,7 @@ package com.jason.system.manage.factory;
 import com.jason.ApplicationContext;
 import com.jason.system.model.domain.SysOperLog;
 import com.jason.system.model.service.ISysOperLogService;
-import com.jason.system.model.service.SysLoginService;
-import com.jason.system.model.service.impl.SysConfigServiceImpl;
 import com.jason.system.model.service.impl.SysOperLogServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.TimerTask;
 
