@@ -70,3 +70,48 @@ lrange <key> <start><end>
 	说明：按照索引从左到右获取list中的值 0 -1 表示获取所有的值
 lindex <key> <index>
 	说明：按照索引下表获取元素（从左边开始）
+
+	Zset操作
+zadd <key> <score> <value> [<score> <value>......]
+	说明：向Zset集合中添加一个有序的 score 是在集合中的排序 从小到大进行排序
+zreange <key> <start> <end> [withscores]
+	说明：在集合中获取下标在指定范围内的值，包含两端的值 zrange key 0 -1 表示获取全部内容withscores 表示评分也一起输出
+
+zrangebyscore <key> <min> <max> [withscores] [limit offset count]
+	说明：取评分范围内的值  offset 表示从第几行开始取 count 表示取出来的数量
+
+zrevreange <key> <start> <end> [withscores]
+	说明：倒序输出
+zrevreangescore <key> <max> <min>
+	说明：倒序输出
+
+zrem <key> <member> 
+	说明：删除指定元素
+zincrby  <key> <increment> <member>
+	说明：给指定成员增加指定分数
+
+
+发布订阅机制
+
+subscribe <channelName>
+	说明：客户端订阅channelName这个通道的消息
+publish <channelName> <message>
+	说明：客户端向channelName这个通道发送消息
+
+
+
+bitmap操作
+
+setbit <key> <offset> <value>
+	说明： offset 偏移量  value取范围0，1
+	       向偏移量位置标记为1或0
+getbit <key> <offset>
+	说明：获取偏移量位置的值
+bitcount <key> [start end] 
+	说明：获取key中1的个数
+bitop and/or/not/xor
+
+
+
+
+
