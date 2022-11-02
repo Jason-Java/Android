@@ -7,6 +7,7 @@ import com.jason.system.model.domain.SysUser;
 import com.jason.system.model.mapper.SysRoleMapper;
 import com.jason.system.model.service.ISysRoleService;
 import com.jason.system.util.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Service("SysRoleServiceImpl")
+@Service
 public class SysRoleServiceImpl implements ISysRoleService {
 
     @Autowired
     private SysRoleMapper roleMapper;
-
 
 
     /**
@@ -70,9 +70,36 @@ public class SysRoleServiceImpl implements ISysRoleService {
         return roleKey;
     }
 
+    /**
+     * 根据角色Id获取角色详情
+     * @param roleId
+     * @return
+     */
+   public SysRole selectRoleByRoleId(Long roleId)
+    {
+        return roleMapper.selectRoleByRoleId(roleId);
+    }
+
     @Override
     public List<SysRole> selectRoleAll() {
         return ApplicationContext.getAopProxy(this).selectRoleList(new SysRole());
     }
+
+    /**
+     * 检查用户是否有数据权限
+     * @param roleId
+     * @return
+     */
+    @Override
+    public void checkRoleDataScope(Long roleId) {
+        SysRole role = new SysRole();
+        role.setRoleId(roleId);
+        List<SysRole> roleList = ApplicationContext.getAopProxy(this).selectRoleList(role);
+        if (StringUtils.isEmpty(roleList)) {
+            throw new RuntimeException("无权限访问");
+        }
+
+    }
+
 
 }

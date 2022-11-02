@@ -34,7 +34,7 @@ public class SysLoginController {
     @Autowired
     private SysLoginService loginService;
 
-    @Resource(name = "SysRoleServiceImpl")
+   @Autowired
     private ISysRoleService roleService;
 
     @Autowired

@@ -36,5 +36,19 @@ public interface ISysRoleService {
      */
     Set<String> selectRoleKeyByUserId(Long userId);
 
+    /**
+     * 根据角色Id获取角色详情
+     * @param roleId
+     * @return
+     */
+    SysRole selectRoleByRoleId( Long roleId);
+
     List<SysRole> selectRoleAll();
+
+    /**
+     * 检查用户是否有数据权限
+     * @param roleId
+     * @return
+     */
+    void checkRoleDataScope(Long roleId);
 }

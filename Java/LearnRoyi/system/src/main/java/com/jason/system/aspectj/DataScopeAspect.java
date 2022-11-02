@@ -80,15 +80,15 @@ public class DataScopeAspect {
         Method method = methodSignature.getMethod();
         DataScope dataScope = method.getAnnotation(DataScope.class);
         clearDataScope(joinPoint);
-        RequestContextHolder.currentRequestAttributes().getAttribute("PERMISSION_CONTEXT",
-                RequestAttributes.SCOPE_REQUEST);
 
         disposeDataScope(joinPoint, dataScope);
-
-        System.out.println("数据范围切入点开始执行");
-
     }
 
+    /**
+     * 处理数据范围
+     * @param point
+     * @param dataScope
+     */
     private void disposeDataScope(final JoinPoint point, final DataScope dataScope) {
         //获取当前用户
         LoginUser loginUser = SecurityUtil.getLoginUser();
@@ -96,9 +96,8 @@ public class DataScopeAspect {
         if (loginUser == null || SysUser.isAdmin(loginUser.getUserId()))
             return;
 
-        //   StringUtils.defaultString(dataScope.permission(),Permission)
         String permission =
-                StringUtils.isEmpty(dataScope.permission()) ? dataScope.permission() : PermissionContextHolder.getPermission();
+                StringUtils.isEmpty(dataScope.permission()) ? PermissionContextHolder.getPermission() : dataScope.permission();
         dataScopeFilter(point, loginUser.getUser(), dataScope.deptAlias(), dataScope.userAlias(), permission);
 
     }
@@ -152,7 +151,6 @@ public class DataScopeAspect {
                 baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
             }
         }
-
     }
 
 

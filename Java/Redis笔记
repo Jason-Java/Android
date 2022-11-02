@@ -70,3 +70,52 @@ lrange <key> <start><end>
 	说明：按照索引从左到右获取list中的值 0 -1 表示获取所有的值
 lindex <key> <index>
 	说明：按照索引下表获取元素（从左边开始）
+linsert <key> <before|after> <value> <newValue>
+	说明:在value之前或之后插入一个新值
+lrem <key> <count> <value>
+	说明: 删除 count 个 value值
+lset <key> <index> <value>
+	说明:将key下表为index的值重新设置为value
+	
+	
+	
+	
+	
+	set操作
+sadd <key> <value1> <value2> <value3>......
+	说明:给 key添加1个或多个值
+smembers <key>
+	说明:去除key中的全部元素
+sismember <key> <value>
+	说明:key中是否有value   0没有 1有
+scard <key> 
+	说明:查看key的元素个数
+	
+spop <key> [count]
+	说明:从key中随机吐出count个值 count 可以不写默认为1
+srandmember <key> [count]
+	说明:从key中随机取出count个值但不删除   count 可以不写默认为1
+smove <sourceKey> <destinationKey> <value>
+	说明:将一个值从一个集合移动到另外一个集合
+
+
+
+
+
+	hash操作
+hset <key> <filed> <value> [<filed> <value>......]
+	说明:设置key 的filed的值为value file和value可以有多对
+hget <key> <filed>
+	说明:从可以中取出filed的值
+hexists <key> <filed>
+	说明 key中是否存在filed字段
+hkeys <key>
+	说明:取出key中的所有filed
+hvals <key>
+	说明:取出key中的所有value
+hsetnx <key><field><value>
+
+
+   Zset操作
+zadd <key> score
+

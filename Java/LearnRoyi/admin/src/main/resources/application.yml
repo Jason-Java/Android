@@ -1,6 +1,45 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 令牌有效期（默认30分钟）
+  expireTime: 30
+
+mybatis:
+  type-aliases-package: com.jason.system.model.domain
+  mapper-locations: classpath*:mapper/*Mapper.xml
+
+
+pagehelper:
+  helper-dialect: mysql
+  page-size-zero: true
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+
 spring:
   profiles:
-    active: home
+    active: company
 ---
 
 spring:
@@ -16,22 +55,6 @@ server:
   port: 9091
   servlet:
     context-path: /
-
-
-
-mybatis:
-  type-aliases-package: com.jason.system.model.domain
-  mapper-locations: classpath*:mapper/*Mapper.xml
-
-# token配置
-token:
-  # 令牌自定义标识
-  header: Authorization
-  # 令牌密钥
-  secret: abcdefghijklmnopqrstuvwxyz
-  # 令牌有效期（默认30分钟）
-  expireTime: 30
-
 
 ---
 
@@ -50,27 +73,13 @@ server:
     context-path: /
 
 
-mybatis:
-  type-aliases-package: com.jason.system.model.domain
-  mapper-locations: classpath*:mapper/*Mapper.xml
-
-pagehelper:
-  helper-dialect: mysql
-  page-size-zero: true
-  reasonable: true
-  support-methods-arguments: true
-  params: count=countSql
 
 
 
 
-# token配置
-token:
-  # 令牌自定义标识
-  header: Authorization
-  # 令牌密钥
-  secret: abcdefghijklmnopqrstuvwxyz
-  # 令牌有效期（默认30分钟）
-  expireTime: 30
+
+
+
+
 
 
