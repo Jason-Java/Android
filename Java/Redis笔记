@@ -70,6 +70,7 @@ lrange <key> <start><end>
 	说明：按照索引从左到右获取list中的值 0 -1 表示获取所有的值
 lindex <key> <index>
 	说明：按照索引下表获取元素（从左边开始）
+<<<<<<< HEAD
 linsert <key> <before|after> <value> <newValue>
 	说明:在value之前或之后插入一个新值
 lrem <key> <count> <value>
@@ -97,11 +98,54 @@ srandmember <key> [count]
 	说明:从key中随机取出count个值但不删除   count 可以不写默认为1
 smove <sourceKey> <destinationKey> <value>
 	说明:将一个值从一个集合移动到另外一个集合
+=======
+
+	Zset操作
+zadd <key> <score> <value> [<score> <value>......]
+	说明：向Zset集合中添加一个有序的 score 是在集合中的排序 从小到大进行排序
+zreange <key> <start> <end> [withscores]
+	说明：在集合中获取下标在指定范围内的值，包含两端的值 zrange key 0 -1 表示获取全部内容withscores 表示评分也一起输出
+
+zrangebyscore <key> <min> <max> [withscores] [limit offset count]
+	说明：取评分范围内的值  offset 表示从第几行开始取 count 表示取出来的数量
+
+zrevreange <key> <start> <end> [withscores]
+	说明：倒序输出
+zrevreangescore <key> <max> <min>
+	说明：倒序输出
+
+zrem <key> <member> 
+	说明：删除指定元素
+zincrby  <key> <increment> <member>
+	说明：给指定成员增加指定分数
+
+
+发布订阅机制
+
+subscribe <channelName>
+	说明：客户端订阅channelName这个通道的消息
+publish <channelName> <message>
+	说明：客户端向channelName这个通道发送消息
+
+
+
+bitmap操作
+
+setbit <key> <offset> <value>
+	说明： offset 偏移量  value取范围0，1
+	       向偏移量位置标记为1或0
+getbit <key> <offset>
+	说明：获取偏移量位置的值
+bitcount <key> [start end] 
+	说明：获取key中1的个数
+bitop and/or/not/xor
+>>>>>>> 9b2a7dbb9e8246a8237e041b9bf89e6c56098c99
 
 
 
 
 
+<<<<<<< HEAD
 	hash操作
 hset <key> <filed> <value> [<filed> <value>......]
 	说明:设置key 的filed的值为value file和value可以有多对
@@ -119,3 +163,5 @@ hsetnx <key><field><value>
    Zset操作
 zadd <key> score
 
+=======
+>>>>>>> 9b2a7dbb9e8246a8237e041b9bf89e6c56098c99
