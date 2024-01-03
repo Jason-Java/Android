@@ -4,10 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="发送命令"
-    android:id="@+id/button"/>
+
+    <com.jason.jasonuitools.keyboard.KeyBoardEditText
+        android:layout_width="200dp"
+        android:layout_height="40dp" />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:text="发送命令" />
+
+    <com.jason.jasonuitools.view.JasonEditText
+        android:id="@+id/editText"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:text="冯家振"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        app:ja_strokeBottomWidth="2dp"
+        app:ja_strokeColor="#000000" />
+
+    <com.jason.jasonuitools.view.JasonSpinner
+        android:id="@+id/spinner"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        app:ja_arrowDirection="top"
+        app:ja_radius="10dp"
+        app:ja_strokeColor="#000000"
+        app:ja_strokeWidth="3dp" />
+
+    <com.jason.jasonuitools.view.JasonLearLayout
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_marginStart="100dp"
+        app:ja_bgColor="#123456"
+        app:ja_radius="50dp"
+        app:ja_strokeBottomWidth="0dp"
+        app:ja_strokeColor="#000000"
+        app:ja_strokeLeftWidth="0dp"
+        app:ja_strokeRightWidth="60dp"
+        app:ja_strokeTopWidth="90dp">
+
+        <com.jason.jasonuitools.view.JasonButton
+            android:id="@+id/button"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:text="冯家振"
+            android:textColor="#000000"
+            app:ja_bgColor="#FF123456"
+            app:ja_bgColorPress="#80123456"
+            app:ja_radius="100dp"
+            app:ja_strokeColor="#000000"
+            app:ja_strokeWidth="3dp"
+            app:ja_textColor="#000000"
+            app:ja_textColorPress="#FFFFFF" />
+
+
+    </com.jason.jasonuitools.view.JasonLearLayout>
+
 </LinearLayout>

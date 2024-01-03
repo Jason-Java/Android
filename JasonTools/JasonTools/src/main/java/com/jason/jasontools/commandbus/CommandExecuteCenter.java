@@ -1,9 +1,12 @@
 package com.jason.jasontools.commandbus;
 
 
+import com.jason.jasontools.util.JasonThreadPool;
 import com.jason.jasontools.util.LogUtil;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -35,6 +38,8 @@ public class CommandExecuteCenter implements Runnable {
     private final Lock lock = new ReentrantLock(true);
     private Condition condition = lock.newCondition();
 
+    private Map<String, CommandExecute> runnableMap = new HashMap<>();
+
 
     public CommandExecuteCenter() {
         init();
@@ -50,7 +55,7 @@ public class CommandExecuteCenter implements Runnable {
     /**
      * 向发送中心队列添加指令消息
      * 若队列已满,则移除队列第一个元素,再添加
-     * 根据命令的优先级,将指令添加到队列中合适的位置{@link AbsCommand#getIndex()}
+     * 根据命令的优先级,将指令添加到队列中合适的位置{@link AbsCommand#getPriority()}
      *
      * @param command
      */
@@ -62,7 +67,7 @@ public class CommandExecuteCenter implements Runnable {
             }
             int i = 0;
             for (; i < queue.size(); i++) {
-                if (command.getIndex() > queue.get(i).getIndex()) {
+                if (command.getPriority() > queue.get(i).getPriority()) {
                     queue.add(i + 1, command);
                     break;
                 }
@@ -70,8 +75,9 @@ public class CommandExecuteCenter implements Runnable {
             if (i == queue.size()) {
                 queue.add(command);
             }
+            condition.signalAll();
         } catch (Exception ignore) {
-            LogUtil.e(TAG,"通风模组队列已满,添加线程已阻塞");
+            LogUtil.e(TAG, "通风模组队列已满,添加线程已阻塞");
         } finally {
             lock.unlock();
         }
@@ -79,63 +85,36 @@ public class CommandExecuteCenter implements Runnable {
 
     @Override
     public void run() {
-        LogUtil.i(TAG,"发送命令线程启动成功-------");
+        LogUtil.i(TAG, "发送命令线程启动成功-------");
         isSend = true;
-        try {
-            while (!Thread.currentThread().isInterrupted() && isSend) {
-                try {
-                    sendMessage();
-                } catch (InterruptedException ignore) {
-                    break;
-                }
+
+        while (!Thread.currentThread().isInterrupted() && isSend) {
+            try {
+                getRunnable();
+            } catch (Exception e) {
             }
-        } finally {
-            isSend = false;
-            Thread.currentThread().interrupt();
         }
-        LogUtil.i(TAG,"发送命令线程结束-------");
+        LogUtil.i(TAG, "发送命令线程结束-------");
     }
 
-    //发送消息
-    private void sendMessage() throws InterruptedException {
+    public void getRunnable() {
         lock.lock();
-        try {
-            // 如果队列为空
-            while (queue.size() == 0) {
-                LogUtil.i(TAG,"队列为空,线程阻塞");
-                condition.await(1, TimeUnit.SECONDS);
-            }
-            final AbsCommand command = queue.get(0);
-            command.execute(new RepeaterListener() {
-                @Override
-                public void onRepeatCommand() {
-                    //重发次命令
-                    command.execute(this);
-                }
-
-                @Override
-                public void onNext() {
-                    lock.lock();
-                    try {
-                        queue.remove(0);
-                        //唤醒线程
-                        condition.signalAll();
-                    } finally {
-                        lock.unlock();
-                    }
-                }
-            });
-            //线程休眠
-            condition.await();
-        } catch (Exception e) {
-            LogUtil.e(TAG,"发送命令线程异常: " + e.getMessage());
-            lock.lock();
+        try{
+        while (queue.size() == 0) {
             try {
-                condition.signalAll();
-            } finally {
-                lock.unlock();
+                condition.await(10, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
             }
-        } finally {
+        }
+        AbsCommand absCommand = queue.pollFirst();
+        CommandExecute runnable = runnableMap.get(absCommand.getRunnableTAG());
+        if (runnable == null) {
+            runnable = new CommandExecute(absCommand.getRunnableTAG());
+            runnableMap.put(absCommand.getRunnableTAG(), runnable);
+            JasonThreadPool.getInstance().execute(runnable);
+        }
+        runnable.addQueue(absCommand);
+        }finally {
             lock.unlock();
         }
     }

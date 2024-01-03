@@ -28,23 +28,6 @@ public class StrUtil {
     //检查是否是数字
     private static final String CHECK_NUMBER = "[\\+-]?[0-9]*(\\.[0-9]*)?([eE][\\+-]?[0-9]+)?";
 
-    /**
-     * 判断字符串是否纯数字
-     *
-     * @param str
-     * @return
-     */
-    public static boolean isDigit(String str) {
-        if (str == null) {
-            return false;
-        }
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) < 48 || str.charAt(i) > 57) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     /**
      * 判断是否是手机号
@@ -181,15 +164,15 @@ public class StrUtil {
 
     /**
      * Hex字符串转成byte数组
+     * 如果 字符串为空或者字符串的长度小于1则返回null
      *
      * @param str hex字符串
      * @return byte 数组
      */
     private static byte[] hexStringToBytes(String str) {
-//        if (str.length() % 2 != 0) {
-//            LogUtil.i("CRC转换失败 长度为奇数");
-//            return new byte[]{00, 00, 00};
-//        }
+        if (str == null || str.length() <= 0) {
+            return null;
+        }
         int size = str.length() / 2;
         byte[] bytes = new byte[size];
         for (int i = 0; i < size; ++i) {
@@ -205,47 +188,90 @@ public class StrUtil {
      * @param r hex字符串
      * @return Ascll码字符串
      */
-    public final static String hexToString(String r) {
+    public final static String byteToASCLLString(String r) {
         StringBuffer bufff = new StringBuffer();
         for (int i = 0; i < r.length(); i += 2) {
             String s = r.substring(i, i + 2);
-            int decimal = Integer.parseInt(s, 16);
-            bufff.append((char) decimal);
+            if (s.equals("0D")) {
+                bufff.append("\n");
+            } else {
+                int decimal = Integer.parseInt(s, 16);
+                bufff.append((char) decimal);
+            }
         }
         return bufff.toString();
     }
 
     /**
-     * hex数组转换ASCLL码字符串
+     * byte数组转换Hex字符串
      *
      * @param data byte数组
      * @return ASCLL码字符串
      */
-    public final static String byteToString(byte[] data) {
+    public final static String byteToHexString(byte[] data) {
         StringBuffer bufff = new StringBuffer();
         for (int i = 0; i < data.length; i++) {
-            String s= Integer.toHexString(data[i] & 0xFF);
+            String s = Integer.toHexString(data[i] & 0xFF);
             if (s.length() < 2) {
                 bufff.append(0);
                 bufff.append(s);
-            }else{
+            } else {
                 bufff.append(s);
             }
             bufff.append(" ");
         }
-        bufff.delete(bufff.length()-1,bufff.length());
+        bufff.delete(bufff.length() - 1, bufff.length());
         return bufff.toString();
     }
 
-    public final static String byteToString(byte data) {
-        String s= Integer.toHexString(data & 0xFF);
-        if(s.length() < 2) {
+    /**
+     * byte类型转16进制Hex字符串
+     *
+     * @param data
+     * @return
+     */
+    public final static String byteToHexString(byte data) {
+        String s = Integer.toHexString(data & 0xFF);
+        if (s.length() < 2) {
             return "0" + s;
-        }else{
+        } else {
             return s;
         }
     }
 
+
+    /**
+     * 字符串Hex转换成Byte数组 <br>
+     * ffff0101-->0xff,0xff,0x01,0x01<br>
+     * ff ff 01 01--> 0xff,0xff,0x01,0x01
+     *
+     * @param data
+     * @return
+     */
+    public static byte[] hexToByteArray(String data) {
+        if (StrUtil.isEmpty(data)) {
+            return null;
+        }
+        if (data.contains(" ")) {
+            data.replace(" ", "");
+        }
+        if (data.length() % 2 != 0) {
+            return null;
+        }
+        data = data.toUpperCase();
+        byte[] bytes = new byte[data.length() / 2];
+        char[] chars = data.toCharArray();
+        for (int i = 0; i < chars.length; i += 2) {
+            byte b = (byte) (charToByte(chars[i]) << 4 | charToByte(chars[i + 1]));
+            bytes[i / 2] = b;
+        }
+        return bytes;
+    }
+
+
+    public static byte charToByte(char c) {
+        return (byte) "0123456789ABCDEF".indexOf(c);
+    }
 
 
     /**
@@ -254,7 +280,7 @@ public class StrUtil {
      * @param data
      * @return
      */
-    public final static String hexToString(byte[] data) {
+    public final static String byteArrayToString(byte[] data) {
         try {
             return new String(data, "GB2312");
         } catch (Exception e) {

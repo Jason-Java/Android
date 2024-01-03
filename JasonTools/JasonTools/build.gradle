@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.jason.jasontools'
-    compileSdkVersion 31
+    compileSdkVersion 32
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 101
+        targetSdkVersion 32
+        versionCode 108
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
@@ -36,14 +36,11 @@ android {
 
 dependencies {
     implementation 'com.google.android.material:material:1.5.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 assemble.mustRunAfter clean
 
 task makeJar(type: Copy) {
-    dependsOn clean, assemble
+   dependsOn clean, assemble
     from('build/intermediates/aar_main_jar/release/')
     into('build/libs/')
     include('classes.jar')
@@ -51,9 +48,10 @@ task makeJar(type: Copy) {
 }
 
 // 自动生成aar包
-task makeAar(type: Copy) {
+task makeJasonToolAar(type: Copy) {
+   dependsOn clean, assemble
     from('build/outputs/aar/')
     into('build/libs/')
-    include('JasonTools-debug.aar')
-    rename('JasonTools-debug.aar', 'JasonTools' + "${android.defaultConfig.versionCode}" + '.aar')
+    include('JasonTools-release.aar')
+    rename('JasonTools-release.aar', 'jasonTools_' + "${android.defaultConfig.versionCode}" + '.aar')
 }

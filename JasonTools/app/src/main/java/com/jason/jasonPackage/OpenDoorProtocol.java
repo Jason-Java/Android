@@ -1,7 +1,7 @@
 package com.jason.jasonPackage;
 
 import com.jason.jasontools.commandbus.IProtocol;
-import com.jason.jasontools.util.CrcVerify;
+import com.jason.jasontools.util.JasonVerifyUtil;
 
 /**
  * <p>
@@ -22,7 +22,7 @@ public class OpenDoorProtocol extends IProtocol {
         bytes[index++] = (byte)0xFF;
         bytes[index++] = 0x23;
         bytes[5] = (byte) 0x04;
-        bytes[index++] = CrcVerify.crc8_Maxim(bytes, 1, 3);
+        bytes[index++] = JasonVerifyUtil.crc8_Maxim(bytes, 1, 3);
         setProtocol(bytes);
     }
 }

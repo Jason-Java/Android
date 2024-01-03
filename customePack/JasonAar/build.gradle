@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.library'
 }
-/*apply plugin : 'com.android.library'*/
 
 apply from: 'version.gradle'
 
@@ -37,7 +36,7 @@ android {
 }
 
 assemble.mustRunAfter clean
-task makeAar()
+/*task makeAar()
 {
     dependsOn clean,assemble
     description "自动打包aar"
@@ -46,7 +45,7 @@ task makeAar()
         file.renameTo("E:\\Android\\customePack\\JasonAar\\build\\outputs\\aar\\JasonAar-${androidId.versionName}.aar");
         println "完成"
     }
-}
+}*/
 
 
 dependencies {

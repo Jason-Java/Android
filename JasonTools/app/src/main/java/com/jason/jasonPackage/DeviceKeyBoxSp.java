@@ -15,6 +15,26 @@ import com.jason.jasontools.serialport.DeviceSerialPort;
 public class DeviceKeyBoxSp extends DeviceSerialPort {
     private static final String TAG = "DeviceKeyBoxSp";
 
+    /**
+     * 获取串口名称
+     *
+     * @return
+     */
+    @Override
+    protected String getSerialPortName() {
+        return null;
+    }
+
+    /**
+     * 获取波特率
+     *
+     * @return
+     */
+    @Override
+    protected int getBaudRate() {
+        return 0;
+    }
+
     private static class Single {
         private static DeviceKeyBoxSp instance = new DeviceKeyBoxSp();
     }

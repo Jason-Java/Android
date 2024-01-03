@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/characteristicName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/characteristicUUID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/characteristicProperties"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="描述："
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/descriptionUUID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/sendCmd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送指令" />
+    <Button
+        android:id="@+id/receiveCmd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="接受指令" />
+
+</LinearLayout>

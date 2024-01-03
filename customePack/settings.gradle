@@ -1,18 +1,8 @@
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
-    }
-}
+
 rootProject.name = "customePack"
 include ':app'
 include ':JasonAar'
-include ':StackOverView'
-//此模块可以不在本项目中,需要给模块指定路径
-//include ':TestGradleModel'
-//project(':TestGradleModel').projectDir=new File("E:\\Android\\ExampelRxJava","\\TestGradleModel")
 
 
-include ':lib'
+//include ':JasonTools'
+include ':JasonTools'

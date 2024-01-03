@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
+
+    <Button
+        android:id="@+id/StartService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Service" />
+
+    <Button
+        android:id="@+id/StopService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop Service" />
+
+    <Button
+        android:id="@+id/BindService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bind Service" />
+
+    <Button
+        android:id="@+id/UnbindService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unbind Service" />
+
+    <Button
+        android:id="@+id/registerServer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注册回调" />
+
+    <Button
+        android:id="@+id/sendMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送定时指令" />
+
+    <Button
+        android:id="@+id/stopMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="停止定时指令" />
+
+    <Button
+        android:id="@+id/getHz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取Hz" />
+
+    <Button
+        android:id="@+id/getPower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取功率" />
+
+    <Button
+        android:id="@+id/getAmper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取电流" />
+
+</LinearLayout>

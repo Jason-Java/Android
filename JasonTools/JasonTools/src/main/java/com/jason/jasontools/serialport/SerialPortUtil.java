@@ -11,7 +11,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import android_serialport_api.SerialPort;
+import android_serialport_api.JasonSerialPort;
 
 /**
  * <p>
@@ -26,7 +26,7 @@ import android_serialport_api.SerialPort;
 public final class SerialPortUtil {
     private final static String TAG = "JasonBaseSerialPortTag";
 
-    private SerialPort serialPort = null;
+    private JasonSerialPort serialPort = null;
     private ISerialPortListener listener = null;
     private String serialPortName;
     private ReadSerialPortDataRunnable readSerialPortDataRunnable = null;
@@ -46,7 +46,7 @@ public final class SerialPortUtil {
      */
     protected SerialPortUtil(String serialPortName, int baudrate, int flags) throws SecurityException, IOException {
         this.serialPortName = serialPortName;
-        this.serialPort = new SerialPort(new File(serialPortName), baudrate, flags);
+        this.serialPort = new JasonSerialPort(new File(serialPortName), baudrate, flags);
         if (readSerialPortDataRunnable == null) {
             JasonThreadPool.getInstance().execute(readSerialPortDataRunnable = new ReadSerialPortDataRunnable(serialPort, serialPortName));
         }
@@ -74,7 +74,7 @@ public final class SerialPortUtil {
         try {
             this.serialPort.getOutputStream().write(protocol.getProtocol());
             this.serialPort.getOutputStream().flush();
-            LogUtil.i(TAG, "SerialPort " + serialPortName + " sendCmd success [  length:  " + protocol.getProtocol().length + "  content: " + StrUtil.byteToString(protocol.getProtocol()) + "  ]");
+            LogUtil.i(TAG, "SerialPort " + serialPortName + " 发送成功 [  length:  " + protocol.getProtocolLength() + "  content: " + protocol.getProtocolStr() + "  ]");
         } finally {
             lock.unlock();
         }

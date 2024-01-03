@@ -1,6 +1,5 @@
 package com.unite.jasonjar.view;
 
-import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,14 +12,9 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.unite.jasonjar.R;
 import com.unite.jasonjar.util.DensityUtil;
-import com.unite.jasonjar.util.LogUtil;
 
 public class JasonView {
 

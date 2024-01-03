@@ -1,14 +1,16 @@
 package com.jason.jasonPackage;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.jason.jasontools.commandbus.IMessageListener;
-import com.jason.jasontools.commandbus.IProtocol;
-import com.jason.jasontools.util.CrcVerify;
 import com.jason.jasontools.util.LogUtil;
 import com.jason.jasontools.util.StrUtil;
+import com.jason.jasonuitools.view.JasonEditText;
+import com.jason.jasonuitools.view.JasonLearLayout;
+import com.jason.jasonuitools.view.JasonSpinner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,27 +18,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DeviceKeyBoxSp instance = DeviceKeyBoxSp.getInstance();
-        instance.open("/dev/ttyS3", 19200, 0);
-        instance.setVerifySerialProtocolData(new VerifyData());
-        LogUtil.addFilterTag("CommandExecuteCenter");
-        new Thread(SendCommandCenterSingle.getInstance()).start();
         findViewById(R.id.button).setOnClickListener(v -> {
-            KeyBoxCommand keyBoxCommand = new KeyBoxCommand(new IMessageListener<IProtocol>() {
-                @Override
-                public void success(IProtocol protocol) {
-                    LogUtil.i("MainActivity", "success: " + protocol.toString());
-                }
-
-                @Override
-                public void error(String s, int i) {
-                    LogUtil.i("MainActivity", "error: " + s + "  " + i);
-                }
-            }, new OpenDoorProtocol(1));
-            SendCommandCenterSingle.getInstance().addQueue(keyBoxCommand);
+            JasonEditText editText = findViewById(R.id.editText);
+            editText.setJaBgColor(0XFFdddddd);
+            editText.setEnabled(false);
+            editText.setJaStrokeWidth(0);
         });
-        OpenDoorProtocol openDoor = new OpenDoorProtocol(1);
-        openDoor.addProtocol(new OpenDoorProtocol(2).getProtocol());
-        LogUtil.e("MainActivity", "onCreate: " + StrUtil.byteToString(openDoor.getProtocol()));
+
+        JasonSpinner spinner = findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, new String[]{"1", "2", "3"});
+        spinner.setAdapter(adapter);
     }
 }

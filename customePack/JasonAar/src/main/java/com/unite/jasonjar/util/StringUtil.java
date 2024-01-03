@@ -17,7 +17,7 @@ public class StringUtil {
     private static final String EXTRACTION_OF_DIGITAL = "[^0-9||\\.]";
     //提取字母
     private static final String EXTRACTION_OF_LETTER = "[^a-z||A-Z]";
-
+    //检查是否是数字
     private static final String CHECK_NUMBER = "[\\+-]?[0-9]*(\\.[0-9]*)?([eE][\\+-]?[0-9]+)?";
 
 

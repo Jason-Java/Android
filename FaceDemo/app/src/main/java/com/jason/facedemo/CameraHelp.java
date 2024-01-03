@@ -15,8 +15,11 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.media.Image;
 import android.media.ImageReader;
+import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
+import android.view.SurfaceView;
+import android.view.TextureView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -27,6 +30,7 @@ import java.util.Arrays;
 
 public class CameraHelp {
 
+    SurfaceView surfaceView;
     private ImageReader imageReader = null;
     private Surface imageSurface = null;
     private CameraCaptureSession captureSession = null;
@@ -35,6 +39,8 @@ public class CameraHelp {
     private String TAG = "JasonCameraTAG";
     private WeakReference<Activity> activity;
     private ImageAvailableListener imageListener;
+    private int imageCount = 0;
+
     public CameraHelp(Activity activity) {
         this.activity = new WeakReference<>(activity);
     }
@@ -44,12 +50,21 @@ public class CameraHelp {
     }
 
     public void openCamera(int cameraId, Size imageSize) {
-        imageReader = ImageReader.newInstance(imageSize.getWidth(), imageSize.getHeight(), ImageFormat.YUV_420_888, 5);
+        imageReader = ImageReader.newInstance(imageSize.getWidth(), imageSize.getHeight(), ImageFormat.YUV_420_888, 3);
         imageSurface = imageReader.getSurface();
         imageReader.setOnImageAvailableListener(availableListener, null);
         cameraManager = (CameraManager) activity.get().getSystemService(Context.CAMERA_SERVICE);
         try {
             if (ActivityCompat.checkSelfPermission(activity.get(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            String[] cameraIdList = cameraManager.getCameraIdList();
+            if (cameraIdList.length == 0) {
+                Log.e(TAG, "openCamera: 无相机");
+                return;
+            }
+            if (cameraIdList.length < cameraId) {
+                Log.e(TAG, "openCamera: 超出相机索引");
                 return;
             }
             cameraManager.openCamera(cameraId + "", deviceStateCallback, null);
@@ -62,21 +77,29 @@ public class CameraHelp {
      * 图片回调监听器
      */
     private ImageReader.OnImageAvailableListener availableListener = new ImageReader.OnImageAvailableListener() {
-        private int imageCount = 0;
-
         @Override
         public void onImageAvailable(ImageReader reader) {
-            imageCount++;
-            if (imageCount % 5 != 0) {
-                return;
+            try {
+                Image image = reader.acquireLatestImage();
+                imageCount++;
+                Log.d(TAG, "onImageAvailable: " + imageCount);
+                if (imageCount % 3 != 0) {
+                    image.close();
+                    return;
+                }
+                imageCount = 0;
+                if (image == null) {
+                    return;
+                }
+                Bitmap bitmap = ImageUtil.YUVtoJepg(image);
+                image.close();
+                if (imageListener != null) {
+                    imageListener.onImageAvailable(bitmap);
+                }
+            } catch (Exception e) {
+
             }
-            imageCount = 0;
-            Image image = reader.acquireLatestImage();
-            Bitmap bitmap = ImageUtil.YUVtoJepg(image);
-            image.close();
-            if (imageListener != null) {
-                imageListener.onImageAvailable(bitmap);
-            }
+
         }
     };
     /**
@@ -95,12 +118,14 @@ public class CameraHelp {
 
         @Override
         public void onDisconnected(@NonNull CameraDevice camera) {
-
+            destroy();
+            Log.e(TAG, "onDisconnected: 相机连接失败");
         }
 
         @Override
         public void onError(@NonNull CameraDevice camera, int error) {
-
+            destroy();
+            Log.e(TAG, "onDisconnected: 相机打开失败");
         }
     };
 
@@ -121,29 +146,38 @@ public class CameraHelp {
 
         @Override
         public void onConfigureFailed(@NonNull CameraCaptureSession session) {
+            Log.e(TAG, "onConfigureFailed: 配置失败");
         }
     };
-
-
 
 
     /**
      * 销毁资源
      */
     public void destroy() {
-        imageReader.close();
+        if (imageReader != null) {
+            imageReader.close();
+
+        }
         imageReader = null;
-        imageSurface.release();
+        if (imageSurface != null) {
+            imageSurface.release();
+        }
         imageSurface = null;
-        captureSession.close();
-        cameraDevice.close();
+        if (captureSession != null) {
+            captureSession.close();
+        }
+        if (cameraDevice != null) {
+            cameraDevice.close();
+        }
+
         cameraManager = null;
         activity = null;
         imageListener = null;
     }
 
 
-    public  interface ImageAvailableListener{
+    public interface ImageAvailableListener {
         void onImageAvailable(Bitmap bitmap);
     }
 }

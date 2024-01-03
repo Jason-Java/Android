@@ -1,9 +1,11 @@
 package com.jason.jasontools.commandbus;
 
 
+import com.jason.jasontools.util.StrUtil;
+
 import java.util.List;
 
-public class IProtocol  {
+public class IProtocol {
 
     public byte[] protocol;
 
@@ -45,7 +47,7 @@ public class IProtocol  {
     public String getProtocolStr() {
         String str = "";
         try {
-            str = new String(protocol, "UTF-8");
+            str = StrUtil.byteToHexString(protocol);
             return str;
         } catch (Exception e) {
             return "";
@@ -54,6 +56,7 @@ public class IProtocol  {
 
     /**
      * 追加协议
+     *
      * @param protocol
      */
     public void addProtocol(byte[] protocol) {
@@ -61,6 +64,27 @@ public class IProtocol  {
         System.arraycopy(this.protocol, 0, newProtocol, 0, this.protocol.length);
         System.arraycopy(protocol, 0, newProtocol, this.protocol.length, protocol.length);
         this.protocol = newProtocol;
+    }
+
+    /**
+     * 头部添加协议
+     *
+     * @param protocol
+     */
+    public void addHeadProtocol(byte[] protocol) {
+        byte[] newProtocol = new byte[this.protocol.length + protocol.length];
+        System.arraycopy(protocol, 0, newProtocol, 0, protocol.length);
+        System.arraycopy(this.protocol, 0, newProtocol, protocol.length, this.protocol.length);
+        this.protocol = newProtocol;
+    }
+
+    /**
+     * 获取协议长度
+     *
+     * @return
+     */
+    public int getProtocolLength() {
+        return protocol == null ? 0 : protocol.length;
     }
 
     @Override

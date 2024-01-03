@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--文字相关    -->
+    <attr name="ja_textSize" format="dimension" />
+    <attr name="ja_textColorPress" format="color" />
+    <attr name="ja_textColorDefault" format="color" />
+    <attr name="ja_textColor" format="color" />
+    <attr name="ja_text" format="string" />
+    <!--    背景相关-->
+    <attr name="ja_bgColorPress" format="reference|color" />
+    <attr name="ja_bgColorDefault" format="reference|color" />
+    <attr name="ja_bgColor" format="reference|color" />
+
+    <!--        边框相关-->
+    <attr name="ja_strokeWidth" format="dimension" />
+    <attr name="ja_strokeRightWidth" format="dimension" />
+    <attr name="ja_strokeLeftWidth" format="dimension" />
+    <attr name="ja_strokeTopWidth" format="dimension" />
+    <attr name="ja_strokeBottomWidth" format="dimension" />
+    <attr name="ja_strokeColorDefault" format="color" />
+    <attr name="ja_strokeColorPress" format="color" />
+    <attr name="ja_strokeColor" format="color" />
+    <!--    圆角相关-->
+    <attr name="ja_radius" format="dimension" />
+    <attr name="ja_leftTopRadius" format="dimension" />
+    <attr name="ja_RightTopRadius" format="dimension" />
+    <attr name="ja_leftBottomRadius" format="dimension" />
+    <attr name="ja_RightBottomRadius" format="dimension" />
+
+
+    <declare-styleable name="JasonLearLayout">
+        <!--    圆角相关-->
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_RightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_RightBottomRadius" />
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeLeftWidth" />
+        <attr name="ja_strokeRightWidth" />
+        <attr name="ja_strokeTopWidth" />
+        <attr name="ja_strokeBottomWidth" />
+        <attr name="ja_strokeColorPress" />
+        <attr name="ja_strokeColor" />
+        <!--        背景相关-->
+        <attr name="ja_bgColorPress" />
+        <attr name="ja_bgColor" />
+
+    </declare-styleable>
+    <declare-styleable name="JasonButton">
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeColorPress" />
+        <attr name="ja_strokeColor" />
+        <!--    圆角相关-->
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_RightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_RightBottomRadius" />
+        <!--        背景相关-->
+        <attr name="ja_bgColorPress" />
+        <attr name="ja_bgColor" />
+        <!--        文字颜色相关-->
+        <attr name="ja_textColorPress" />
+        <attr name="ja_textColor" />
+    </declare-styleable>
+    <declare-styleable name="JasonTextView">
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeColorPress" />
+        <attr name="ja_strokeColor" />
+        <!--    圆角相关-->
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_RightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_RightBottomRadius" />
+        <!--        背景相关-->
+        <attr name="ja_bgColorPress" />
+        <attr name="ja_bgColor" />
+        <!--        文字颜色相关-->
+        <attr name="ja_textColorPress" />
+        <attr name="ja_textColor" />
+    </declare-styleable>
+    <declare-styleable name="JasonEditText">
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeLeftWidth" />
+        <attr name="ja_strokeRightWidth" />
+        <attr name="ja_strokeTopWidth" />
+        <attr name="ja_strokeBottomWidth" />
+        <attr name="ja_strokeColorPress" />
+        <attr name="ja_strokeColor" />
+        <!--    圆角相关-->
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_RightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_RightBottomRadius" />
+        <!--        背景相关-->
+        <attr name="ja_bgColorPress" />
+        <attr name="ja_bgColor" />
+        <!--        文字颜色相关-->
+        <attr name="ja_textColorPress" />
+        <attr name="ja_textColor" />
+    </declare-styleable>
+    <declare-styleable name="JasonSpinner">
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeLeftWidth" />
+        <attr name="ja_strokeRightWidth" />
+        <attr name="ja_strokeTopWidth" />
+        <attr name="ja_strokeBottomWidth" />
+        <attr name="ja_strokeColorPress" />
+        <attr name="ja_strokeColor" />
+        <!--    圆角相关-->
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_RightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_RightBottomRadius" />
+
+        <!--        背景相关-->
+        <attr name="ja_bgColor" />
+        <!--        箭头方向-->
+        <attr name="ja_arrowDirection">
+            <enum name="top" value="1" />
+            <enum name="bottom" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

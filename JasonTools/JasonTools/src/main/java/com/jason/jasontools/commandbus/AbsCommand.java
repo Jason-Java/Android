@@ -19,7 +19,7 @@ public abstract class AbsCommand {
      * 命令执行的优先级
      * 数值越小优先级越高
      */
-    private int index = Integer.MAX_VALUE;
+    private int priority = Integer.MAX_VALUE;
     /**
      * 重复次数
      */
@@ -100,17 +100,17 @@ public abstract class AbsCommand {
      *
      * @return
      */
-    public int getIndex() {
-        return index;
+    public int getPriority() {
+        return priority;
     }
 
     /**
      * 设置命令执行的优先级
      *
-     * @param index
+     * @param priority
      */
-    public void setIndex(int index) {
-        this.index = index;
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
 
@@ -187,5 +187,9 @@ public abstract class AbsCommand {
     }
     public void setMessageListener(IMessageListener messageListener) {
         this.messageListener = messageListener;
+    }
+
+    public String getRunnableTAG() {
+        return "DefaultRunnable";
     }
 }

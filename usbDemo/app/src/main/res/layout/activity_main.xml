@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="打印内容"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_setFontDirection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="设置字体旋转180"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_setFontDirection2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="设置字体从左到右"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_printQRCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="打印二维码"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_setRightMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="设置右边距"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_setLeftMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="设置左边界"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_setClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="清理缓存"
+            android:textSize="16sp" />
+
+
+        <Button
+            android:id="@+id/btn_printAndFeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="打印并换行"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_setTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="设置制表符"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_setCutPaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="切纸"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_setCutPaperOffset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="设置黑标切纸偏移量"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_testCommand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="测试命令"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_setPageMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="设置页模式"
+            android:textSize="16sp" />
+        <Button
+            android:id="@+id/btn_printBitmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="打印位图"
+            android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>

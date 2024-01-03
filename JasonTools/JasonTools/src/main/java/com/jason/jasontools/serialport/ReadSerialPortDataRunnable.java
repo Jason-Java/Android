@@ -3,11 +3,11 @@ package com.jason.jasontools.serialport;
 import com.jason.jasontools.util.LogUtil;
 import com.jason.jasontools.util.StrUtil;
 
-import android_serialport_api.SerialPort;
+import android_serialport_api.JasonSerialPort;
 
 /**
  * <p>
- * 描述:
+ * 描述: 读取串口返回的数据
  * </P>
  *
  * @author 阿振
@@ -17,13 +17,13 @@ import android_serialport_api.SerialPort;
  */
 public class ReadSerialPortDataRunnable implements Runnable {
     private final static String TAG = "JasonBaseSerialPortTag";
-    private SerialPort serialPort = null;
+    private JasonSerialPort serialPort = null;
     private ISerialPortListener listener = null;
     private boolean isRun = true;
     private String serialPortName;
 
 
-    public ReadSerialPortDataRunnable(SerialPort serialPort, String serialPortName) {
+    public ReadSerialPortDataRunnable(JasonSerialPort serialPort, String serialPortName) {
         this.serialPort = serialPort;
         this.serialPortName = serialPortName;
     }
@@ -44,7 +44,7 @@ public class ReadSerialPortDataRunnable implements Runnable {
                 if (size > 0) {
                     byte[] data = new byte[size];
                     System.arraycopy(buffer, 0, data, 0, size);
-                    LogUtil.i(TAG, "SerialPort " + serialPortName + " readData success [  length:  " + data.length + "  content: " + StrUtil.byteToString(data) + "  ]");
+                    LogUtil.i(TAG, "SerialPort " + serialPortName + " 接受成功 [  length:  " + data.length + "  content: " + StrUtil.byteToHexString(data) + "  ]");
                     if (this.listener != null)
                         listener.onResponseData(data, data.length);
                 }
@@ -53,7 +53,7 @@ public class ReadSerialPortDataRunnable implements Runnable {
                 e.printStackTrace();
             }
         }
-        LogUtil.e(TAG,"串口读取线程结束");
+        LogUtil.e(TAG,"串口读取线程异常结束");
     }
 
     /**

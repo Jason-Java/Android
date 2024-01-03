@@ -10,8 +10,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.media.Image;
+import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class ImageUtil {
@@ -128,11 +130,9 @@ public class ImageUtil {
      * @param rect
      */
     public static Bitmap bitmapDrawRect(Bitmap bitmap, Rect rect) {
-
         if (rect == null) {
             return bitmap;
         }
-        //faceBitmap=croppingBitmap(faceBitmap,rect);
         Paint paint = new Paint();
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);//不填充
@@ -155,13 +155,49 @@ public class ImageUtil {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
     }
 
-    public Bitmap RGB565toBitmap()
+    public static Bitmap RGB565toBitmap(Image image)
     {
-        /*Bitmap bitmap = Bitmap.createBitmap(captureWidth, captureHeight, Bitmap.Config.RGB_565);
+        ByteBuffer byteBuffer = image.getPlanes()[0].getBuffer();
+       /* int length = byteBuffer.remaining();
+        byte[] bytes = new byte[length];
+        byteBuffer.get(bytes);*/
 
-        ByteBuffer buffer = ByteBuffer.wrap(data);
+        Bitmap bitmap = Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.RGB_565);
+        bitmap.copyPixelsFromBuffer(byteBuffer);
+        return bitmap;
+    }
 
-        bitmap.copyPixelsFromBuffer(buffer);*/
-        return null;
+    /**
+     * bitmap转Base64
+     * @param bitmap
+     * @return
+     */
+    public String bitmapToBase64(Bitmap bitmap) {
+        String result = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            if (bitmap != null) {
+                baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                baos.flush();
+                baos.close();
+
+                byte[] bitmapBytes = baos.toByteArray();
+                result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.flush();
+                    baos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 }
