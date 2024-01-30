@@ -9,7 +9,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 108
+        versionCode 109
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
@@ -35,21 +35,22 @@ android {
 }
 
 dependencies {
+     compileOnly 'io.netty:netty-all:4.1.45.Final'
     implementation 'com.google.android.material:material:1.5.0'
 }
 assemble.mustRunAfter clean
 
 task makeJar(type: Copy) {
-   dependsOn clean, assemble
+    dependsOn clean, assemble
     from('build/intermediates/aar_main_jar/release/')
     into('build/libs/')
     include('classes.jar')
-    rename('classes.jar', 'JasonTools' + "${android.defaultConfig.versionCode}" + '.jar')
+    rename('classes.jar', 'jasonTools_' + "${android.defaultConfig.versionCode}" + '.jar')
 }
 
 // 自动生成aar包
 task makeJasonToolAar(type: Copy) {
-   dependsOn clean, assemble
+    dependsOn clean, assemble
     from('build/outputs/aar/')
     into('build/libs/')
     include('JasonTools-release.aar')

@@ -11,7 +11,23 @@ package com.jason.jasontools.serialport;
  * @createTime 2023年08月21日
  */
 public class VerifyFailedException extends Exception {
+    public VerifyFailedException() {
+        super();
+    }
+
     public VerifyFailedException(String message) {
         super(message);
+    }
+
+    public VerifyFailedException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public VerifyFailedException(Throwable cause) {
+        super(cause);
+    }
+
+    protected VerifyFailedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

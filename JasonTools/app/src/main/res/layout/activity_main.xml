@@ -7,9 +7,19 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.jason.jasonuitools.keyboard.KeyBoardEditText
+    <com.jason.jasonuitools.view.JasonButton
+        android:id="@+id/button"
         android:layout_width="200dp"
-        android:layout_height="40dp" />
+        android:layout_height="100dp"
+        android:text="发送消息"
+        android:textColor="#000000"
+        app:ja_bgColor="#FF123456"
+        app:ja_bgColorPress="#80123456"
+        app:ja_radius="100dp"
+        app:ja_strokeColor="#000000"
+        app:ja_strokeWidth="3dp"
+        app:ja_textColor="#000000"
+        app:ja_textColorPress="#FFFFFF" />
 
     <Button
         android:layout_width="200dp"
@@ -50,19 +60,7 @@
         app:ja_strokeRightWidth="60dp"
         app:ja_strokeTopWidth="90dp">
 
-        <com.jason.jasonuitools.view.JasonButton
-            android:id="@+id/button"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:text="冯家振"
-            android:textColor="#000000"
-            app:ja_bgColor="#FF123456"
-            app:ja_bgColorPress="#80123456"
-            app:ja_radius="100dp"
-            app:ja_strokeColor="#000000"
-            app:ja_strokeWidth="3dp"
-            app:ja_textColor="#000000"
-            app:ja_textColorPress="#FFFFFF" />
+
 
 
     </com.jason.jasonuitools.view.JasonLearLayout>
