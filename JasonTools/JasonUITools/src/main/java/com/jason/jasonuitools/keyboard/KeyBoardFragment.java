@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ContentInfoCompat;
 
 import com.jason.jasonuitools.R;
 import com.jason.jasonuitools.fragment.BaseDialogFragment;

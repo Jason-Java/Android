@@ -23,18 +23,18 @@
     <!--    圆角相关-->
     <attr name="ja_radius" format="dimension" />
     <attr name="ja_leftTopRadius" format="dimension" />
-    <attr name="ja_RightTopRadius" format="dimension" />
+    <attr name="ja_rightTopRadius" format="dimension" />
     <attr name="ja_leftBottomRadius" format="dimension" />
-    <attr name="ja_RightBottomRadius" format="dimension" />
+    <attr name="ja_rightBottomRadius" format="dimension" />
 
 
     <declare-styleable name="JasonLearLayout">
         <!--    圆角相关-->
         <attr name="ja_radius" />
         <attr name="ja_leftTopRadius" />
-        <attr name="ja_RightTopRadius" />
+        <attr name="ja_rightTopRadius" />
         <attr name="ja_leftBottomRadius" />
-        <attr name="ja_RightBottomRadius" />
+        <attr name="ja_rightBottomRadius" />
         <!--        边框相关-->
         <attr name="ja_strokeWidth" />
         <attr name="ja_strokeLeftWidth" />
@@ -56,9 +56,9 @@
         <!--    圆角相关-->
         <attr name="ja_radius" />
         <attr name="ja_leftTopRadius" />
-        <attr name="ja_RightTopRadius" />
+        <attr name="ja_rightTopRadius" />
         <attr name="ja_leftBottomRadius" />
-        <attr name="ja_RightBottomRadius" />
+        <attr name="ja_rightBottomRadius" />
         <!--        背景相关-->
         <attr name="ja_bgColorPress" />
         <attr name="ja_bgColor" />
@@ -74,9 +74,9 @@
         <!--    圆角相关-->
         <attr name="ja_radius" />
         <attr name="ja_leftTopRadius" />
-        <attr name="ja_RightTopRadius" />
+        <attr name="ja_rightTopRadius" />
         <attr name="ja_leftBottomRadius" />
-        <attr name="ja_RightBottomRadius" />
+        <attr name="ja_rightBottomRadius" />
         <!--        背景相关-->
         <attr name="ja_bgColorPress" />
         <attr name="ja_bgColor" />
@@ -96,9 +96,9 @@
         <!--    圆角相关-->
         <attr name="ja_radius" />
         <attr name="ja_leftTopRadius" />
-        <attr name="ja_RightTopRadius" />
+        <attr name="ja_rightTopRadius" />
         <attr name="ja_leftBottomRadius" />
-        <attr name="ja_RightBottomRadius" />
+        <attr name="ja_rightBottomRadius" />
         <!--        背景相关-->
         <attr name="ja_bgColorPress" />
         <attr name="ja_bgColor" />
@@ -118,9 +118,9 @@
         <!--    圆角相关-->
         <attr name="ja_radius" />
         <attr name="ja_leftTopRadius" />
-        <attr name="ja_RightTopRadius" />
+        <attr name="ja_rightTopRadius" />
         <attr name="ja_leftBottomRadius" />
-        <attr name="ja_RightBottomRadius" />
+        <attr name="ja_rightBottomRadius" />
 
         <!--        背景相关-->
         <attr name="ja_bgColor" />
@@ -129,5 +129,54 @@
             <enum name="top" value="1" />
             <enum name="bottom" value="2" />
         </attr>
+    </declare-styleable>
+    <declare-styleable name="JasonIconButton">
+        <!--    圆角相关 圆角设置仅对纯色背景有效，如果背景是图片则无效-->
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_rightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_rightBottomRadius" />
+
+        <!--        内部布局-->
+        <attr name="ja_orientation">
+            <!-- Defines an horizontal widget. -->
+            <enum name="horizontal" value="0" />
+            <!-- Defines a vertical widget. -->
+            <enum name="vertical" value="1" />
+        </attr>
+       <attr name="ja_gravity">
+           <flag name="center_horizontal" value="0"/>
+           <flag name="center_vertical" value="1"/>
+       </attr>
+        <!--        文字布局-->
+        <attr name="ja_textOrientation">
+            <!-- Defines an horizontal widget. -->
+            <enum name="horizontal" value="0" />
+            <!-- Defines a vertical widget. -->
+            <enum name="vertical" value="1" />
+        </attr>
+        <!--        icon-->
+        <attr name="ja_icon" format="reference" />
+        <attr name="ja_iconTop" format="dimension" />
+        <attr name="ja_iconLeft" format="dimension" />
+        
+        <!--        文字相关-->
+        <attr name="ja_text" />
+        <attr name="ja_textColor" />
+        <attr name="ja_textSize" />
+        <attr name="ja_textTop" format="dimension"/>
+        <attr name="ja_textLeft" format="dimension"/>
+        <attr name="ja_background" format="reference|color"/>
+        
+        
+        <!--按压背景色-->
+        <attr name="ja_pressBackground" format="reference|color"/>
+        <!-- 是否可选-->
+        <attr name="ja_selected" format="boolean"/>
+        <!--选中背景色-->
+        <attr name="ja_selectedBackground" format="reference|color"/>
+
+
     </declare-styleable>
 </resources>

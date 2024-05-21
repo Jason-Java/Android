@@ -368,10 +368,13 @@ public class LockController {
 
             }
         });
-       CabinetManager.getInstance().queryCabinetLock(new int[]{1});
+        CabinetManager.getInstance().queryCabinetLock(new int[]{1});
+
 //        CabinetManager.getInstance().unlockCabinet(new int[]{1});
 //        CabinetManager.getInstance().queryCabinetDoor(new int[]{1});
-       // CabinetManager.getInstance().queryAlarmDelay(new int[]{1});
+        // CabinetManager.getInstance().queryAlarmDelay(new int[]{1});
 //        CabinetManager.getInstance().quer
     }
+    // 设置 1号柜子的温度为30度
+    // CabinetManager.getInstance().setSettingTemperature(1,30);
 }

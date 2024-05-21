@@ -4,6 +4,7 @@ package com.jason.jasonuitools;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,13 @@ import android.widget.Toast;
 
 
 public class JasonToast {
-
     private Application context;
     private View view;
     private TextView textView;
+    private Handler handler;
 
     private JasonToast() {
+        handler = new Handler(Looper.getMainLooper());
     }
 
     private static class SingleJasonToast {
@@ -34,6 +36,10 @@ public class JasonToast {
         textView = view.findViewById(R.id.message);
     }
 
+    public void makeError(String message, TextToSpeech textToSpeech) {
+        speech(message, textToSpeech);
+        makeError(message);
+    }
 
     /**
      * 主线程toast提示框
@@ -42,7 +48,7 @@ public class JasonToast {
      * @return
      */
     public void makeError(String message) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 textView.setText(message);
@@ -54,9 +60,12 @@ public class JasonToast {
                 toast.show();
             }
         });
-
     }
 
+    public void makeSuccess(String message, TextToSpeech textToSpeech) {
+        speech(message, textToSpeech);
+        makeSuccess(message);
+    }
 
     /**
      * 主线程 正确提示框
@@ -65,7 +74,7 @@ public class JasonToast {
      * @return
      */
     public void makeSuccess(String message) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 textView.setText(message);
@@ -77,9 +86,16 @@ public class JasonToast {
                 toast.show();
             }
         });
-        return;
-
     }
 
+    private void speech(String message, TextToSpeech textToSpeech) {
+        if (message == null || message.length() == 0) {
+            return;
+        }
+        if (textToSpeech == null) {
+            return;
+        }
+        textToSpeech.speak(message, 0, null);
+    }
 
 }

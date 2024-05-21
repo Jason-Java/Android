@@ -27,6 +27,7 @@ public class ReadSerialPortDataRunnable implements Runnable {
         this.serialPort = serialPort;
         this.serialPortName = serialPortName;
     }
+
     public void setSerialPortListener(ISerialPortListener listener) {
         this.listener = listener;
     }
@@ -53,7 +54,7 @@ public class ReadSerialPortDataRunnable implements Runnable {
                 e.printStackTrace();
             }
         }
-        LogUtil.e(TAG,"串口读取线程异常结束");
+        LogUtil.e(TAG, "串口读取线程异常结束");
     }
 
     /**

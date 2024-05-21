@@ -17,3 +17,6 @@ rootProject.name = "jasonPackage"
 include ':app'
 include ':JasonTools'
 include ':JasonUITools'
+include ':compile_processor'
+include ':compile_annotation'
+include ':compile_api'

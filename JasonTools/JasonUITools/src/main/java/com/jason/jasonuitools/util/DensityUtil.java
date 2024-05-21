@@ -1,9 +1,15 @@
 package com.jason.jasonuitools.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.WindowManager;
+
+import java.security.cert.PolicyNode;
 
 public class DensityUtil {
     /**
@@ -30,6 +36,7 @@ public class DensityUtil {
 
     /**
      * 根据手机分辨率从px单位 转化为 sp
+     *
      * @param pxValue
      * @return
      */
@@ -53,7 +60,7 @@ public class DensityUtil {
      * @param activity
      * @return Point.X表示宽度Point.Y表示高度
      */
-    public static Point getDisplay(Activity activity) {
+    public static Point getScreenWidthAndHeight(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         // 方法一(推荐使用)使用Point来保存屏幕宽、高两个数据
         Point outSize = new Point();
@@ -61,5 +68,28 @@ public class DensityUtil {
         display.getSize(outSize);
         return outSize;
     }
+
+    /**
+     * 获取屏幕的宽和高
+     *
+     * @param context
+     * @return point x 屏幕的宽度，y屏幕的高度
+     */
+    public static Point getScreenWidthAndHeight(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        if (Build.VERSION.SDK_INT >= 17) {
+            windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
+        } else {
+            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        }
+        int widthPixels = displayMetrics.widthPixels;
+        int heightPixels = displayMetrics.heightPixels;
+        Point point = new Point();
+        point.x = widthPixels;
+        point.y = heightPixels;
+        return point;
+    }
+
 
 }

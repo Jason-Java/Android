@@ -88,8 +88,8 @@ public class JasonSpinner extends androidx.appcompat.widget.AppCompatSpinner {
             //圆角相关
             leftTopRadius = attr.getDimension(R.styleable.JasonSpinner_ja_leftBottomRadius, 0);
             leftBottomRadius = attr.getDimension(R.styleable.JasonSpinner_ja_leftBottomRadius, 0);
-            rightTopRadius = attr.getDimension(R.styleable.JasonSpinner_ja_RightTopRadius, 0);
-            rightBottomRadius = attr.getDimension(R.styleable.JasonSpinner_ja_RightBottomRadius, 0);
+            rightTopRadius = attr.getDimension(R.styleable.JasonSpinner_ja_rightTopRadius, 0);
+            rightBottomRadius = attr.getDimension(R.styleable.JasonSpinner_ja_rightBottomRadius, 0);
             radius = attr.getDimension(R.styleable.JasonSpinner_ja_radius, 0);
             if (radius != 0) {
                 leftTopRadius = radius;

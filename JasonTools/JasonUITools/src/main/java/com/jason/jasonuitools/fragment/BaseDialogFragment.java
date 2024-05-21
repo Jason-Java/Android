@@ -1,10 +1,12 @@
 package com.jason.jasonuitools.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +29,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         view = getLayoutView(inflater, container, savedInstanceState);
         return view;
     }
@@ -37,8 +40,13 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        iniView();
         iniData();
         iniEvent();
+    }
+
+    protected void iniView() {
+
     }
 
 
@@ -68,6 +76,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
                 }
             };
         }
+        timer.start();
     }
 
     //开始倒计时
@@ -89,6 +98,10 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     public void downTimer(long downTimer) {
 
+    }
+
+    protected <T extends Activity> T getMyActivity() {
+        return (T) getActivity();
     }
 
     @Override

@@ -71,14 +71,14 @@ public abstract class SocketClient {
 
 
     /**
-     * 获取串口名称
+     * 获取Ip地址
      *
      * @return
      */
     protected abstract String getIpAddress();
 
     /**
-     * 获取波特率
+     * 获取端口号
      *
      * @return
      */

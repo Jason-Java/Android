@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.jason.jasontools'
-    compileSdkVersion 32
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 32
-        versionCode 109
+        targetSdkVersion 30
+        versionCode 110
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
@@ -36,7 +36,8 @@ android {
 
 dependencies {
      compileOnly 'io.netty:netty-all:4.1.45.Final'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
 }
 assemble.mustRunAfter clean
 
