@@ -26,7 +26,22 @@
     <attr name="ja_rightTopRadius" format="dimension" />
     <attr name="ja_leftBottomRadius" format="dimension" />
     <attr name="ja_rightBottomRadius" format="dimension" />
-
+    <!--按压背景色-->
+    <attr name="ja_pressBackground" format="reference|color" />
+    <!-- 是否可选-->
+    <attr name="ja_selected" format="boolean" />
+    <!--选中背景色-->
+    <attr name="ja_selectedBackground" format="reference|color" />
+    <!--阴影半径-->
+    <attr name="ja_shadowRadius" format="dimension" />
+    <!--        阴影偏移量-->
+    <attr name="ja_shadowOffsetLeft" format="dimension" />
+    <attr name="ja_shadowOffsetRight" format="dimension" />
+    <attr name="ja_shadowOffsetTop" format="dimension" />
+    <attr name="ja_shadowOffsetBottom" format="dimension" />
+    <!--        阴影颜色-->
+    <attr name="ja_shadowColor" format="color" />
+    <attr name="ja_background" format="reference|color" />
 
     <declare-styleable name="JasonLearLayout">
         <!--    圆角相关-->
@@ -130,6 +145,7 @@
             <enum name="bottom" value="2" />
         </attr>
     </declare-styleable>
+
     <declare-styleable name="JasonIconButton">
         <!--    圆角相关 圆角设置仅对纯色背景有效，如果背景是图片则无效-->
         <attr name="ja_radius" />
@@ -145,10 +161,10 @@
             <!-- Defines a vertical widget. -->
             <enum name="vertical" value="1" />
         </attr>
-       <attr name="ja_gravity">
-           <flag name="center_horizontal" value="0"/>
-           <flag name="center_vertical" value="1"/>
-       </attr>
+        <attr name="ja_gravity">
+            <flag name="center_horizontal" value="0" />
+            <flag name="center_vertical" value="1" />
+        </attr>
         <!--        文字布局-->
         <attr name="ja_textOrientation">
             <!-- Defines an horizontal widget. -->
@@ -160,23 +176,62 @@
         <attr name="ja_icon" format="reference" />
         <attr name="ja_iconTop" format="dimension" />
         <attr name="ja_iconLeft" format="dimension" />
-        
+
         <!--        文字相关-->
         <attr name="ja_text" />
         <attr name="ja_textColor" />
         <attr name="ja_textSize" />
-        <attr name="ja_textTop" format="dimension"/>
-        <attr name="ja_textLeft" format="dimension"/>
-        <attr name="ja_background" format="reference|color"/>
-        
-        
-        <!--按压背景色-->
-        <attr name="ja_pressBackground" format="reference|color"/>
-        <!-- 是否可选-->
-        <attr name="ja_selected" format="boolean"/>
-        <!--选中背景色-->
-        <attr name="ja_selectedBackground" format="reference|color"/>
+        <attr name="ja_textTop" format="dimension" />
+        <attr name="ja_textLeft" format="dimension" />
+        <attr name="ja_background" />
 
+
+        <!--按压背景色-->
+        <attr name="ja_pressBackground" />
+        <!-- 是否可选-->
+        <attr name="ja_selected" />
+        <!--选中背景色-->
+        <attr name="ja_selectedBackground" />
+        <!--阴影半径-->
+        <attr name="ja_shadowRadius" />
+        <!--        阴影偏移量-->
+        <attr name="ja_shadowOffsetLeft" />
+        <attr name="ja_shadowOffsetRight" />
+        <attr name="ja_shadowOffsetTop" />
+        <attr name="ja_shadowOffsetBottom" />
+        <!--        阴影颜色-->
+        <attr name="ja_shadowColor" />
+
+
+    </declare-styleable>
+
+    <declare-styleable name="JasonBaseView">
+        <!--    圆角相关 圆角设置仅对纯色背景有效，如果背景是图片则无效-->
+        <attr name="ja_radius" />
+        <attr name="ja_leftTopRadius" />
+        <attr name="ja_rightTopRadius" />
+        <attr name="ja_leftBottomRadius" />
+        <attr name="ja_rightBottomRadius" />
+        <attr name="ja_background" />
+        <!--按压背景色-->
+        <attr name="ja_pressBackground" />
+        <!-- 是否可选-->
+        <attr name="ja_selected" />
+        <!--选中背景色-->
+        <attr name="ja_selectedBackground" />
+        <!--阴影半径-->
+        <attr name="ja_shadowRadius" />
+        <!--        阴影偏移量-->
+        <attr name="ja_shadowOffsetLeft" />
+        <attr name="ja_shadowOffsetRight" />
+        <attr name="ja_shadowOffsetTop" />
+        <attr name="ja_shadowOffsetBottom" />
+        <!--        阴影颜色-->
+        <attr name="ja_shadowColor" />
+
+        <!--        边框相关-->
+        <attr name="ja_strokeWidth" />
+        <attr name="ja_strokeColor" />
 
     </declare-styleable>
 </resources>
