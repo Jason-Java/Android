@@ -18,25 +18,25 @@ import androidx.annotation.Nullable;
  * @email fjz19971129@163.com
  * @createTime 2024年05月23日
  */
-public class JasonShadowLinearLayout extends LinearLayout {
+public class JasonLinearLayout extends LinearLayout {
     private JasonBaseView baseView;
 
 
-    public JasonShadowLinearLayout(Context context) {
+    public JasonLinearLayout(Context context) {
         super(context);
     }
 
-    public JasonShadowLinearLayout(Context context, @Nullable AttributeSet attrs) {
+    public JasonLinearLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         baseView = new JasonBaseView(this, context, attrs);
     }
 
-    public JasonShadowLinearLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public JasonLinearLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         baseView = new JasonBaseView(this, context, attrs);
     }
 
-    public JasonShadowLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public JasonLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         baseView = new JasonBaseView(this, context, attrs);
     }
