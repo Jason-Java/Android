@@ -8,17 +8,9 @@
     tools:context=".MainActivity">
 
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="冯家振"
-        android:textColor="#000000" />
 
 
-    <com.jason.jasonuitools.view.JasonShadowLinearLayout
+    <com.jason.jasonuitools.view.JasonShadowView
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginLeft="10dp"
@@ -26,14 +18,32 @@
         app:ja_background="#1669FF"
         app:ja_gravity="center_vertical"
         app:ja_radius="30dp"
-        app:ja_shadowColor="#AA1669FF"
+        app:ja_shadowColor="#100000"
         app:ja_shadowRadius="10dp"
         app:ja_text="冯家振"
         app:ja_textColor="#123456"
         app:ja_textLeft="5dp"
-        app:ja_strokeWidth="1dp"
-        app:ja_strokeColor="#000000"
-        app:ja_textSize="30sp"/>
+        app:ja_textSize="30sp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sdsd"/>
+    </com.jason.jasonuitools.view.JasonShadowView>
+
+   <!-- <com.jason.jasonuitools.view.JasonIconButton
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        app:ja_background="#1669FF"
+        app:ja_gravity="center_vertical"
+        app:ja_radius="30dp"
+        app:ja_shadowColor="#100000"
+        app:ja_shadowRadius="10dp"
+        app:ja_text="冯家振"
+        app:ja_textColor="#123456"
+        app:ja_textLeft="5dp"
+        app:ja_textSize="30sp"/>-->
 
 
 

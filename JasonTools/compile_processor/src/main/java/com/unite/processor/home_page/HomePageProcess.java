@@ -11,7 +11,6 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
 import com.unite.annotation.home_page.ActionModelAnnotation;
-import com.unite.annotation.home_page.EActionModel;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -97,10 +96,10 @@ public class HomePageProcess extends AbstractProcessor {
 
         // 获取IActionConfig 接口
         TypeElement actionConfigElement = elementsTools.getTypeElement("com.unite.compile_api.home_page.IActionConfig");
-        // 生成 Map<EActionModel, Class<? extends IActionConfig>>
+        // 生成 Map<String, Class<? extends IActionConfig>>
         TypeName typeName = ParameterizedTypeName.get(
                 ClassName.get(Map.class),
-                ClassName.get(EActionModel.class),
+                ClassName.get(String.class),
                 ParameterizedTypeName.get(
                         ClassName.get(Class.class),
                         WildcardTypeName.subtypeOf(ClassName.get(actionConfigElement)))
@@ -116,8 +115,8 @@ public class HomePageProcess extends AbstractProcessor {
         for (Element element : elementsAnnotatedWith) {
             // 获取注解的值
             ActionModelAnnotation annotation = element.getAnnotation(ActionModelAnnotation.class);
-            EActionModel value = annotation.value();
-            constructorMethod.addStatement("configMap.put($T.$L,$T.class)", ClassName.get(EActionModel.class), value, ClassName.get((TypeElement) element));
+            String value = annotation.value();
+            constructorMethod.addStatement("configMap.put($S,$T.class)",  value, ClassName.get((TypeElement) element));
         }
 
 
@@ -125,7 +124,7 @@ public class HomePageProcess extends AbstractProcessor {
         TypeName loadActionConfigReturnTypeName = ParameterizedTypeName.get(ClassName.get(Class.class),
                 WildcardTypeName.subtypeOf(ClassName.get(actionConfigElement)));
         // 定义方法的参数
-        ParameterSpec modelParameter = ParameterSpec.builder(ClassName.get(EActionModel.class), "model").build();
+        ParameterSpec modelParameter = ParameterSpec.builder(ClassName.get(String.class), "model").build();
         MethodSpec loadActionConfigMethod = MethodSpec.methodBuilder("loadActionConfig")
                 .addModifiers(Modifier.PUBLIC)
                 .returns(ClassName.get(actionConfigElement))

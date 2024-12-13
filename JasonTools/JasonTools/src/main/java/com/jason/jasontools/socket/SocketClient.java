@@ -6,6 +6,7 @@ import com.jason.jasontools.serialport.IResultListener;
 import com.jason.jasontools.serialport.IVerifySerialProtocolData;
 import com.jason.jasontools.util.LogUtil;
 
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
@@ -44,10 +45,7 @@ public abstract class SocketClient {
      * ip地址
      */
     private String ipAddress;
-    /**
-     * 端口号
-     */
-    private int port;
+
 
     /**
      * IO线程池
@@ -75,14 +73,9 @@ public abstract class SocketClient {
      *
      * @return
      */
-    protected abstract String getIpAddress();
-
-    /**
-     * 获取端口号
-     *
-     * @return
-     */
-    protected abstract int getPort();
+    protected String getIpAddress() {
+        return this.ipAddress;
+    }
 
 
     public SocketClient() {
@@ -135,26 +128,37 @@ public abstract class SocketClient {
     /**
      * 打开串口接收器
      */
-    public void open() {
+    public void connect() {
         if (nioSocketChannel == null || !nioSocketChannel.isActive())
-            this.open(this.getIpAddress(), this.getPort());
+            this.connect(this.getIpAddress());
     }
 
     /**
-     * 打开串口接收器
+     * 设置Ip地址
+     *
+     * @param ipAddress
+     */
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+
+    /**
+     * 发起连接
      *
      * @param ipAddress ip地址
-     * @param port      端口号
      */
-    public void open(String ipAddress, int port) {
+    public void connect(String ipAddress) {
         this.ipAddress = ipAddress;
-        this.port = port;
-
+        String ipAndProtocol[] = this.ipAddress.split(":");
         try {
             nioSocketChannel = (NioSocketChannel) bootstrap
-                    .connect(new InetSocketAddress(ipAddress, port))
+                    .connect(new InetSocketAddress(ipAndProtocol[0], Integer.parseInt(ipAndProtocol[1])))
                     .sync().channel();
         } catch (Exception e) {
+            if (this.listener != null) {
+                this.listener.error("连接超时");
+            }
             e.printStackTrace();
             LogUtil.e(TAG, "open socket error " + e.getMessage());
             eventLoopGroup.shutdownGracefully();
@@ -219,6 +223,9 @@ public abstract class SocketClient {
      * 断开连接
      */
     public void disConnect() {
+        if (nioSocketChannel == null) {
+            return;
+        }
         nioSocketChannel.closeFuture().addListener(new ChannelFutureListener() {
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {

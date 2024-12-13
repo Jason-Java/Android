@@ -42,6 +42,7 @@ public class ShadowDrawable extends Drawable {
     private RectF mStrokeRect;
     private Path mShadowPath;
     private Path mShapePath;
+    private int mShadowColor;
 
     private float mLeftTopRadius;
     private float mLeftBottomRadius;
@@ -75,16 +76,14 @@ public class ShadowDrawable extends Drawable {
         this.mOffsetRight = offsetRight;
         this.mOffsetTop = offsetTop;
         this.mOffsetBottom = offsetBottom;
+        this.mShadowColor=shadowColor;
 
 
         this.mShadowPath = new Path();
         this.mShapePath = new Path();
 
         mShadowPaint = new Paint();
-        mShadowPaint.setColor(Color.TRANSPARENT);
-        mShadowPaint.setAntiAlias(true);
-        mShadowPaint.setShadowLayer(shadowRadius, offsetBottom, offsetRight, shadowColor);
-        mShadowPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_ATOP));
+
 
         mBgPaint = new Paint();
         mBgPaint.setAntiAlias(true);
@@ -93,7 +92,7 @@ public class ShadowDrawable extends Drawable {
     @Override
     public void setBounds(int left, int top, int right, int bottom) {
         super.setBounds(left, top, right, bottom);
-        mShadowRect = new RectF(left + mShadowRadius - mOffsetLeft
+        mShadowRect = new RectF(left + mShadowRadius-mOffsetLeft
                 , top + mShadowRadius - mOffsetTop
                 , right - mShadowRadius - mOffsetRight
                 , bottom - mShadowRadius - mOffsetBottom);
@@ -111,6 +110,7 @@ public class ShadowDrawable extends Drawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
+
         drawShadow(canvas);
         drawBackground(canvas);
         drawStroke(canvas);
@@ -122,6 +122,10 @@ public class ShadowDrawable extends Drawable {
      */
     private void drawShadow(Canvas canvas) {
         mShadowPath.reset();
+        mShadowPaint.setColor(Color.TRANSPARENT);
+        mShadowPaint.setAntiAlias(true);
+        mShadowPaint.setStyle(Paint.Style.FILL);
+        mShadowPaint.setShadowLayer(mShadowRadius, mOffsetBottom,mOffsetRight, mShadowColor);
         float[] outRadio = {mLeftTopRadius, mLeftTopRadius, mRightTopRadius, mRightTopRadius, mRightBottomRadius, mRightBottomRadius, mLeftBottomRadius, mLeftBottomRadius};
         mShadowPath.addRoundRect(mShadowRect, outRadio, Path.Direction.CW);
         canvas.drawPath(mShadowPath, mShadowPaint);
@@ -379,7 +383,7 @@ public class ShadowDrawable extends Drawable {
         }
 
         public ShadowDrawable builder() {
-            ShadowDrawable drable = new ShadowDrawable(mLeftBottomRadius, mLeftTopRadius, mRightTopRadius, mRightBottomRadius, mBgColor, mShadowColor, mShadowRadius, mOffsetLeft, mOffsetRight, mOffsetTop, mOffsetBottom);
+            ShadowDrawable drable = new ShadowDrawable(mLeftBottomRadius, mLeftTopRadius, mRightTopRadius, mRightBottomRadius, mBgColor, mShadowColor, mShadowRadius,mOffsetLeft,mOffsetRight,mOffsetTop,mOffsetBottom);
             drable.strokeWidth = this.strokeWidth;
             drable.strokeColor = this.strokeColor;
             return drable;

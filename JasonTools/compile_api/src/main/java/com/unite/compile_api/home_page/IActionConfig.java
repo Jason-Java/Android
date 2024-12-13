@@ -14,7 +14,6 @@ public interface IActionConfig {
 
     /**
      * 获取第几个菜单被选中
-     * @param index
      * @return
      */
     int getMenuSelected();

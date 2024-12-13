@@ -12,6 +12,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
@@ -25,7 +26,7 @@ import androidx.annotation.Nullable;
  * @email fjz19971129@163.com
  * @createTime 2024年05月22日
  */
-public class JasonShadowView extends View {
+public class JasonShadowView extends View{
     private Paint mShadowPaint;
     private Paint mBgPaint;
     private int mShadowRadius;
@@ -78,6 +79,8 @@ public class JasonShadowView extends View {
         mBgPaint = new Paint();
         mBgPaint.setAntiAlias(true);
     }
+
+    
 
     @Override
     protected void onDraw(Canvas canvas) {

@@ -33,32 +33,46 @@ public abstract class DeviceSerialPort {
     private ArrayList<Byte> cacheBytes = new ArrayList<>();
 
     /**
+     * 串口名称
+     */
+    private String serialPortName;
+    /**
+     * 波特率
+     */
+    private int baudRate;
+    /**
+     * 停止位
+     */
+    private int flags;
+
+    /**
      * 获取串口名称
      *
      * @return
      */
-    protected abstract String getSerialPortName();
+    public void setSerialPortName(String serialPortName) {
+        this.serialPortName = serialPortName;
+    }
 
     /**
      * 获取波特率
      *
      * @return
      */
-    protected abstract int getBaudRate();
+    public void setBaudRate(int baudRate) {
+        this.baudRate = baudRate;
+    }
+
+    public void setFlags(int flags) {
+        this.flags = flags;
+    }
 
 
     /**
      * 打开串口接收器
      */
     public void open() {
-        this.open(getSerialPortName(), getBaudRate(), 0);
-    }
-
-    /**
-     * 打开串口接收器
-     */
-    public void open(String serialPortName, int baudrate) {
-        this.open(serialPortName, baudrate, 0);
+        this.open(serialPortName, baudRate, flags);
     }
 
     /**
@@ -69,6 +83,15 @@ public abstract class DeviceSerialPort {
      * @param flags          标志位
      */
     public void open(String serialPortName, int baudrate, int flags) {
+        this.serialPortName = serialPortName;
+        this.baudRate = baudrate;
+        this.flags = flags;
+        if (serialPortName == null || serialPortName.length() == 0) {
+            throw new RuntimeException("为设置串口号");
+        }
+        if (baudRate == 0) {
+            throw new RuntimeException("未设置波特率");
+        }
         try {
             this.serialPortUtil = new SerialPortUtil(serialPortName, baudrate, flags);
             this.serialPortUtil.registerListener(initSerialProtocolListener());

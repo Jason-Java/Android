@@ -1,10 +1,13 @@
 package com.jason.jasonuitools.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -58,6 +61,7 @@ public class JasonBaseView {
         this.view = view;
         this.context = context;
         init(context, attrs);
+        onDraw();
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -85,8 +89,8 @@ public class JasonBaseView {
             shadowOffsetBottom = attr.getDimensionPixelOffset(R.styleable.JasonBaseView_ja_shadowOffsetBottom, 0);
             shadowColor = attr.getColor(R.styleable.JasonBaseView_ja_shadowColor, 0);
             // 边框相关
-            strokeWidth=attr.getDimensionPixelOffset(R.styleable.JasonBaseView_ja_strokeWidth,0);
-            strokeColor=attr.getColor(R.styleable.JasonBaseView_ja_strokeColor,0);
+            strokeWidth = attr.getDimensionPixelOffset(R.styleable.JasonBaseView_ja_strokeWidth, 0);
+            strokeColor = attr.getColor(R.styleable.JasonBaseView_ja_strokeColor, 0);
 
         } finally {
             attr.recycle();
@@ -105,12 +109,12 @@ public class JasonBaseView {
                 if (pressBackground != null) {
                     mBackground = pressBackground;
                 }
-                view.invalidate();
+                onDraw();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 mBackground = background;
-                view.invalidate();
+                onDraw();
                 break;
         }
     }
@@ -122,6 +126,7 @@ public class JasonBaseView {
         if (selected) {
             mBackground = selectedBackground;
         }
+
         if (mBackground != null) {
             if (mBackground instanceof BitmapDrawable) {
                 ShadowDrawable.setShadowDrawable(view, mBackground);
@@ -143,7 +148,7 @@ public class JasonBaseView {
                         .setStrokeColor(strokeColor)
                         .builder();
                 view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                ViewCompat.setBackground(view, drawable);
+                view.setBackground(drawable);
             }
         }
     }
